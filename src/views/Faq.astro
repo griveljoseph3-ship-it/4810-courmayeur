@@ -1,0 +1,34 @@
+---
+import PageHero from '../components/PageHero.astro';
+import Faq from '../components/Faq.astro';
+import Cta from '../components/Cta.astro';
+import { dict, fill } from '../i18n';
+import { type Lang } from '../lib/routes';
+import { site, fmtSlots } from '../lib/data';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const T = dict[lang];
+const vars = {
+  phone: site.places.dolonne.phone,
+  shopHours: fmtSlots(site.services.shop.hours.all.all as any, lang),
+  dolonneHours: fmtSlots(site.services.shopDolonne.hours.all.all as any, lang),
+};
+const groups = Object.entries(T.faq.groups).map(([k, g]) => ({ k, title: g.title, items: g.items.map((it) => ({ q: it.q, a: fill(it.a, vars) })) }));
+---
+<PageHero lang={lang} image="sciatore-curva" kicker={T.faq.hero.kicker} title={T.faq.hero.title} sub={T.faq.hero.sub} short>
+  <Cta href={site.booking.rentalOnline} lang={lang} size="lg">{T.cta.rentNow}</Cta>
+</PageHero>
+<section class="section">
+  <div class="wrap-narrow">
+    {groups.map((g) => (
+      <section class="fg" aria-labelledby={`f-${g.k}`}>
+        <h2 id={`f-${g.k}`}>{g.title}</h2>
+        <Faq items={g.items} />
+      </section>
+    ))}
+  </div>
+</section>
+<style>
+  .fg + .fg { margin-top: 4rem; }
+  .fg h2 { font-size: var(--step-3); }
+</style>

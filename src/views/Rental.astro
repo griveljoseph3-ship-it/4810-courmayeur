@@ -1,0 +1,161 @@
+---
+import PageHero from '../components/PageHero.astro';
+import Pic from '../components/Pic.astro';
+import Icon from '../components/Icon.astro';
+import Cta from '../components/Cta.astro';
+import SectionHead from '../components/SectionHead.astro';
+import PlaceInfo from '../components/PlaceInfo.astro';
+import Faq from '../components/Faq.astro';
+import MailForm from '../components/MailForm.astro';
+import Reviews from '../components/Reviews.astro';
+import { dict } from '../i18n';
+import { href, type Lang } from '../lib/routes';
+import { site, tbc } from '../lib/data';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const T = dict[lang];
+const R = T.rental;
+const S = T.services.items;
+const services = [
+  { icon: 'wrench', ...S.skiService },
+  { icon: 'locker', ...S.storage },
+  { icon: 'boot', ...S.bootFitting },
+  { icon: 'bus', ...S.transfer },
+];
+const eb = site.ebike;
+---
+<PageHero lang={lang} image="rental-banco" kicker={R.hero.kicker} title={R.hero.title} sub={R.hero.sub} tint="day">
+  <Cta href={site.booking.rentalOnline} lang={lang} size="lg">{T.cta.rentNow}</Cta>
+</PageHero>
+
+<section class="section-tight bg-paper">
+  <div class="wrap">
+    <SectionHead title={R.steps.title} level="h2" />
+    <ol class="steps grid grid-3" role="list">
+      {R.steps.items.map((s, i) => (
+        <li class="step" data-reveal style={`--d:${i * 0.1}s`}>
+          <span class="step-n">{i + 1}</span>
+          <h3>{s.title}</h3>
+          <p class="muted">{s.text}</p>
+        </li>
+      ))}
+    </ol>
+    <div class="actions"><Cta href={site.booking.rentalOnline} lang={lang} size="lg">{T.cta.rentNow}</Cta></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <SectionHead kicker={R.what.kicker} title={R.what.title} />
+    <ul class="grid grid-3" role="list">
+      {R.what.items.map((it, i) => (
+        <li class="card" data-reveal style={`--d:${(i % 3) * 0.08}s`}>
+          <span class="icon-badge"><Icon name={it.icon} /></span>
+          <h3>{it.title}</h3>
+          <p class="muted">{it.text}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<section class="section bg-mist">
+  <div class="wrap split">
+    <figure class="frame ratio-45 zoom" data-parallax="6"><Pic name="rental-sci-stockli" lang={lang} /></figure>
+    <div>
+      <p class="kicker" data-reveal>{R.season.kicker}</p>
+      <h2 data-split>{R.season.title}</h2>
+      <p class="lead" data-reveal>{R.season.text}</p>
+      <div class="actions" data-reveal><Cta href={`mailto:${site.services.rental.email}`} lang={lang} variant="ghost" icon="mail">{R.season.cta}</Cta></div>
+    </div>
+  </div>
+</section>
+
+<section class="section bg-paper">
+  <div class="wrap">
+    <SectionHead title={R.servicesTitle} />
+    <ul class="grid grid-4" role="list">
+      {services.map((s, i) => (
+        <li class="svc" data-reveal style={`--d:${i * 0.08}s`}>
+          <span class="icon-badge"><Icon name={s.icon} /></span>
+          <h3>{s.title}</h3>
+          <p class="muted">{s.text}</p>
+        </li>
+      ))}
+    </ul>
+    <div class="actions"><Cta href={href('services', lang)} lang={lang} variant="link">{T.cta.seeServices}</Cta></div>
+  </div>
+</section>
+
+<section class="section" id="e-bike">
+  <div class="wrap split rev">
+    <figure class="frame ratio-45" data-parallax="6"><Pic name="chalet-vista-valle" lang={lang} /></figure>
+    <div>
+      <p class="kicker" data-reveal>{R.summer.kicker}</p>
+      <h2 data-split>{R.summer.title}</h2>
+      <p class="lead" data-reveal>{R.summer.text}</p>
+      <div class="table-wrap" data-reveal>
+        <table class="prices">
+          <caption>{R.summer.pricesTitle} · <span class="small muted">{R.summer.pricesNote}</span> <span class="tbc">{tbc(lang)}</span></caption>
+          <thead><tr><th scope="col">{R.summer.cols.model}</th><th scope="col">{R.summer.cols.day}</th><th scope="col">{R.summer.cols.half}</th><th scope="col">{R.summer.cols.short}</th></tr></thead>
+          <tbody>
+            {eb.models.map((m) => (
+              <tr><th scope="row">{(R.summer.models as any)[m.id]}</th><td>€ {m.day}</td><td>€ {m.half}</td><td>€ {m.short}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="wrap-narrow bike-form card" data-reveal>
+    <h3>{R.bikeForm.title}</h3>
+    <p class="muted small">{R.bikeForm.intro}</p>
+    <MailForm lang={lang} id="bike" to={site.services.rental.email} subject={R.bikeForm.subject} submit={T.cta.requestBike} fields={[
+      { name: 'date', label: R.bikeForm.date, type: 'date', required: true },
+      { name: 'model', label: R.bikeForm.model, options: Object.values(R.summer.models), required: true },
+      { name: 'size', label: R.bikeForm.size, options: eb.sizes },
+      { name: 'qty', label: R.bikeForm.qty, type: 'number', min: 1 },
+      { name: 'name', label: R.bikeForm.name, required: true },
+      { name: 'phone', label: R.bikeForm.phone, type: 'tel' },
+    ]} />
+  </div>
+</section>
+
+<section class="section bg-mist">
+  <div class="wrap">
+    <SectionHead kicker={T.home.reviews.kicker} title={T.home.reviews.title} />
+    <Reviews lang={lang} service="rental" limit={3} />
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap split info-split">
+    <div>
+      <SectionHead title={R.faqTitle} />
+      <Faq items={T.faq.groups.rental.items} />
+    </div>
+    <div>
+      <h2 class="info-title">{R.infoTitle}</h2>
+      <PlaceInfo lang={lang} title="4810 Rental · Dolonne" place="dolonne" service="rental" seasonal>
+        <Cta href={site.booking.rentalOnline} lang={lang} size="sm">{T.cta.rentNow}</Cta>
+      </PlaceInfo>
+    </div>
+  </div>
+</section>
+
+<style>
+  .steps { counter-reset: s; }
+  .step { position: relative; padding: 1.8rem 1.6rem; border-radius: var(--radius); background: var(--snow); border: 1px solid rgba(42,36,32,.06); }
+  .step-n { display: grid; place-items: center; width: 2.8rem; height: 2.8rem; border-radius: 50%; background: var(--ember-ink); color: #fff; font-family: var(--serif); font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; box-shadow: 0 8px 20px -10px rgba(164,76,14,.8); }
+  .step h3 { font-size: var(--step-2); }
+  .svc h3 { font-size: var(--step-1); font-family: var(--sans); font-weight: 700; }
+  .table-wrap { overflow-x: auto; margin-top: 1.5rem; border-radius: var(--radius-sm); background: var(--paper); box-shadow: var(--shadow-sm); }
+  .prices { width: 100%; border-collapse: collapse; font-size: 0.92rem; font-variant-numeric: tabular-nums; }
+  .prices caption { text-align: left; padding: 1rem 1rem 0.4rem; font-weight: 700; }
+  .prices th, .prices td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--line); }
+  .prices thead th { font-size: 0.78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .prices tbody tr:last-child > * { border-bottom: 0; }
+  .bike-form { margin-top: clamp(3rem, 2rem + 3vw, 5rem); }
+  .info-split { align-items: start; }
+  .info-title { font-size: var(--step-3); }
+</style>

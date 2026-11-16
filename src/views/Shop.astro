@@ -1,0 +1,68 @@
+---
+import PageHero from '../components/PageHero.astro';
+import Pic from '../components/Pic.astro';
+import Icon from '../components/Icon.astro';
+import Cta from '../components/Cta.astro';
+import SectionHead from '../components/SectionHead.astro';
+import PlaceInfo from '../components/PlaceInfo.astro';
+import Gallery from '../components/Gallery.astro';
+import { dict } from '../i18n';
+import { href, type Lang } from '../lib/routes';
+import { directions } from '../lib/data';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const T = dict[lang];
+const S = T.shop;
+---
+<PageHero lang={lang} image="shop-interno" kicker={S.hero.kicker} title={S.hero.title} sub={S.hero.sub}>
+  <Cta href={directions('centro')} lang={lang} size="lg" icon="pin">{T.common.directions}</Cta>
+</PageHero>
+
+<section class="section bg-paper">
+  <div class="wrap split">
+    <div>
+      <p class="kicker" data-reveal>{S.intro.kicker}</p>
+      <h2 data-split>{S.intro.title}</h2>
+      <p class="lead" data-reveal>{S.intro.text}</p>
+      <div class="actions" data-reveal><Cta href={href('brands', lang)} lang={lang} variant="link">{T.cta.seeBrands}</Cta></div>
+    </div>
+    <figure class="frame ratio-45 zoom" data-parallax="6"><Pic name="family-negozio" lang={lang} /></figure>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <ul class="grid grid-4" role="list">
+      {S.items.map((it, i) => (
+        <li class="card" data-reveal style={`--d:${i * 0.08}s`}>
+          <span class="icon-badge"><Icon name={it.icon} /></span>
+          <h3>{it.title}</h3>
+          <p class="muted">{it.text}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<section class="section-tight">
+  <div class="wrap"><Gallery lang={lang} images={['shop-1', 'shop-grivel', 'shop-2', 'shop-dolonne', 'shop-4', 'rental-accessori']} /></div>
+</section>
+
+<section class="section bg-mist">
+  <div class="wrap">
+    <SectionHead title={S.places.title} />
+    <div class="grid grid-2">
+      <PlaceInfo lang={lang} title={`4810 Shopping · ${S.places.centro}`} place="centro" service="shop" note={T.common.allYear} />
+      <PlaceInfo lang={lang} title={`4810 Shopping · ${S.places.dolonne}`} place="dolonne" service="shopDolonne" email="shopping@4810courmayeur.it" />
+    </div>
+    <div class="outlet-teaser" data-reveal>
+      <p><strong>4810 Outlet</strong> · {T.outlet.badge}</p>
+      <Cta href={href('outlet', lang)} lang={lang} variant="link">{T.cta.goOutlet}</Cta>
+    </div>
+  </div>
+</section>
+<style>
+  .outlet-teaser { display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: center; justify-content: space-between; margin-top: 2rem; padding: 1.4rem 1.8rem; border-radius: var(--radius); background: var(--ink); color: var(--snow); }
+  .outlet-teaser p { margin: 0; font-size: var(--step-1); }
+  .outlet-teaser :global(.link) { color: #f6c9a6; }
+</style>

@@ -1,0 +1,44 @@
+---
+import PageHero from '../components/PageHero.astro';
+import Pic from '../components/Pic.astro';
+import Cta from '../components/Cta.astro';
+import PlaceInfo from '../components/PlaceInfo.astro';
+import { dict } from '../i18n';
+import { href, type Lang } from '../lib/routes';
+import { directions, tbc } from '../lib/data';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const T = dict[lang];
+const O = T.outlet;
+const note = `${T.common.highSeason} · ${T.common.openDays}: <span class="tbc">${tbc(lang)}</span>`;
+---
+<PageHero lang={lang} image="outlet-hero" kicker={O.hero.kicker} title={O.hero.title} sub={O.hero.sub} short>
+  <Cta href={directions('outlet')} lang={lang} size="lg" icon="pin">{T.common.directions}</Cta>
+</PageHero>
+
+<section class="section bg-paper">
+  <div class="wrap split">
+    <div>
+      <p class="badge70" data-reveal>{O.badge}</p>
+      <h2 data-split>{O.intro.title}</h2>
+      <p class="lead" data-reveal>{O.intro.text}</p>
+    </div>
+    <div class="duo">
+      <figure class="frame ratio-45 zoom" data-reveal><Pic name="outlet-1" lang={lang} sizes="(min-width: 900px) 24vw, 46vw" /></figure>
+      <figure class="frame ratio-45 zoom" data-reveal style="--d:.15s"><Pic name="outlet-2" lang={lang} sizes="(min-width: 900px) 24vw, 46vw" /></figure>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap-narrow">
+    <PlaceInfo lang={lang} title="4810 Outlet" place="outlet" service="outlet" note={note} email={null}>
+      <Cta href={href('shop', lang)} lang={lang} variant="link">{T.nav.shop} · Via Roma</Cta>
+    </PlaceInfo>
+  </div>
+</section>
+<style>
+  .badge70 { display: inline-block; font-family: var(--serif); font-size: clamp(3rem, 2rem + 4vw, 5.5rem); font-weight: 600; line-height: 1; color: var(--ember-ink); margin-bottom: 0.3em; letter-spacing: -0.02em; }
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .duo figure:nth-child(2) { margin-top: 3rem; }
+</style>

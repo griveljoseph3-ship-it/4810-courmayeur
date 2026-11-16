@@ -1,0 +1,216 @@
+{
+  "_readme": "UNICA fonte di verità per indirizzi, telefoni, email, orari, link di prenotazione e menu. Ogni pagina e ogni lingua leggono da qui: modifica un orario qui e cambia ovunque. Il valore \"TBC\" (o tbc: true) mostra [DA CONFERMARE] sul sito.",
+
+  "brand": {
+    "name": "4810 Courmayeur",
+    "legalName": "4810 Sport Srl",
+    "vat": "00496930074",
+    "siteUrl": "https://4810courmayeur.it",
+    "founder": "Famiglia Grivel",
+    "logo": "/logo-4810.png"
+  },
+
+  "social": {
+    "facebook": "https://www.facebook.com/4810courmayeur/",
+    "instagram": "https://www.instagram.com/4810courmayeur/",
+    "tripadvisorFood": "https://www.tripadvisor.it/Restaurant_Review-g187865-d24102360-Reviews-4810_We_Are_Food-Courmayeur_Valle_d_Aosta.html",
+    "tripadvisorRental": "https://www.tripadvisor.it/Attraction_Review-g187865-d6499667-Reviews-4810_Rental-Courmayeur_Valle_d_Aosta.html"
+  },
+
+  "analytics": {
+    "ga4": "G-XXXXXXXXXX",
+    "_ga4_note": "[DA CONFERMARE] Inserire l'ID di misurazione GA4 (formato G-XXXXXXXXXX). Finché resta questo segnaposto, Google Analytics non viene caricato.",
+    "iubenda": { "siteId": 1530480, "cookiePolicyId": 66853220 }
+  },
+
+  "booking": {
+    "rentalOnline": "https://easyresv3.wintersteiger.at/index_easyrent.php?shopid=101100",
+    "lunch": "https://pnssm.pro/e5j4vxx",
+    "aperitivo": "https://pnssm.pro/dskdtd8",
+    "chalet": {
+      "it": "https://4810chalet.beddy.io/#/(beddy:home)?lang=it",
+      "en": "https://4810chalet.beddy.io/#/(beddy:home)?lang=en",
+      "fr": "https://4810chalet.beddy.io/#/(beddy:home)?lang=fr"
+    },
+    "wineList": {
+      "it": "https://app.enoweb.com/carte/4810/1459/it/",
+      "en": "https://app.enoweb.com/carte/4810/1459/en/",
+      "fr": "https://app.enoweb.com/carte/4810/1459/fr/"
+    }
+  },
+
+  "menus": {
+    "restaurant": { "file": "/menu/menu-ristorante-inverno-2026-27.pdf", "season": "2026/27" },
+    "bar": { "file": "/menu/menu-bar-inverno-2026-27.pdf", "season": "2026/27" }
+  },
+
+  "seasons": {
+    "_note": "Date nel formato MM-DD. Usate per gli orari del noleggio.",
+    "winter": { "from": "10-20", "to": "04-30" },
+    "summer": { "from": "05-01", "to": "10-19" }
+  },
+
+  "places": {
+    "dolonne": {
+      "name": "4810 Dolonne",
+      "street": "Via des Forges 3",
+      "locality": "Dolonne",
+      "zip": "11013",
+      "city": "Courmayeur",
+      "region": "AO",
+      "country": "IT",
+      "phone": "+39 0165 843749",
+      "geo": { "lat": 45.793208, "lng": 6.9660351 },
+      "mapsShort": "https://goo.gl/maps/ff6CguvbknE2"
+    },
+    "centro": {
+      "name": "4810 Shopping",
+      "street": "Via Roma 106",
+      "locality": "Courmayeur centro",
+      "zip": "11013",
+      "city": "Courmayeur",
+      "region": "AO",
+      "country": "IT",
+      "phone": "+39 0165 844631",
+      "geo": { "lat": 45.7894065, "lng": 6.9734585 },
+      "mapsShort": "https://goo.gl/maps/MtGFsGkXvpx"
+    },
+    "outlet": {
+      "name": "4810 Outlet",
+      "street": "TBC",
+      "_street_note": "Conflitto sul sito attuale: 'Passage Truchet 1' (home) oppure 'Via Donzelli 5' (pagine Outlet, Shopping, Contatti).",
+      "locality": "Courmayeur centro",
+      "zip": "11013",
+      "city": "Courmayeur",
+      "region": "AO",
+      "country": "IT",
+      "phone": "+39 0165 844631",
+      "geo": { "lat": 45.7888898, "lng": 6.9736999 },
+      "mapsShort": "https://goo.gl/maps/AFNQg1hXnw32"
+    },
+    "chalet": {
+      "name": "4810 Chalet",
+      "street": "TBC",
+      "_street_note": "Indirizzo/i degli chalet non presente sul sito attuale.",
+      "locality": "Courmayeur",
+      "zip": "11013",
+      "city": "Courmayeur",
+      "region": "AO",
+      "country": "IT",
+      "phone": "TBC",
+      "email": "chalet@4810courmayeur.it"
+    }
+  },
+
+  "services": {
+    "rental": {
+      "place": "dolonne",
+      "name": "4810 Rental",
+      "email": "rental@4810courmayeur.it",
+      "hours": {
+        "winter": { "all": [["08:00", "TBC"]] },
+        "summer": { "all": [["08:00", "18:30"]] }
+      },
+      "_hours_note": "Chiusura invernale in conflitto: 18:30 (home), 18:00 (pagina Rental), 19:00 (Contatti e FAQ). La FAQ dice anche che il noleggio è aperto 'solo durante la stagione invernale', mentre altre pagine riportano l'orario estivo."
+    },
+    "shopDolonne": {
+      "place": "dolonne",
+      "name": "4810 Shopping Dolonne",
+      "email": "shopping@4810courmayeur.it",
+      "hours": { "all": { "all": [["08:00", "19:00"]] } }
+    },
+    "shop": {
+      "place": "centro",
+      "name": "4810 Shopping",
+      "email": "shopping@4810courmayeur.it",
+      "openAllYear": true,
+      "hours": { "all": { "all": [["09:00", "12:30"], ["15:30", "19:30"]] } }
+    },
+    "outlet": {
+      "place": "outlet",
+      "name": "4810 Outlet",
+      "email": null,
+      "hours": { "all": { "all": [["09:00", "12:30"], ["15:30", "19:30"]] } },
+      "highSeasonOnly": true,
+      "openDays": "TBC",
+      "_openDays_note": "Conflitto: 'tutti venerdì, sabato e domenica' (home) oppure 'tutti sabato e domenica' (pagine Outlet e Contatti), nei periodi di alta stagione."
+    },
+    "food": {
+      "place": "dolonne",
+      "name": "4810 We Are Food",
+      "email": "food@4810courmayeur.it",
+      "tbc": true,
+      "hours": {
+        "all": {
+          "mon": [["06:30", "20:30"]],
+          "tue": [],
+          "wed": [["06:30", "20:30"]],
+          "thu": [["06:30", "20:30"]],
+          "fri": [["06:30", "21:30"]],
+          "sat": [["06:30", "21:30"]],
+          "sun": [["06:30", "21:30"]]
+        }
+      },
+      "_hours_note": "Orario riportato da Home, Food e Sweet Bakery (martedì chiuso). In conflitto con Contatti ('tutti i giorni 6:00–22:30') e con le FAQ ('tutti i giorni 6:00–20:00').",
+      "moments": {
+        "breakfast": { "from": "06:30" },
+        "lunch": { "from": "12:00", "to": "15:30", "tbc": true, "_note": "15:30 (Food, Servizi) e fino alle 16:00 in alta stagione; 14:30 (Sweet Bakery)." },
+        "aperitivo": {
+          "weekdays": ["15:00", "20:00"],
+          "weekend": ["15:00", "21:00"],
+          "_note": "15:00–20:00 lunedì, mercoledì, giovedì; 15:00–21:00 venerdì, sabato, domenica. Tapas e crostini dalle 16:30."
+        },
+        "tapasFrom": "16:30"
+      },
+      "capacityEvents": 120
+    },
+    "bakery": {
+      "place": "dolonne",
+      "name": "4810 Sweet Bakery",
+      "email": "food@4810courmayeur.it",
+      "sameHoursAs": "food"
+    },
+    "chalet": {
+      "place": "chalet",
+      "name": "4810 Chalet",
+      "email": "chalet@4810courmayeur.it"
+    }
+  },
+
+  "ebike": {
+    "_note": "Listino estate 2025 (PDF presente sul sito attuale). [DA CONFERMARE] per la stagione corrente.",
+    "tbc": true,
+    "hours": ["08:30", "18:30"],
+    "models": [
+      { "id": "full", "day": 75, "half": 65, "short": 50 },
+      { "id": "front", "day": 65, "half": 55, "short": 40 },
+      { "id": "junior", "day": 55, "half": 45, "short": 30 }
+    ],
+    "sizes": ["JR (130–150 cm)", "XS (145–155 cm)", "S (155–165 cm)", "M (166–177 cm)", "L (178–185 cm)", "XL (186–195 cm)"]
+  },
+
+  "offers": [
+    { "id": "online15", "value": "-15%", "link": "rentalOnline" },
+    { "id": "hotels", "value": "hotel", "link": "hotels" },
+    { "id": "transfer", "value": "0 €", "link": "hotels" },
+    { "id": "outlet70", "value": "-70%", "link": "outlet" },
+    { "id": "season", "value": "season", "link": "rental" },
+    { "id": "usedSkis", "value": "used", "link": "rental" }
+  ],
+
+  "rentalBrands": {
+    "ski": ["Black Crows", "DPS", "Dynastar", "Movement", "Rossignol", "Salomon", "Stöckli"],
+    "boots": ["Nordica", "Dalbello", "Tecnica"],
+    "snowboard": ["Burton", "Nitro"],
+    "kidsSki": ["Rossignol", "Völkl", "Blizzard", "Dynastar", "Head"],
+    "kidsBoots": ["Dalbello", "Lange", "Nordica"]
+  },
+
+  "links": {
+    "slopes": "https://www.courmayeur-montblanc.com/",
+    "weather": "https://www.yr.no/en/forecast/daily-table/2-3177922/Italy/Aosta%20Valley/Aosta/Courmayeur",
+    "guides": "http://www.guidecourmayeur.com/",
+    "privacy": "https://www.iubenda.com/privacy-policy/66853220",
+    "cookies": "https://www.iubenda.com/privacy-policy/66853220/cookie-policy"
+  }
+}

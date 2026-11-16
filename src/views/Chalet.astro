@@ -1,0 +1,63 @@
+---
+import PageHero from '../components/PageHero.astro';
+import Pic from '../components/Pic.astro';
+import Icon from '../components/Icon.astro';
+import Cta from '../components/Cta.astro';
+import SectionHead from '../components/SectionHead.astro';
+import Gallery from '../components/Gallery.astro';
+import { dict } from '../i18n';
+import { type Lang } from '../lib/routes';
+import { site, chaletBooking, tbc } from '../lib/data';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const T = dict[lang];
+const C = T.chalet;
+const book = chaletBooking(lang);
+const email = site.services.chalet.email;
+---
+<PageHero lang={lang} image="chalet-baita" kicker={C.hero.kicker} title={C.hero.title} sub={C.hero.sub} tint="dusk" position="center 60%">
+  <Cta href={book} lang={lang} size="lg">{T.cta.bookChalet}</Cta>
+</PageHero>
+
+<section class="section bg-paper">
+  <div class="wrap split">
+    <div>
+      <h2 data-split>{C.intro.title}</h2>
+      <p class="lead" data-reveal>{C.intro.text}</p>
+      <ol class="cs-steps" data-reveal>
+        {C.steps.items.map((s, i) => <li><span>{i + 1}</span>{s}</li>)}
+      </ol>
+      <div class="actions" data-reveal><Cta href={book} lang={lang} size="lg">{T.cta.bookChalet}</Cta></div>
+    </div>
+    <figure class="frame ratio-45 zoom" data-parallax="6"><Pic name="chalet-soggiorno" lang={lang} /></figure>
+  </div>
+</section>
+
+<section class="section-tight">
+  <div class="wrap">
+    <Gallery lang={lang} images={['chalet-terrazza-vista', 'chalet-balcone', 'chalet-pranzo', 'chalet-camera', 'chalet-giardino', 'chalet-mansarda', 'chalet-vista-ghiacciaio', 'chalet-sala', 'chalet-cucina', 'chalet-baita-prato', 'chalet-matrimoniale', 'chalet-sentiero']} />
+  </div>
+</section>
+
+<section class="section bg-mist">
+  <div class="wrap">
+    <SectionHead title={C.facts.title} />
+    <dl class="facts grid grid-4">
+      <div class="card"><dt><Icon name="pin" />{C.facts.address}</dt><dd><span class="tbc">{tbc(lang)}</span></dd></div>
+      <div class="card"><dt><Icon name="chalet" />{C.facts.services}</dt><dd><span class="tbc">{tbc(lang)}</span></dd></div>
+      <div class="card"><dt><Icon name="tag" />{C.facts.prices}</dt><dd><span class="tbc">{tbc(lang)}</span><p class="small muted">{C.facts.pricesText}</p></dd></div>
+      <div class="card"><dt><Icon name="mail" />{C.facts.contact}</dt><dd><a href={`mailto:${email}`}>{email}</a><br /><span class="small muted">{T.common.phone}: </span><span class="tbc">{tbc(lang)}</span></dd></div>
+    </dl>
+    <div class="actions"><Cta href={book} lang={lang} size="lg">{T.cta.bookChalet}</Cta></div>
+  </div>
+</section>
+<style>
+  .cs-steps { list-style: none; padding: 0; margin: 2rem 0 0; display: grid; gap: 0.7rem; }
+  .cs-steps li { display: flex; align-items: center; gap: 0.9rem; font-weight: 650; }
+  .cs-steps span { display: grid; place-items: center; width: 2.2rem; height: 2.2rem; border-radius: 50%; background: var(--ink); color: #f6c9a6; font-family: var(--serif); font-size: 1.2rem; }
+  .facts { margin: 0; }
+  .facts dt { display: flex; gap: 0.5rem; align-items: center; font-weight: 700; margin-bottom: 0.6rem; }
+  .facts dt :global(.icon) { width: 1.2rem; height: 1.2rem; color: var(--ember-ink); }
+  .facts dd { margin: 0; }
+  .facts a { font-weight: 650; }
+</style>

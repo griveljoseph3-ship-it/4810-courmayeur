@@ -1,0 +1,176 @@
+---
+/** Barra fissa con orari di oggi, telefono, "Come arrivare" e prenotazione. Presente in ogni pagina. */
+import Icon from './Icon.astro';
+import TodayHours from './TodayHours.astro';
+import { dict } from '../i18n';
+import { site, telHref, directions, chaletBooking, tbc, isTbc } from '../lib/data';
+import { href, type Lang } from '../lib/routes';
+
+export type DockContext = 'rental' | 'shop' | 'outlet' | 'food' | 'bakery' | 'chalet';
+interface Props { lang: Lang; context: DockContext }
+const { lang, context } = Astro.props;
+const T = dict[lang];
+
+const ctx = {
+  rental: { service: 'rental', place: 'dolonne', cta: T.cta.rentNow, url: site.booking.rentalOnline },
+  shop: { service: 'shop', place: 'centro', cta: T.cta.rentNow, url: site.booking.rentalOnline },
+  outlet: { service: 'outlet', place: 'outlet', cta: T.cta.rentNow, url: site.booking.rentalOnline },
+  food: { service: 'food', place: 'dolonne', cta: T.cta.bookTable, url: site.booking.lunch },
+  bakery: { service: 'bakery', place: 'dolonne', cta: T.cta.orderCake, url: telHref(site.places.dolonne.phone) },
+  chalet: { service: 'chalet', place: 'chalet', cta: T.cta.bookChalet, url: chaletBooking(lang) },
+}[context] as { service: any; place: any; cta: string; url: string };
+
+const place: any = (site.places as any)[ctx.place];
+const phone = isTbc(place.phone) ? site.places.dolonne.phone : place.phone;
+const dirPlace = context === 'chalet' ? 'dolonne' : ctx.place;
+const ext = /^https?:/.test(ctx.url);
+
+const sheet: { label: string; service: any; place: any; note?: string }[] = [
+  { label: T.nav.rental, service: 'rental', place: 'dolonne' },
+  { label: `${T.nav.restaurant} · ${T.nav.bakery}`, service: 'food', place: 'dolonne' },
+  { label: `${T.nav.shop} · Dolonne`, service: 'shopDolonne', place: 'dolonne' },
+  { label: `${T.nav.shop} · Via Roma`, service: 'shop', place: 'centro' },
+  { label: T.nav.outlet, service: 'outlet', place: 'outlet', note: `${T.common.highSeason} · ${T.common.openDays}: ` },
+];
+const books = [
+  { label: T.cta.rentNow, url: site.booking.rentalOnline, icon: 'ski' },
+  { label: T.cta.bookTable, url: site.booking.lunch, icon: 'fork' },
+  { label: T.cta.bookAperitivo, url: site.booking.aperitivo, icon: 'glass' },
+  { label: T.cta.bookChalet, url: chaletBooking(lang), icon: 'chalet' },
+];
+---
+<aside class="dock" aria-label={T.dock.label} data-dock>
+  <button class="dock-today" type="button" aria-haspopup="dialog" aria-controls="today-sheet" data-sheet-open>
+    <Icon name="clock" />
+    <span class="dock-today-text">
+      <span class="dock-label">{T.common.today}<span class="dock-ctx"> · {(T.dock.contexts as any)[context]}</span></span>
+      {context === 'chalet'
+        ? <span class="dock-value">{T.dock.contexts.chalet}</span>
+        : <span class="dock-value"><TodayHours service={ctx.service} lang={lang} compact /></span>}
+    </span>
+    <Icon name="chevron" class="dock-chev" />
+  </button>
+  <a class="dock-icon" href={telHref(phone)}><Icon name="phone" /><span class="dock-icon-label">{T.common.call}</span></a>
+  <a class="dock-icon" href={directions(dirPlace)} target="_blank" rel="noopener"><Icon name="pin" /><span class="dock-icon-label">{T.common.directions}</span><span class="sr-only"> {T.common.newTab}</span></a>
+  <a class="btn dock-cta" href={ctx.url} target={ext ? '_blank' : undefined} rel={ext ? 'noopener' : undefined}>{ctx.cta}{ext && <span class="sr-only"> {T.common.newTab}</span>}</a>
+</aside>
+
+<dialog id="today-sheet" class="sheet" aria-labelledby="sheet-title">
+  <div class="sheet-inner">
+    <div class="sheet-head">
+      <h2 id="sheet-title">{T.dock.sheetTitle}</h2>
+      <button type="button" class="sheet-close" data-sheet-close aria-label={T.common.close}><Icon name="close" /></button>
+    </div>
+    <ul class="sheet-list" role="list">
+      {sheet.map((r) => {
+        const p: any = (site.places as any)[r.place];
+        return (
+          <li>
+            <div>
+              <p class="sheet-name">{r.label}</p>
+              <p class="sheet-addr">{isTbc(p.street) ? <span class="tbc">{tbc(lang)}</span> : p.street}{r.note && <><br />{r.note}<span class="tbc">{tbc(lang)}</span></>}</p>
+            </div>
+            <p class="sheet-hours"><TodayHours service={r.service} lang={lang} /></p>
+            <div class="sheet-actions">
+              <a href={telHref(p.phone)} aria-label={`${T.common.call} ${r.label}`}><Icon name="phone" /></a>
+              <a href={directions(r.place)} target="_blank" rel="noopener" aria-label={`${T.common.directions} ${r.label} ${T.common.newTab}`}><Icon name="pin" /></a>
+            </div>
+          </li>
+        );
+      })}
+    </ul>
+    <p class="kicker sheet-kicker">{T.dock.bookTitle}</p>
+    <div class="sheet-books">
+      {books.map((b) => (
+        <a href={b.url} target="_blank" rel="noopener"><Icon name={b.icon} /><span>{b.label}</span><span class="sr-only"> {T.common.newTab}</span></a>
+      ))}
+    </div>
+    <p class="sheet-more"><a class="link" href={href('contact', lang)}>{T.nav.contact} <Icon name="arrow" /></a></p>
+  </div>
+</dialog>
+
+<style>
+  .dock {
+    position: fixed; z-index: 60;
+    left: 0; right: 0; bottom: var(--cookie-offset);
+    display: flex; align-items: center; gap: 0.35rem;
+    padding: 0.5rem 0.6rem calc(0.5rem + env(safe-area-inset-bottom));
+    background: rgba(255, 253, 249, 0.92);
+    backdrop-filter: saturate(1.5) blur(16px);
+    -webkit-backdrop-filter: saturate(1.5) blur(16px);
+    box-shadow: 0 -1px 0 var(--line), 0 -12px 30px -18px rgba(42, 36, 32, 0.35);
+    transition: bottom 0.3s var(--ease);
+  }
+  .dock-today {
+    flex: 1 1 auto; min-width: 0;
+    display: flex; align-items: center; gap: 0.55rem;
+    min-height: 3rem; padding: 0.3rem 0.6rem;
+    border: 0; border-radius: 14px; background: transparent; cursor: pointer; text-align: left;
+  }
+  .dock-today:hover { background: rgba(42,36,32,.05); }
+  .dock-today > :global(.icon) { width: 1.35rem; height: 1.35rem; color: var(--ember-ink); flex: none; }
+  .dock-today-text { display: grid; min-width: 0; line-height: 1.25; }
+  .dock-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .dock-ctx { display: none; }
+  @media (min-width: 480px) { .dock-ctx { display: inline; } }
+  .dock-value { font-size: 0.86rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
+  .dock-value :global(.tbc) { font-size: 0.68rem; }
+  .dock-chev { width: 1rem; height: 1rem; flex: none; color: var(--muted); transform: rotate(180deg); display: none; }
+  @media (min-width: 480px) { .dock-chev { display: block; } }
+  .dock-icon {
+    flex: none; display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: 14px;
+    color: var(--ink); text-decoration: none; background: rgba(42,36,32,.06);
+    transition: background-color .25s, transform .35s var(--ease-out);
+  }
+  .dock-icon:hover { background: rgba(42,36,32,.12); transform: translateY(-2px); }
+  .dock-icon :global(.icon) { width: 1.3rem; height: 1.3rem; }
+  .dock-icon-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .dock-cta { flex: none; min-height: 3rem; padding: 0.6rem 1rem; font-size: 0.9rem; }
+  @media (max-width: 380px) { .dock-cta { padding-inline: 0.8rem; font-size: 0.84rem; } .dock-icon { width: 2.75rem; } }
+
+  @media (min-width: 900px) {
+    .dock {
+      left: auto; right: 1.25rem; bottom: calc(1.25rem + var(--cookie-offset));
+      width: min(37rem, calc(100vw - 2.5rem));
+      border-radius: 22px; padding: 0.5rem;
+      box-shadow: 0 0 0 1px var(--line), 0 24px 50px -20px rgba(42, 36, 32, 0.45);
+    }
+    .dock-icon-label { position: static; width: auto; height: auto; overflow: visible; clip: auto; font-size: 0.85rem; font-weight: 650; }
+    .dock-icon { width: auto; padding: 0 0.85rem; display: inline-flex; gap: 0.45rem; }
+  }
+  @media (min-width: 900px) and (max-width: 1100px) { .dock-icon-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); } .dock-icon { width: 3rem; padding: 0; justify-content: center; } }
+
+  .sheet {
+    margin: auto auto 0; width: 100%; max-width: 34rem; max-height: 88vh;
+    padding: 0; border: 0; border-radius: 28px 28px 0 0;
+    background: var(--paper); color: var(--ink);
+    box-shadow: var(--shadow-lg);
+  }
+  .sheet::backdrop { background: rgba(27, 26, 42, 0.45); backdrop-filter: blur(3px); }
+  .sheet[open] { animation: sheet-in 0.5s var(--ease-out); }
+  @keyframes sheet-in { from { transform: translateY(40px); opacity: 0; } }
+  @media (min-width: 640px) { .sheet { margin: auto; border-radius: 28px; } }
+  .sheet-inner { padding: 1.5rem 1.4rem calc(1.5rem + env(safe-area-inset-bottom)); }
+  .sheet-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; }
+  .sheet-head h2 { font-size: var(--step-2); margin: 0; }
+  .sheet-close { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border: 0; border-radius: 50%; background: var(--mist); cursor: pointer; }
+  .sheet-close :global(.icon) { width: 1.2rem; height: 1.2rem; }
+  .sheet-list { display: grid; }
+  .sheet-list li { display: grid; grid-template-columns: 1fr auto; gap: 0.2rem 1rem; align-items: center; padding: 0.85rem 0; border-bottom: 1px solid var(--line); }
+  .sheet-name { margin: 0; font-weight: 700; }
+  .sheet-addr { margin: 0; font-size: 0.82rem; color: var(--muted); }
+  .sheet-hours { margin: 0; grid-column: 1; font-weight: 650; font-variant-numeric: tabular-nums; font-size: 0.95rem; }
+  .sheet-actions { grid-column: 2; grid-row: 1 / span 2; display: flex; gap: 0.4rem; }
+  .sheet-actions a { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 12px; background: var(--mist); color: var(--ink); }
+  .sheet-actions :global(.icon) { width: 1.15rem; height: 1.15rem; }
+  .sheet-kicker { margin-top: 1.4rem; }
+  .sheet-books { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+  .sheet-books a {
+    display: flex; align-items: center; gap: 0.6rem; min-height: 3.2rem; padding: 0.6rem 0.9rem; border-radius: 14px;
+    background: var(--ink); color: var(--snow); text-decoration: none; font-weight: 650; font-size: 0.9rem; line-height: 1.2;
+    transition: transform .35s var(--ease-out), background-color .25s;
+  }
+  .sheet-books a:hover { background: var(--ember-ink); transform: translateY(-2px); }
+  .sheet-books :global(.icon) { width: 1.25rem; height: 1.25rem; flex: none; }
+  .sheet-more { margin: 1.2rem 0 0; }
+</style>

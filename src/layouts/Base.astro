@@ -1,0 +1,192 @@
+---
+import '../styles/global.css';
+import { getImage } from 'astro:assets';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Dock, { type DockContext } from '../components/Dock.astro';
+import { dict } from '../i18n';
+import { ROUTES, LOCALES, HTML_LANG, OG_LOCALE, absolute, type Lang, type PageKey } from '../lib/routes';
+import { site } from '../lib/data';
+import { img } from '../lib/images';
+import cormorant from '../assets/fonts/cormorant.woff2?url';
+import manrope from '../assets/fonts/manrope.woff2?url';
+
+interface Props {
+  lang: Lang;
+  page: PageKey | '404';
+  ogImage?: string;
+  dock?: DockContext;
+  jsonld?: object[];
+  headerOverlay?: boolean;
+  preloadImage?: string;
+}
+const { lang, page, ogImage = 'hero-dente-del-gigante', dock = 'rental', jsonld = [], headerOverlay = true } = Astro.props;
+const T = dict[lang];
+const seo = (T.seo as any)[page];
+const SITE = site.brand.siteUrl;
+const canonical = page === '404' ? undefined : absolute(page, lang, SITE);
+const og = await getImage({ src: img(ogImage), width: 1200, format: 'jpg', quality: 72 });
+const ogUrl = new URL(og.src, SITE).href;
+
+const ga4 = site.analytics.ga4;
+const gaEnabled = /^G-[A-Z0-9]{6,}$/.test(ga4) && ga4 !== 'G-XXXXXXXXXX';
+const iub = site.analytics.iubenda;
+const [wm, wd] = site.seasons.winter.from.split('-').map(Number);
+const [sm, sd] = site.seasons.winter.to.split('-').map(Number);
+const winterFrom = wm * 100 + wd;
+const winterTo = sm * 100 + sd;
+
+// Regole CSS per mostrare solo gli orari di oggi (giorno + stagione) senza ricalcoli di layout.
+let todayCss = '';
+for (let d = 0; d < 7; d++) {
+  todayCss += `html[data-d="${d}"] .d[data-d="${d}"]:not([data-s]),`;
+  for (const s of ['winter', 'summer']) todayCss += `html[data-d="${d}"][data-s="${s}"] .d[data-d="${d}"][data-s="${s}"],`;
+}
+todayCss = todayCss.replace(/,$/, '{display:inline}');
+
+const breadcrumb = page !== 'home' && page !== '404' ? {
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: '4810 Courmayeur', item: absolute('home', lang, SITE) },
+    { '@type': 'ListItem', position: 2, name: (T.nav as any)[page], item: canonical },
+  ],
+} : null;
+const ld = [...jsonld, ...(breadcrumb ? [breadcrumb] : [])];
+---
+<!doctype html>
+<html lang={HTML_LANG[lang]} data-page={page}>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>{seo.title}</title>
+  <meta name="description" content={seo.description} />
+  {canonical && <link rel="canonical" href={canonical} />}
+  {page === '404' && <meta name="robots" content="noindex" />}
+  {page !== '404' && LOCALES.map((l) => <link rel="alternate" hreflang={HTML_LANG[l].slice(0, 2)} href={absolute(page as PageKey, l, SITE)} />)}
+  {page !== '404' && <link rel="alternate" hreflang="x-default" href={absolute(page as PageKey, 'it', SITE)} />}
+  <meta name="theme-color" content="#2a2420" />
+  <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+  <link rel="icon" href={`${import.meta.env.BASE_URL}favicon-32.png`} sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href={`${import.meta.env.BASE_URL}apple-touch-icon.png`} />
+  <link rel="preload" href={cormorant} as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href={manrope} as="font" type="font/woff2" crossorigin />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="4810 Courmayeur" />
+  <meta property="og:locale" content={OG_LOCALE[lang]} />
+  {LOCALES.filter((l) => l !== lang).map((l) => <meta property="og:locale:alternate" content={OG_LOCALE[l]} />)}
+  <meta property="og:title" content={seo.title} />
+  <meta property="og:description" content={seo.description} />
+  {canonical && <meta property="og:url" content={canonical} />}
+  <meta property="og:image" content={ogUrl} />
+  <meta property="og:image:width" content="1200" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <style is:inline set:html={todayCss}></style>
+  <script is:inline define:vars={{ winterFrom, winterTo }}>
+    (function () {
+      var d = document.documentElement;
+      try {
+        var p = {};
+        new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Rome', weekday: 'short', month: '2-digit', day: '2-digit' })
+          .formatToParts(new Date()).forEach(function (x) { p[x.type] = x.value; });
+        var w = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 }[p.weekday];
+        var md = +(p.month + p.day);
+        d.setAttribute('data-d', w);
+        d.setAttribute('data-s', md >= winterFrom || md <= winterTo ? 'winter' : 'summer');
+      } catch (e) {}
+      var rm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!rm && 'IntersectionObserver' in window) {
+        d.classList.add('motion');
+        setTimeout(function () { if (!window.__reveal) d.classList.remove('motion'); }, 2500);
+      }
+    })();
+  </script>
+  {ld.length > 0 && <script type="application/ld+json" set:html={JSON.stringify(ld.length === 1 ? ld[0] : ld)} />}
+  <slot name="head" />
+</head>
+<body>
+  <a class="skip" href="#main">{T.common.skip}</a>
+  <Header lang={lang} page={page} overlay={headerOverlay} />
+  <main id="main" tabindex="-1">
+    <slot />
+  </main>
+  <Footer lang={lang} />
+  <Dock lang={lang} context={dock} />
+
+  <script>
+    import '../scripts/main.ts';
+  </script>
+
+  <script is:inline define:vars={{ lang, siteId: iub.siteId, cookiePolicyId: iub.cookiePolicyId, ga4, gaEnabled }}>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('consent', 'default', { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied', wait_for_update: 500 });
+    function setCookieOffset() {
+      var b = document.getElementById('iubenda-cs-banner');
+      var h = b && b.offsetParent !== null && window.innerWidth < 900 ? b.getBoundingClientRect().height : 0;
+      document.documentElement.style.setProperty('--cookie-offset', h + 'px');
+    }
+    window._iub = window._iub || [];
+    _iub.csConfiguration = {
+      siteId: siteId,
+      cookiePolicyId: cookiePolicyId,
+      lang: lang,
+      perPurposeConsent: true,
+      enableRemoteConsent: false,
+      floatingPreferencesButtonDisplay: false,
+      invalidateConsentWithoutLog: true,
+      banner: {
+        position: 'float-bottom-left',
+        backgroundOverlay: false,
+        acceptButtonDisplay: true,
+        rejectButtonDisplay: true,
+        customizeButtonDisplay: true,
+        closeButtonDisplay: false,
+        explicitWithdrawal: true,
+        listPurposes: false,
+        fontSizeBody: '13px',
+        backgroundColor: '#2A2420',
+        textColor: '#F7F4EF',
+        acceptButtonColor: '#A44C0E',
+        acceptButtonCaptionColor: '#FFFFFF',
+        customizeButtonColor: '#4D453F',
+        customizeButtonCaptionColor: '#FFFFFF',
+        rejectButtonColor: '#4D453F',
+        rejectButtonCaptionColor: '#FFFFFF',
+        brandBackgroundColor: '#2A2420',
+        brandTextColor: '#F7F4EF',
+      },
+      callback: {
+        onBannerShown: function () { setTimeout(setCookieOffset, 50); window.addEventListener('resize', setCookieOffset); },
+        onBannerClosed: function () { document.documentElement.style.setProperty('--cookie-offset', '0px'); },
+        onPreferenceExpressedOrNotNeeded: function (pref) {
+          document.documentElement.style.setProperty('--cookie-offset', '0px');
+          var p = (pref && pref.purposes) || {};
+          var yes = function (v) { return v ? 'granted' : 'denied'; };
+          gtag('consent', 'update', {
+            analytics_storage: yes(p[4] || (pref && pref.consent)),
+            ad_storage: yes(p[5] || (pref && pref.consent)),
+            ad_user_data: yes(p[5] || (pref && pref.consent)),
+            ad_personalization: yes(p[5] || (pref && pref.consent)),
+          });
+        },
+      },
+    };
+    function loadThirdParty() {
+      if (window.__3p) return; window.__3p = true;
+      var s = document.createElement('script'); s.src = 'https://cdn.iubenda.com/cs/iubenda_cs.js'; s.async = true; s.charset = 'UTF-8';
+      document.head.appendChild(s);
+      if (gaEnabled) {
+        var g = document.createElement('script'); g.async = true; g.src = 'https://www.googletagmanager.com/gtag/js?id=' + ga4;
+        document.head.appendChild(g);
+        gtag('js', new Date()); gtag('config', ga4, { anonymize_ip: true });
+      }
+    }
+    // Caricati dopo il primo disegno: non rallentano l'apertura della pagina.
+    var go = function () { ('requestIdleCallback' in window) ? requestIdleCallback(loadThirdParty, { timeout: 2500 }) : setTimeout(loadThirdParty, 1200); };
+    if (document.readyState === 'complete') go(); else window.addEventListener('load', go);
+    ['pointerdown', 'keydown', 'scroll'].forEach(function (e) { window.addEventListener(e, loadThirdParty, { once: true, passive: true }); });
+  </script>
+</body>
+</html>

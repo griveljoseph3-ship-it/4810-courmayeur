@@ -1,0 +1,422 @@
+{
+ "_readme": "Hotel convenzionati con 4810 Rental. 'tbc' = dato da verificare (compare nella lista [DA CONFERMARE]). Hotel senza 'url' non mostrano link.",
+ "hotels": [
+  {
+   "zone": "courmayeur",
+   "name": "Grand Hotel Courmayeur Mont Blanc",
+   "stars": 5,
+   "address": "Strada Grand Ru 1",
+   "phone": "+39 0165 846716",
+   "email": "info@ghcmontblanc.it",
+   "url": "http://www.grandhotelcourmayeurmontblanc.it/"
+  },
+  {
+   "zone": "courmayeur",
+   "name": "Le Massif",
+   "stars": 5,
+   "address": "Strada Regionale 38",
+   "phone": "+39 0165 1897100",
+   "email": "info@lemassifcourmayeur.com",
+   "url": "https://www.lemassifcourmayeur.com/"
+  },
+  {
+   "zone": "courmayeur",
+   "name": "Grand Hotel Royal e Golf",
+   "stars": 5,
+   "address": "Via Roma 87",
+   "email": "info@hotelroyalegolf.com",
+   "url": "https://www.hotelroyalegolf.com/"
+  },
+  {
+   "zone": "courmayeur",
+   "name": "Hotel Svizzero",
+   "stars": 4,
+   "address": "Strada Statale 26, 11",
+   "phone": "+39 0165 848170",
+   "email": "info@hotelsvizzero.com",
+   "url": "https://www.hotelsvizzero.com/"
+  },
+  {
+   "zone": "courmayeur",
+   "name": "Hotel Crest et Duc",
+   "stars": 4,
+   "address": "Via Circonvallazione 7",
+   "phone": "+39 0165 842585",
+   "tbc": "Il link attuale (alpissima.it) è rotto (404) e l'hotel non compare più sul sito Alpissima: verificare nome e sito."
+  },
+  {
+   "zone": "courmayeur",
+   "name": "Hotel Villa Novecento",
+   "stars": 4,
+   "address": "Viale Monte Bianco 64",
+   "phone": "+39 0165 1825622",
+   "url": "https://villanovecento.it/"
+  },
+  {
+   "zone": "courmayeur",
+   "name": "Hotel Lo Scoiattolo",
+   "stars": 4,
+   "address": "Viale Monte Bianco 50",
+   "phone": "+39 0165 846716",
+   "email": "info@loscoiattolohotel.it",
+   "url": "http://www.loscoiattolohotel.it/",
+   "tbc": "Il sito ora rimanda ad AF Luxury Suites e il telefono coincide con quello del Grand Hotel Courmayeur: verificare nome, telefono e convenzione."
+  },
+  {
+   "zone": "courmayeur",
+   "name": "Hotel Au Coeur des Neiges",
+   "stars": 4,
+   "address": "Strada Statale 26, 2/B",
+   "phone": "+39 0165 843514",
+   "email": "info@aucoeurdesneiges.com",
+   "url": "https://www.aucoeurdesneiges.com/"
+  },
+  {
+   "zone": "courmayeur",
+   "name": "Hotel Pavillon",
+   "stars": 4,
+   "address": "Strada Regionale 62",
+   "phone": "+39 0165 846120",
+   "email": "info@pavillon.it",
+   "url": "https://www.pavillon.it/"
+  },
+  {
+   "zone": "courmayeur",
+   "name": "Hotel Crampon",
+   "stars": 3,
+   "address": "Strada La Villette 8",
+   "phone": "+39 0165 842385",
+   "email": "info@crampon.it",
+   "url": "http://www.crampon.it/"
+  },
+  {
+   "zone": "courmayeur",
+   "name": "Hotel Triolet",
+   "stars": 3,
+   "address": "Strada Regionale 63",
+   "phone": "+39 0165 846822",
+   "email": "info@hoteltriolet.com",
+   "url": "https://hoteltriolet.com/"
+  },
+  {
+   "zone": "courmayeur",
+   "name": "Hotel Campagnard",
+   "stars": 3,
+   "address": "Rue des Granges 14",
+   "phone": "+39 342 193 1315",
+   "email": "info@locampagnar.it",
+   "url": "https://www.locampagnar.it/"
+  },
+  {
+   "zone": "courmayeur",
+   "name": "Hotel Berthod",
+   "stars": 3,
+   "address": "Via Mario Puchoz 11",
+   "phone": "+39 0165 842835",
+   "email": "info@hotelberthod.com"
+  },
+  {
+   "zone": "courmayeur",
+   "name": "Hotel Courmayeur",
+   "stars": 3,
+   "address": "Via Roma 158",
+   "phone": "+39 0165 846732",
+   "email": "info@hotelcourmayeur.com",
+   "url": "https://www.hotelcourmayeur.it/"
+  },
+  {
+   "zone": "courmayeur",
+   "name": "Meublé Laurent",
+   "stars": 3,
+   "address": "Via Circonvallazione 23",
+   "phone": "+39 0165 846687",
+   "email": "info@meublelaurent.com",
+   "url": "https://www.vacanzemontebianco.com/",
+   "tbc": "Il sito ora si presenta come \"Maison Laurent\": verificare il nome attuale."
+  },
+  {
+   "zone": "courmayeur",
+   "name": "Hotel del Viale",
+   "stars": 3,
+   "address": "Viale Monte Bianco 74",
+   "phone": "+39 0165 846712",
+   "email": "info@hoteldelviale.com",
+   "url": "https://www.hoteldelviale.com/"
+  },
+  {
+   "zone": "courmayeur",
+   "name": "Hotel Bouton d'Or",
+   "stars": 3,
+   "address": "SS26dir, 10",
+   "phone": "+39 0165 846729",
+   "email": "info@hotelboutondor.com",
+   "url": "https://hotelboutondor.com/"
+  },
+  {
+   "zone": "courmayeur",
+   "name": "Hotel Croux",
+   "stars": 3,
+   "address": "Via Croux 8",
+   "phone": "+39 0165 846735",
+   "email": "info@hotelcroux.it",
+   "url": "https://hotelcroux.it/"
+  },
+  {
+   "zone": "courmayeur",
+   "name": "Hotel Walser",
+   "stars": 3,
+   "address": "Strada Margherita",
+   "phone": "+39 0165 844824",
+   "email": "info@walserhotel.com",
+   "url": "http://www.walserhotel.com/"
+  },
+  {
+   "zone": "courmayeur",
+   "name": "Hotel Centrale",
+   "stars": 3,
+   "address": "Via Mario Puchoz 7",
+   "phone": "+39 0165 846644",
+   "email": "info@hotelcentralecourmayeur.com",
+   "url": "http://www.hotelcentralecourmayeur.com/it/"
+  },
+  {
+   "zone": "courmayeur",
+   "name": "Hotel Les Jumeaux",
+   "stars": 3,
+   "address": "Via Regionale 35",
+   "phone": "+39 0165 846796",
+   "email": "lesjumeaux@hithotel.it",
+   "url": "https://www.hotellesjumeauxcourmayeur.it/",
+   "tbc": "Il sito rimanda a un dominio esterno con certificato non valido: verificare il sito ufficiale."
+  },
+  {
+   "zone": "courmayeur",
+   "name": "Hotel Stella del Nord",
+   "stars": 3,
+   "address": "Strada Vittoria 2",
+   "phone": "+39 0165 848039",
+   "email": "info@stelladelnord.com",
+   "url": "https://stelladelnord.com/"
+  },
+  {
+   "zone": "courmayeur",
+   "name": "Hotel Tavernier",
+   "stars": 3,
+   "address": "Strada Dolonne Courmayeur 27",
+   "phone": "+39 0165 841080",
+   "email": "tavernier@tin.it",
+   "url": "https://www.tavernier.it/"
+  },
+  {
+   "zone": "courmayeur",
+   "name": "Hotel Edelweiss",
+   "stars": 2,
+   "address": "Via Guglielmo Marconi 42",
+   "phone": "+39 0165 841590",
+   "email": "info@albergoedelweiss.it",
+   "url": "https://www.albergoedelweiss.it/"
+  },
+  {
+   "zone": "courmayeur",
+   "name": "Hotel Cristallo",
+   "stars": 2,
+   "address": "Via Roma 142",
+   "phone": "+39 0165 846666",
+   "email": "info@hotelcristallocourmayeur.com",
+   "url": "https://www.hotelcristallocourmayeur.com/"
+  },
+  {
+   "zone": "dolonne",
+   "name": "Hotel des Glaciers",
+   "stars": 3,
+   "address": "Via della Vittoria 66, Dolonne",
+   "phone": "+39 0165 842037",
+   "email": "info@hoteldesglaciers.com",
+   "url": "https://www.hoteldesglaciers.com/"
+  },
+  {
+   "zone": "dolonne",
+   "name": "Hotel Ottoz Meublé",
+   "stars": 3,
+   "address": "Strada Dolonne 9, Dolonne",
+   "phone": "+39 0165 846681",
+   "email": "info@hotelottoz.it",
+   "url": "http://www.hotelottoz.it/"
+  },
+  {
+   "zone": "dolonne",
+   "name": "Hôtel Dolonne",
+   "stars": 3,
+   "address": "Via della Vittoria 62, Dolonne",
+   "phone": "+39 0165 846674",
+   "email": "hoteldolonne@hoteldolonne.it",
+   "url": "https://www.hoteldolonne.it/"
+  },
+  {
+   "zone": "dolonne",
+   "name": "Maison St. Jean",
+   "stars": 3,
+   "address": "Vicolo Dolonne 18, Dolonne",
+   "phone": "+39 0165 842880",
+   "email": "info@msj.it",
+   "url": "https://www.msj.it/"
+  },
+  {
+   "zone": "entreves",
+   "name": "Hotel Gran Baita",
+   "stars": 4,
+   "address": "Strada Larzey 2, Entrèves",
+   "phone": "+39 0165 844040",
+   "url": "https://www.granbaitacourmayeur.com/"
+  },
+  {
+   "zone": "entreves",
+   "name": "Auberge de la Maison",
+   "stars": 4,
+   "address": "Via Passerin d'Entrèves, Entrèves",
+   "phone": "+39 0165 869811",
+   "email": "info@aubergemaison.it",
+   "url": "https://www.aubergemaison.it/"
+  },
+  {
+   "zone": "entreves",
+   "name": "Hotel Pilier d'Angle",
+   "stars": 3,
+   "address": "Via Grandes Jorasses 18, Entrèves",
+   "phone": "+39 0165 869760",
+   "email": "info@pilierdangle.it",
+   "url": "https://www.pilierdangle.it/"
+  },
+  {
+   "zone": "entreves",
+   "name": "Hotel Aigle",
+   "stars": 2,
+   "address": "Strada La Palud 5, Entrèves",
+   "phone": "+39 0165 869700",
+   "email": "info@hotelaigle.it",
+   "url": "https://www.hotelaigle.it/"
+  },
+  {
+   "zone": "entreves",
+   "name": "Hotel Aiguille Noire",
+   "stars": 2,
+   "address": "Via Passerin d'Entrèves 1, Entrèves",
+   "phone": "+39 0165 89919",
+   "email": "aiguillenoire@libero.it",
+   "url": "http://www.hotelaiguillenoire.com/"
+  },
+  {
+   "zone": "entreves",
+   "name": "Hotel La Grange",
+   "address": "Strada della Brenva 1, Entrèves",
+   "phone": "+39 0165 869733",
+   "email": "info@hotellagrange.it",
+   "url": "http://www.hotellagrange.it/"
+  },
+  {
+   "zone": "lapalud",
+   "name": "Chalet Hotel Dente del Gigante",
+   "stars": 3,
+   "address": "Strada La Palud 42",
+   "phone": "+39 0165 89145",
+   "email": "info@dentedelgigante.com",
+   "url": "https://www.dentedelgigante.com/"
+  },
+  {
+   "zone": "lapalud",
+   "name": "Hotel La Vallée Blanche",
+   "stars": 3,
+   "address": "Località La Palud",
+   "phone": "+39 0165 897002",
+   "email": "info@hotelvalleeblanche.com",
+   "url": "https://www.hotelvalleeblanche.com/"
+  },
+  {
+   "zone": "lapalud",
+   "name": "Chalet Joli",
+   "stars": 2,
+   "address": "Frazione La Palud",
+   "phone": "+39 0165 869722",
+   "email": "info@chaletjoli.com",
+   "url": "http://www.chaletjoli.com/"
+  },
+  {
+   "zone": "lapalud",
+   "name": "Hotel Funivia",
+   "address": "Via San Bernardo 2, La Palud",
+   "phone": "+39 0165 89924",
+   "email": "info@hotelfunivia.com",
+   "url": "https://www.hotelfunivia.com/"
+  },
+  {
+   "zone": "lasaxe",
+   "name": "Hotel Camosci",
+   "stars": 3,
+   "address": "Strada per Entrèves 7, La Saxe",
+   "phone": "+39 0165 842338",
+   "email": "info@hoteldeicamosci.com",
+   "tbc": "Il dominio hoteldeicamosci.com non è più attivo: verificare il sito."
+  },
+  {
+   "zone": "valferret",
+   "name": "Hotel Miravalle",
+   "stars": 3,
+   "address": "Località Plampincieux 20, Val Ferret",
+   "phone": "+39 0165 869777",
+   "email": "marco@courmayeur-hotelmiravalle.it",
+   "url": "https://www.courmayeur-hotelmiravalle.it/"
+  },
+  {
+   "zone": "valferret",
+   "name": "Chalet Val Ferret",
+   "stars": 2,
+   "address": "Località Arnouva 1, Val Ferret",
+   "phone": "+39 0165 844959",
+   "email": "info@chaletvalferret.com",
+   "url": "https://www.chaletvalferret.com/"
+  },
+  {
+   "zone": "presaintdidier",
+   "name": "QC Terme Monte Bianco Spa and Resort",
+   "stars": 4,
+   "address": "Route Mont Blanc 28, Palleusieux, Pré-Saint-Didier",
+   "phone": "+39 0165 87004",
+   "email": "info@qctermemontebianco.it",
+   "url": "https://www.qcterme.com/"
+  },
+  {
+   "zone": "presaintdidier",
+   "name": "Residence Courmaison",
+   "stars": 3,
+   "address": "Route Mont Blanc 26, Palleusieux, Pré-Saint-Didier",
+   "phone": "+39 0165 846815",
+   "email": "residence@courmaison.it",
+   "url": "https://www.courmaison.it/"
+  },
+  {
+   "zone": "apartments",
+   "name": "Appartements Ancien Casinò",
+   "address": "Via Roma 84",
+   "phone": "+39 339 6109883",
+   "email": "anciencasino@libero.it",
+   "url": "https://www.anciencasino.it/"
+  },
+  {
+   "zone": "apartments",
+   "name": "Residence Le Talus",
+   "address": "Strada La Villette 26a",
+   "phone": "+39 0165 842486",
+   "email": "info@residenceletalus.it",
+   "tbc": "Il dominio residenceletalus.it non risponde: verificare il sito."
+  },
+  {
+   "zone": "morgex",
+   "name": "Maison d'Arpy",
+   "stars": 3,
+   "address": "Località Arpy, Morgex",
+   "phone": "+39 333 3118275",
+   "email": "info@maisondarpy.com",
+   "url": "https://www.maisondarpy.com/"
+  }
+ ]
+}

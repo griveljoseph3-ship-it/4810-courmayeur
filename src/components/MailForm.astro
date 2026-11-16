@@ -1,0 +1,33 @@
+---
+/** Modulo che apre l'email del visitatore già compilata: zero server, zero dati salvati, 2 passaggi. */
+import Icon from './Icon.astro';
+import { dict } from '../i18n';
+import type { Lang } from '../lib/routes';
+type Field = { name: string; label: string; type?: string; required?: boolean; options?: string[]; full?: boolean; min?: number };
+interface Props { lang: Lang; to: string; subject: string; fields: Field[]; submit?: string; id: string; recipients?: { label: string; email: string }[]; recipientsLabel?: string }
+const { lang, to, subject, fields, submit, id, recipients, recipientsLabel } = Astro.props;
+const T = dict[lang];
+---
+<form class="mailform form-grid" data-mailto={to} data-subject={subject} id={id}>
+  {recipients && (
+    <div class="field full">
+      <label for={`${id}-to`}>{recipientsLabel}</label>
+      <select id={`${id}-to`} name="_to">{recipients.map((r) => <option value={r.email}>{r.label} — {r.email}</option>)}</select>
+    </div>
+  )}
+  {fields.map((f) => (
+    <div class:list={['field', { full: f.full || f.type === 'textarea' }]}>
+      <label for={`${id}-${f.name}`}>{f.label}{f.required && <span aria-hidden="true"> *</span>}</label>
+      {f.type === 'textarea' ? (
+        <textarea id={`${id}-${f.name}`} name={f.name} required={f.required} />
+      ) : f.options ? (
+        <select id={`${id}-${f.name}`} name={f.name} required={f.required}>{f.options.map((o) => <option>{o}</option>)}</select>
+      ) : (
+        <input id={`${id}-${f.name}`} name={f.name} type={f.type ?? 'text'} required={f.required} min={f.min} autocomplete={f.type === 'email' ? 'email' : f.type === 'tel' ? 'tel' : f.name === 'name' ? 'name' : undefined} />
+      )}
+    </div>
+  ))}
+  <div class="full">
+    <button class="btn btn-lg" type="submit"><Icon name="mail" />{submit ?? T.cta.send}</button>
+  </div>
+</form>

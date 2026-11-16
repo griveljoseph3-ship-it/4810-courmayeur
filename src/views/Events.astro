@@ -1,0 +1,54 @@
+---
+import PageHero from '../components/PageHero.astro';
+import Pic from '../components/Pic.astro';
+import Icon from '../components/Icon.astro';
+import Cta from '../components/Cta.astro';
+import MailForm from '../components/MailForm.astro';
+import Gallery from '../components/Gallery.astro';
+import { dict } from '../i18n';
+import { type Lang } from '../lib/routes';
+import { site } from '../lib/data';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const T = dict[lang];
+const E = T.events;
+const F = E.form;
+const icons = ['fork', 'cake', 'music', 'glass', 'parking'];
+---
+<PageHero lang={lang} image="eventi-buffet" kicker={E.hero.kicker} title={E.hero.title} sub={E.hero.sub} tint="dusk" short>
+  <Cta href="#preventivo" lang={lang} size="lg" icon="arrow">{T.cta.requestQuote}</Cta>
+</PageHero>
+
+<section class="section bg-paper">
+  <div class="wrap split">
+    <ul class="ev-list" role="list">
+      {E.items.map((x, i) => <li data-reveal style={`--d:${i * 0.07}s`}><span class="icon-badge"><Icon name={icons[i]} /></span>{x}</li>)}
+    </ul>
+    <figure class="frame ratio-45 zoom" data-parallax="6"><Pic name="eventi-tavola" lang={lang} /></figure>
+  </div>
+</section>
+
+<section class="section-tight"><div class="wrap"><Gallery lang={lang} images={['eventi-bar', 'eventi-vini', 'food-tagliere']} layout="row" /></div></section>
+
+<section class="section bg-mist" id="preventivo">
+  <div class="wrap-narrow card">
+    <h2>{F.title}</h2>
+    <p class="muted">{F.intro}</p>
+    <MailForm lang={lang} id="ev" to={site.services.food.email} subject={F.subject} submit={T.cta.requestQuote} fields={[
+      { name: 'name', label: F.name, required: true },
+      { name: 'email', label: F.email, type: 'email', required: true },
+      { name: 'phone', label: F.phone, type: 'tel', required: true },
+      { name: 'type', label: F.type, options: F.types, required: true },
+      { name: 'date', label: F.date, type: 'date', required: true },
+      { name: 'guests', label: F.guests, type: 'number', min: 1, required: true },
+      { name: 'time', label: F.time, options: F.times, required: true },
+      { name: 'notes', label: F.notes, type: 'textarea' },
+    ]} />
+  </div>
+</section>
+<style>
+  .ev-list { display: grid; gap: 1rem; }
+  .ev-list li { display: flex; align-items: center; gap: 1rem; font-size: var(--step-1); font-weight: 600; }
+  .ev-list .icon-badge { margin: 0; flex: none; }
+  #preventivo h2 { font-size: var(--step-3); }
+</style>

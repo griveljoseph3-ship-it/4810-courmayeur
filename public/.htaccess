@@ -1,0 +1,33 @@
+# Apache — un solo indirizzo principale (https://4810courmayeur.it/) e vecchie pagine WordPress
+RewriteEngine On
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} !^4810courmayeur\.it$ [NC]
+RewriteRule ^(.*)$ https://4810courmayeur.it/$1 [R=301,L]
+
+RewriteRule ^(rental-2|ski-rental|noleggio-attrezzature)/?$ /noleggio/ [R=301,L]
+RewriteRule ^noleggia-la-tua-bici/?$ /noleggio/#e-bike [R=301,NE,L]
+RewriteRule ^shopping-2/?$ /negozio/ [R=301,L]
+RewriteRule ^outlet-2/?$ /outlet/ [R=301,L]
+RewriteRule ^food(/monte-bianco)?/?$ /ristorante/ [R=301,L]
+RewriteRule ^sweet-bakery/?$ /pasticceria/ [R=301,L]
+RewriteRule ^collaborazioni/?$ /hotel-convenzionati/ [R=301,L]
+RewriteRule ^marchi/?$ /brand/ [R=301,L]
+RewriteRule ^family-2/?$ /famiglia/ [R=301,L]
+RewriteRule ^boot-fitting/?$ /servizi/#boot-fitting [R=301,NE,L]
+RewriteRule ^eventi-aziendali-o-feste-private/?$ /eventi/ [R=301,L]
+RewriteRule ^(credits|home-prova|feed)/?$ / [R=301,L]
+RewriteRule ^privacy-policy/?$ https://www.iubenda.com/privacy-policy/66853220 [R=301,L]
+
+ErrorDocument 404 /404.html
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/xml image/svg+xml text/plain
+</IfModule>
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/avif "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+</IfModule>

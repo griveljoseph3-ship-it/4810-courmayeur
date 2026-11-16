@@ -1,0 +1,30 @@
+# Netlify / Cloudflare Pages — un solo indirizzo principale: https://4810courmayeur.it/
+https://www.4810courmayeur.it/*   https://4810courmayeur.it/:splat   301!
+http://www.4810courmayeur.it/*    https://4810courmayeur.it/:splat   301!
+http://4810courmayeur.it/*        https://4810courmayeur.it/:splat   301!
+https://4810courmayeur.com/*      https://4810courmayeur.it/:splat   301!
+https://www.4810courmayeur.com/*  https://4810courmayeur.it/:splat   301!
+http://4810courmayeur.com/*       https://4810courmayeur.it/:splat   301!
+http://www.4810courmayeur.com/*   https://4810courmayeur.it/:splat   301!
+
+# Vecchie pagine WordPress -> nuove pagine
+/rental-2/*                         /noleggio/               301
+/ski-rental/*                       /noleggio/               301
+/noleggio-attrezzature/*            /noleggio/               301
+/noleggia-la-tua-bici/*             /noleggio/#e-bike        301
+/shopping-2/*                       /negozio/                301
+/outlet-2/*                         /outlet/                 301
+/food/monte-bianco/*                /ristorante/             301
+/food/*                             /ristorante/             301
+/sweet-bakery/*                     /pasticceria/            301
+/collaborazioni/*                   /hotel-convenzionati/    301
+/marchi/*                           /brand/                  301
+/family-2/*                         /famiglia/               301
+/boot-fitting/*                     /servizi/#boot-fitting   301
+/eventi-aziendali-o-feste-private/* /eventi/                 301
+/credits/*                          /                        301
+/home-prova/*                       /                        301
+/privacy-policy/*                   https://www.iubenda.com/privacy-policy/66853220  301
+/feed/*                             /                        301
+/wp-content/uploads/2026/11/Menu_Inverno_2026-27_4810.pdf   /menu/menu-ristorante-inverno-2026-27.pdf  301
+/wp-content/uploads/2026/11/Menu_Bar_A5_2026-27_completo.pdf /menu/menu-bar-inverno-2026-27.pdf     301

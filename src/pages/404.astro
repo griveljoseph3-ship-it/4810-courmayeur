@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+import Cta from '../components/Cta.astro';
+import { dict } from '../i18n';
+import { href } from '../lib/routes';
+const T = dict.it;
+---
+<Base lang="it" page="404" headerOverlay={false}>
+  <section class="section nf">
+    <div class="wrap-narrow">
+      <p class="kicker">404</p>
+      <h1>{T.notFound.title}</h1>
+      <p class="lead">{T.notFound.text}</p>
+      <div class="actions">
+        <Cta href={href('home', 'it')} lang="it">{T.common.back}</Cta>
+        <Cta href={href('rental', 'it')} lang="it" variant="ghost">{T.nav.rental}</Cta>
+        <Cta href={href('restaurant', 'it')} lang="it" variant="ghost">{T.nav.restaurant}</Cta>
+      </div>
+      <p class="small muted" lang="en">Page not found — <a href={href('home', 'en')}>English</a> · <a href={href('home', 'fr')} lang="fr">Français</a></p>
+    </div>
+  </section>
+</Base>
+<style>.nf { min-height: 80vh; display: grid; align-items: center; padding-top: 8rem; } .nf h1 { font-size: var(--step-4); }</style>

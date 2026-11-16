@@ -1,0 +1,57 @@
+---
+import Base from '../layouts/Base.astro';
+import Home from '../views/Home.astro';
+import Rental from '../views/Rental.astro';
+import Shop from '../views/Shop.astro';
+import Outlet from '../views/Outlet.astro';
+import Restaurant from '../views/Restaurant.astro';
+import Bakery from '../views/Bakery.astro';
+import Chalet from '../views/Chalet.astro';
+import Offers from '../views/Offers.astro';
+import Hotels from '../views/Hotels.astro';
+import Services from '../views/Services.astro';
+import Events from '../views/Events.astro';
+import Brands from '../views/Brands.astro';
+import Family from '../views/Family.astro';
+import Faq from '../views/Faq.astro';
+import Contact from '../views/Contact.astro';
+import { ROUTES, LOCALES, type Lang, type PageKey } from '../lib/routes';
+import { businesses, LD_FOR } from '../lib/jsonld';
+
+export function getStaticPaths() {
+  const out: any[] = [];
+  for (const key of Object.keys(ROUTES) as PageKey[]) {
+    for (const lang of LOCALES) {
+      const slug = ROUTES[key][lang].replace(/\/$/, '');
+      out.push({ params: { slug: slug || undefined }, props: { key, lang } });
+    }
+  }
+  return out;
+}
+
+const { key, lang } = Astro.props as { key: PageKey; lang: Lang };
+const VIEWS: Record<PageKey, any> = { home: Home, rental: Rental, shop: Shop, outlet: Outlet, restaurant: Restaurant, bakery: Bakery, chalet: Chalet, offers: Offers, hotels: Hotels, services: Services, events: Events, brands: Brands, family: Family, faq: Faq, contact: Contact };
+const View = VIEWS[key];
+const META: Partial<Record<PageKey, { og: string; dock: any }>> = {
+  home: { og: 'hero-dente-del-gigante', dock: 'rental' },
+  rental: { og: 'rental-banco', dock: 'rental' },
+  shop: { og: 'shop-interno', dock: 'shop' },
+  outlet: { og: 'outlet-hero', dock: 'outlet' },
+  restaurant: { og: 'food-camino', dock: 'food' },
+  bakery: { og: 'bakery-bancone', dock: 'bakery' },
+  chalet: { og: 'chalet-baita', dock: 'chalet' },
+  offers: { og: 'panorama-piste', dock: 'rental' },
+  hotels: { og: 'seggiovia-monte-bianco', dock: 'rental' },
+  services: { og: 'skiservice-robot', dock: 'rental' },
+  events: { og: 'eventi-buffet', dock: 'food' },
+  brands: { og: 'shop-grivel', dock: 'shop' },
+  family: { og: 'family-gruppo', dock: 'shop' },
+  faq: { og: 'sciatore-curva', dock: 'rental' },
+  contact: { og: 'panorama-piste', dock: 'rental' },
+};
+const meta = META[key]!;
+const ld = LD_FOR[key] ? businesses(lang, LD_FOR[key]!) : [];
+---
+<Base lang={lang} page={key} ogImage={meta.og} dock={meta.dock} jsonld={ld}>
+  <View lang={lang} />
+</Base>

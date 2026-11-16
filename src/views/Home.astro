@@ -1,0 +1,283 @@
+---
+import Pic from '../components/Pic.astro';
+import Icon from '../components/Icon.astro';
+import Cta from '../components/Cta.astro';
+import SectionHead from '../components/SectionHead.astro';
+import OfferCards from '../components/OfferCards.astro';
+import Reviews from '../components/Reviews.astro';
+import TodayHours from '../components/TodayHours.astro';
+import { dict } from '../i18n';
+import { href, type Lang } from '../lib/routes';
+import { site, telHref, directions, chaletBooking } from '../lib/data';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const T = dict[lang];
+const H = T.home;
+
+const cfg: Record<string, { main: string; second: string; sky: string; cta: string; url: string; variant: any }> = {
+  bakery: { main: 'bakery-croissant', second: 'bakery-pasticcera', sky: 'dawn', cta: T.cta.discoverBakery, url: href('bakery', lang), variant: 'bakery' },
+  rental: { main: 'seggiovia-monte-bianco', second: 'rental-sci-stockli', sky: 'morning', cta: T.cta.rentNow, url: site.booking.rentalOnline, variant: 'primary' },
+  restaurant: { main: 'food-risotto', second: 'food-esterno-neve', sky: 'noon', cta: T.cta.bookTable, url: site.booking.lunch, variant: 'primary' },
+  shop: { main: 'shop-grivel', second: 'family-negozio', sky: 'afternoon', cta: T.cta.discoverShop, url: href('shop', lang), variant: 'glacier' },
+  aperitivo: { main: 'food-cocktail', second: 'food-aperitivo', sky: 'golden', cta: T.cta.bookAperitivo, url: site.booking.aperitivo, variant: 'primary' },
+  chalet: { main: 'chalet-soggiorno', second: 'chalet-balcone', sky: 'night', cta: T.cta.bookChalet, url: chaletBooking(lang), variant: 'primary' },
+};
+const whyIcons = ['mountain', 'users', 'pin'];
+---
+<!-- ALBA -->
+<section class="hero" data-hero>
+  <div class="hero-media">
+    <Pic name="hero-dente-del-gigante" lang={lang} eager sizes="100vw" widths={[640, 960, 1280, 1600, 2000]} />
+  </div>
+  <div class="hero-sky" aria-hidden="true"></div>
+  <div class="wrap hero-copy on-dark" data-hero-copy>
+    <p class="kicker">{H.hero.kicker}</p>
+    <h1>{H.hero.title}<span class="em">{H.hero.titleEm}</span></h1>
+    <p class="lead">{H.hero.sub}</p>
+    <div class="actions">
+      <Cta href={site.booking.rentalOnline} lang={lang} size="lg">{T.cta.rentNow}</Cta>
+      <a class="offer-pill" href={href('offers', lang)}><Icon name="tag" />{H.hero.offer}</a>
+    </div>
+  </div>
+  <a class="scroll-cue" href="#giornata"><span>{H.hero.scroll}</span><i aria-hidden="true"></i></a>
+</section>
+
+<!-- LA GIORNATA -->
+<div class="day" id="giornata" data-daylight>
+  <div class="rail" aria-hidden="true">
+    <div class="sundial" data-sundial>
+      <svg viewBox="0 0 100 60" class="arc"><path d="M8 54 A42 42 0 0 1 92 54" /></svg>
+      <span class="sun"></span>
+      <span class="dial-time" data-sundial-time>07:30</span>
+      <span class="dial-label" data-sundial-label>{H.moments[0].label}</span>
+    </div>
+  </div>
+  {H.moments.map((m, i) => {
+    const c = cfg[m.id];
+    const night = c.sky === 'night';
+    return (
+      <section class:list={['moment', `sky-${c.sky}`, { 'on-dark': night, rev: i % 2 === 1 }]} data-moment data-time={m.time} data-label={m.label} data-sky={c.sky} aria-labelledby={`m-${m.id}`}>
+        <div class="wrap moment-grid">
+          <div class="moment-media">
+            <figure class="frame ratio-45 main zoom" data-parallax="7">
+              <Pic name={c.main} lang={lang} sizes="(min-width: 900px) 45vw, 92vw" widths={[480, 720, 960, 1280]} />
+            </figure>
+            <figure class="frame second" data-reveal style="--d:.2s">
+              <Pic name={c.second} lang={lang} sizes="(min-width: 900px) 18vw, 40vw" widths={[320, 480, 640]} />
+            </figure>
+          </div>
+          <div class="moment-copy">
+            <p class="time" data-reveal><span class="time-num">{m.time}</span><span class="time-label"><Icon name={night ? 'moon' : 'sun'} />{m.label}</span></p>
+            <h2 id={`m-${m.id}`} data-split>{m.title}</h2>
+            <p class="lead" data-reveal style="--d:.1s">{m.text}</p>
+            <div class="actions" data-reveal style="--d:.2s">
+              <Cta href={c.url} lang={lang} variant={c.variant} size="lg">{c.cta}</Cta>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  })}
+</div>
+
+<!-- PERCHÉ 4810 -->
+<section class="section bg-paper why">
+  <div class="wrap">
+    <SectionHead kicker={H.why.kicker} title={H.why.title} />
+    <ul class="grid grid-3" role="list">
+      {H.why.items.map((it, i) => (
+        <li class="why-item" data-reveal style={`--d:${i * 0.1}s`}>
+          <span class="icon-badge"><Icon name={whyIcons[i]} /></span>
+          <h3>{it.title}</h3>
+          <p class="muted">{it.text}</p>
+        </li>
+      ))}
+    </ul>
+    <div class="why-name" data-reveal>
+      <span class="why-num">4810</span>
+      <div><h3>{H.why.name}</h3><p class="muted">{H.why.nameText}</p></div>
+      <Cta href={href('family', lang)} lang={lang} variant="link">{T.nav.family}</Cta>
+    </div>
+  </div>
+</section>
+
+<!-- OFFERTE -->
+<section class="section offers-home">
+  <div class="wrap">
+    <SectionHead kicker={H.offers.kicker} title={H.offers.title} />
+    <OfferCards lang={lang} ids={['online15', 'transfer', 'outlet70']} />
+    <div class="actions center"><Cta href={href('offers', lang)} lang={lang} variant="ghost">{T.cta.seeOffers}</Cta></div>
+  </div>
+</section>
+
+<!-- RECENSIONI -->
+<section class="section bg-mist">
+  <div class="wrap">
+    <SectionHead kicker={H.reviews.kicker} title={H.reviews.title} />
+    <Reviews lang={lang} limit={3} />
+  </div>
+</section>
+
+<!-- DOVE SIAMO -->
+<section class="section where">
+  <div class="wrap">
+    <SectionHead kicker={H.where.kicker} title={H.where.title} />
+    <div class="grid grid-2">
+      {[
+        { key: 'dolonne', img: 'food-esterno-neve', title: H.where.dolonne, svc: 'rental', label: T.nav.rental },
+        { key: 'centro', img: 'shop-vetrine', title: H.where.centro, svc: 'shop', label: T.nav.shop },
+      ].map((w, i) => {
+        const p: any = (site.places as any)[w.key];
+        return (
+          <article class="where-card" data-reveal style={`--d:${i * 0.12}s`}>
+            <figure class="frame ratio-32 zoom"><Pic name={w.img} lang={lang} sizes="(min-width: 900px) 45vw, 92vw" widths={[480, 720, 960, 1280]} /></figure>
+            <div class="where-body">
+              <h3>{w.title}</h3>
+              <p class="where-addr">{p.street}, {p.zip} {p.city}</p>
+              <p class="where-today"><Icon name="clock" /><span>{T.common.today} · {w.label}: <TodayHours service={w.svc as any} lang={lang} /></span></p>
+              <div class="actions">
+                <a class="btn btn-ghost btn-sm" href={directions(w.key as any)} target="_blank" rel="noopener"><Icon name="pin" />{T.common.directions}<span class="sr-only"> {T.common.newTab}</span></a>
+                <a class="link" href={telHref(p.phone)}><Icon name="phone" />{p.phone}</a>
+              </div>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ---------- HERO (alba) ---------- */
+  .hero { position: relative; min-height: 100svh; display: grid; align-items: end; overflow: hidden; background: #2b1d22; isolation: isolate; }
+  .hero-media { position: absolute; inset: 0; z-index: -2; }
+  .hero-media :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; transform-origin: 50% 70%; }
+  .hero-sky {
+    position: absolute; inset: 0; z-index: -1;
+    background:
+      radial-gradient(120% 70% at 85% 10%, rgba(255, 170, 120, 0.42), transparent 60%),
+      linear-gradient(180deg, rgba(58, 34, 52, 0.55) 0%, rgba(203, 96, 21, 0.1) 38%, rgba(40, 24, 20, 0.2) 62%, rgba(26, 18, 16, 0.86) 100%);
+    mix-blend-mode: normal;
+  }
+  .hero-copy { padding-top: 9rem; padding-bottom: clamp(5rem, 3rem + 7vw, 9rem); color: #fff; }
+  .hero-copy .kicker { color: #f6c9a6; animation: rise 1.2s var(--ease-out) both; }
+  .hero h1 { font-size: var(--step-5); max-width: 13ch; text-shadow: 0 2px 40px rgba(0,0,0,.25); animation: rise 1.5s var(--ease-out) both 0.1s; }
+  .hero h1 .em { display: block; font-style: italic; font-weight: 400; font-size: 0.62em; color: #f9d7bd; margin-top: 0.15em; letter-spacing: 0; }
+  .hero .lead { color: rgba(255,255,255,.9); animation: rise 1.5s var(--ease-out) both 0.3s; }
+  .hero .actions { animation: rise 1.5s var(--ease-out) both 0.45s; }
+  @keyframes rise { from { opacity: 0; transform: translateY(26px); } }
+  .offer-pill {
+    display: inline-flex; align-items: center; gap: 0.55rem; min-height: 2.9rem; padding: 0.5rem 1.1rem 0.5rem 0.9rem;
+    border-radius: 999px; color: #fff; text-decoration: none; font-weight: 650; font-size: 0.95rem;
+    background: rgba(255,255,255,.12); box-shadow: inset 0 0 0 1px rgba(255,255,255,.35); backdrop-filter: blur(8px);
+    transition: background-color .3s, transform .4s var(--ease-out);
+  }
+  .offer-pill:hover { background: rgba(255,255,255,.22); transform: translateY(-2px); }
+  .offer-pill :global(.icon) { width: 1.15rem; height: 1.15rem; color: #f6c9a6; }
+  .scroll-cue {
+    position: absolute; left: 50%; bottom: 1.6rem; transform: translateX(-50%);
+    display: none; flex-direction: column; align-items: center; gap: 0.6rem;
+    color: rgba(255,255,255,.85); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 650;
+  }
+  .scroll-cue i { width: 1px; height: 3rem; background: linear-gradient(rgba(255,255,255,.9), transparent); animation: cue 2.4s var(--ease) infinite; transform-origin: top; }
+  @keyframes cue { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
+  @media (min-width: 900px) { .scroll-cue { display: flex; } }
+
+  /* ---------- LA GIORNATA ---------- */
+  .day { position: relative; }
+  .moment { position: relative; padding-block: clamp(5rem, 3rem + 8vw, 10rem); }
+  .sky-dawn { background: linear-gradient(180deg, #f1d6c6 0%, #f6e9dc 55%, #f8f1e7 100%); }
+  .sky-morning { background: linear-gradient(180deg, #f8f1e7 0%, #f3f2ee 50%, #ecf2f5 100%); }
+  .sky-noon { background: linear-gradient(180deg, #ecf2f5 0%, #f2f3ef 55%, #f7f0e4 100%); }
+  .sky-afternoon { background: linear-gradient(180deg, #f7f0e4 0%, #f5e6cf 60%, #f1dbbd 100%); }
+  .sky-golden { background: linear-gradient(180deg, #f1dbbd 0%, #efcaa6 55%, #e9bb98 100%); }
+  .sky-golden .lead { color: var(--ink); }
+  .sky-golden .kicker, .sky-golden .time-label { color: var(--ember-deep); }
+  .sky-night {
+    color: var(--snow);
+    padding-top: clamp(9rem, 6rem + 10vw, 15rem);
+    background:
+      radial-gradient(60% 40% at 80% 30%, rgba(122, 90, 140, 0.25), transparent 70%),
+      linear-gradient(180deg, #e9bb98 0%, #a8737a 9%, #5a4160 20%, #2c2640 38%, #1b1a2a 70%, #15141f 100%);
+  }
+  .sky-night::before {
+    content: ''; position: absolute; inset: 22% 0 0 0; pointer-events: none;
+    background-image: radial-gradient(1px 1px at 12% 30%, rgba(255,255,255,.7), transparent), radial-gradient(1px 1px at 32% 12%, rgba(255,255,255,.5), transparent),
+      radial-gradient(1.5px 1.5px at 58% 22%, rgba(255,255,255,.6), transparent), radial-gradient(1px 1px at 78% 8%, rgba(255,255,255,.55), transparent),
+      radial-gradient(1px 1px at 90% 34%, rgba(255,255,255,.45), transparent), radial-gradient(1px 1px at 45% 40%, rgba(255,255,255,.35), transparent);
+  }
+
+  .moment-grid { display: grid; gap: clamp(2.5rem, 1rem + 5vw, 6rem); align-items: center; }
+  @media (min-width: 900px) {
+    .moment-grid { grid-template-columns: 1fr 1fr; }
+    .moment.rev .moment-media { order: 2; }
+  }
+  @media (min-width: 1240px) { .day .moment-grid { padding-left: 6rem; } }
+  .moment-media { position: relative; padding-bottom: 2.5rem; }
+  .moment-media .main { border-radius: 34px; box-shadow: var(--shadow-lg); }
+  .moment-media .second {
+    position: absolute; right: -0.5rem; bottom: 0; width: 42%; aspect-ratio: 1; border-radius: 24px;
+    border: 6px solid rgba(255,255,255,.9); box-shadow: var(--shadow);
+  }
+  .moment.rev .moment-media .second { right: auto; left: -0.5rem; }
+  .sky-night .moment-media .second { border-color: rgba(255,255,255,.12); }
+  @media (max-width: 640px) { .moment-media .second { width: 38%; right: 0.5rem; } .moment.rev .moment-media .second { left: 0.5rem; } }
+  .time { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 1rem; }
+  .time-num { font-family: var(--serif); font-size: clamp(3.4rem, 2rem + 4vw, 6rem); line-height: 0.9; font-weight: 500; letter-spacing: -0.03em; color: var(--ember-ink); font-variant-numeric: lining-nums; }
+  .sky-night .time-num { color: #f6c9a6; }
+  .time-label { display: inline-flex; align-items: center; gap: 0.45rem; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+  .sky-night .time-label { color: rgba(247,244,239,.75); }
+  .time-label :global(.icon) { width: 1.1rem; height: 1.1rem; }
+  .moment h2 { font-size: var(--step-4); max-width: 14ch; }
+  .sky-night .lead { color: rgba(247,244,239,.86); }
+
+  /* Meridiana: segue lo scorrimento (solo desktop e con effetti attivi) */
+  .rail { position: absolute; inset: 0 auto 0 0; width: 8rem; z-index: 5; pointer-events: none; display: none; }
+  :global(html.gsap) .rail { display: block; }
+  @media (max-width: 1239px) { .rail { display: none !important; } }
+  .sundial {
+    --p: 0; position: sticky; top: calc(50vh - 4rem); margin-left: max(1.5rem, calc((100vw - var(--max)) / 2 - 2rem));
+    width: 6rem; display: grid; justify-items: center; gap: 0.2rem; opacity: 0; transition: opacity .6s var(--ease), color .6s var(--ease);
+    color: var(--ink);
+  }
+  .sundial.on { opacity: 1; }
+  .sundial[data-sky='night'] { color: var(--snow); }
+  .arc { width: 6rem; overflow: visible; }
+  .arc path { fill: none; stroke: currentColor; stroke-opacity: 0.25; stroke-width: 1.2; stroke-dasharray: 2 4; }
+  .sun {
+    position: absolute; top: 0; left: 0; width: 0.9rem; height: 0.9rem; border-radius: 50%;
+    background: radial-gradient(circle, #ffd8a8 0%, #cb6015 70%); box-shadow: 0 0 18px 4px rgba(203, 96, 21, 0.45);
+    /* posizione lungo l'arco: angolo da 180° a 0° */
+    --a: calc(3.14159rad * (1 - var(--p)));
+    transform: translate(calc(3rem + cos(var(--a)) * 2.55rem - 0.45rem), calc(3.25rem - sin(var(--a)) * 2.55rem - 0.45rem));
+  }
+  .sundial[data-sky='night'] .sun { background: radial-gradient(circle, #fff 0%, #c9c4e6 70%); box-shadow: 0 0 18px 4px rgba(201, 196, 230, 0.45); }
+  .dial-time { font-family: var(--serif); font-size: 1.6rem; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; }
+  .dial-label { font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700; opacity: 0.7; }
+
+  /* ---------- Perché 4810 ---------- */
+  .why-item h3 { font-size: var(--step-2); }
+  .why-name {
+    display: grid; gap: 1rem 2rem; align-items: center; margin-top: clamp(3rem, 2rem + 3vw, 5rem);
+    padding: clamp(1.5rem, 1rem + 2vw, 2.5rem); border-radius: var(--radius-lg);
+    background: linear-gradient(120deg, #2a2420, #4d453f); color: var(--snow);
+  }
+  .why-name .muted { color: rgba(247,244,239,.78); }
+  .why-name h3 { margin-bottom: 0.2em; }
+  .why-name :global(.link) { color: #f6c9a6; }
+  @media (min-width: 760px) { .why-name { grid-template-columns: auto 1fr auto; } }
+  .why-num { font-family: var(--serif); font-size: clamp(3.5rem, 2rem + 5vw, 6rem); line-height: 0.9; font-weight: 600; letter-spacing: -0.03em; background: linear-gradient(180deg, #f6c9a6, #cb6015); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+  .offers-home { background: linear-gradient(180deg, var(--paper), var(--snow)); }
+  .actions.center { justify-content: center; margin-top: 2.5rem; }
+
+  /* ---------- Dove siamo ---------- */
+  .where-card { background: var(--paper); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid rgba(42,36,32,.06); display: flex; flex-direction: column; }
+  .where-card .frame { border-radius: 0; box-shadow: none; }
+  .where-body { padding: clamp(1.4rem, 1rem + 1.5vw, 2.2rem); }
+  .where-body h3 { font-size: var(--step-2); }
+  .where-addr { color: var(--ink-2); margin-bottom: 0.6rem; }
+  .where-today { display: flex; gap: 0.6rem; align-items: flex-start; font-weight: 600; }
+  .where-today :global(.icon) { width: 1.2rem; height: 1.2rem; color: var(--ember-ink); margin-top: 0.2rem; flex: none; }
+  .where-body .actions { margin-top: 1.2rem; }
+</style>

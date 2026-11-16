@@ -1,0 +1,26 @@
+---
+/** Orari di OGGI per un servizio: 7 (o 14, se stagionali) varianti, mostrate via CSS. Nessun salto di layout. */
+import { site, DAYS, fmtSlots, slotsFor, serviceTbc, tbc } from '../lib/data';
+import type { Lang } from '../lib/routes';
+import { dict } from '../i18n';
+interface Props { service: keyof typeof site.services; lang: Lang; compact?: boolean }
+const { service, lang, compact = false } = Astro.props;
+const s: any = (site.services as any)[service];
+const src: any = s.sameHoursAs ? (site.services as any)[s.sameHoursAs] : s;
+const h = src.hours ?? {};
+const seasonal = !!(h.winter && h.summer);
+const flag = serviceTbc(service);
+const badge = compact ? `<span class="tbc" title="${tbc(lang)}" aria-label="${tbc(lang)}">?</span>` : `<span class="tbc">${tbc(lang)}</span>`;
+const render = (txt: string) => txt.replaceAll(tbc(lang), badge);
+const variants: { d: number; s?: string; text: string }[] = [];
+for (let i = 0; i < 7; i++) {
+  if (seasonal) {
+    for (const season of ['winter', 'summer']) variants.push({ d: i, s: season, text: fmtSlots(slotsFor(h[season], DAYS[i]), lang) });
+  } else {
+    variants.push({ d: i, text: fmtSlots(slotsFor(h.all, DAYS[i]), lang) });
+  }
+}
+---
+<span class="today-hours">{variants.map((v) => (
+  <span class="d" data-d={v.d} data-s={v.s} set:html={render(v.text)} />
+))}<span class="d-fallback">{dict[lang].common.hours}</span>{flag && <> <Fragment set:html={badge} /></>}</span>

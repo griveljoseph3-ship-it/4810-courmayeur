@@ -1,0 +1,117 @@
+---
+import PageHero from '../components/PageHero.astro';
+import Pic from '../components/Pic.astro';
+import Icon from '../components/Icon.astro';
+import Cta from '../components/Cta.astro';
+import SectionHead from '../components/SectionHead.astro';
+import PlaceInfo from '../components/PlaceInfo.astro';
+import Faq from '../components/Faq.astro';
+import Gallery from '../components/Gallery.astro';
+import Reviews from '../components/Reviews.astro';
+import { dict, fill } from '../i18n';
+import { href, asset, type Lang } from '../lib/routes';
+import { site, fmtTime, tbc, wineList, telHref } from '../lib/data';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const T = dict[lang];
+const R = T.restaurant;
+const m = site.services.food.moments;
+const ap = m.aperitivo;
+const tb = `<span class="tbc">${tbc(lang)}</span>`;
+const moments = [
+  { icon: 'croissant', t: R.moments.breakfast, when: `${T.common.from} ${fmtTime(m.breakfast.from, lang)}` },
+  { icon: 'fork', t: R.moments.lunch, when: `${fmtTime(m.lunch.from, lang)}–${fmtTime(m.lunch.to, lang)} ${tb}`, note: R.moments.lunch.note },
+  { icon: 'cake', t: R.moments.snack, when: `${fmtTime(ap.weekdays[0], lang)}–${fmtTime(ap.weekend[1], lang)}` },
+  { icon: 'glass', t: { ...R.moments.aperitivo, text: fill(R.moments.aperitivo.text, { tapas: fmtTime(m.tapasFrom, lang) }) }, when: `${T.common.days.mon.slice(0, 3)}, ${T.common.days.wed.slice(0, 3)}, ${T.common.days.thu.slice(0, 3)} ${fmtTime(ap.weekdays[0], lang)}–${fmtTime(ap.weekdays[1], lang)} · ${T.common.days.fri.slice(0, 3)}–${T.common.days.sun.slice(0, 3)} ${fmtTime(ap.weekend[0], lang)}–${fmtTime(ap.weekend[1], lang)}`, cta: true },
+];
+const faq = T.faq.groups.food.items.map((it) => ({ ...it, a: fill(it.a, { phone: site.places.dolonne.phone }) }));
+---
+<PageHero lang={lang} image="food-camino" kicker={R.hero.kicker} title={R.hero.title} sub={R.hero.sub} tint="dusk">
+  <Cta href={site.booking.lunch} lang={lang} size="lg">{T.cta.bookTable}</Cta>
+</PageHero>
+
+<section class="section-tight bg-ink on-dark menus">
+  <div class="wrap menus-row">
+    <p class="kicker">{R.menus.title} · {fill(R.menus.season, { season: site.menus.restaurant.season })}</p>
+    <ul role="list">
+      <li><a href={asset(site.menus.restaurant.file)} target="_blank" rel="noopener"><Icon name="doc" />{T.cta.menuRestaurant}<span class="pdf">PDF</span></a></li>
+      <li><a href={asset(site.menus.bar.file)} target="_blank" rel="noopener"><Icon name="doc" />{T.cta.menuBar}<span class="pdf">PDF</span></a></li>
+      <li><a href={wineList(lang)} target="_blank" rel="noopener"><Icon name="wine" />{T.cta.wineList}<Icon name="external" class="ext" /></a></li>
+    </ul>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <SectionHead title={R.moments.title} />
+    <ul class="grid grid-4" role="list">
+      {moments.map((mo, i) => (
+        <li class="card moment-card" data-reveal style={`--d:${i * 0.08}s`}>
+          <span class="icon-badge"><Icon name={mo.icon} /></span>
+          <h3>{mo.t.title}</h3>
+          <p class="when" set:html={mo.when} />
+          <p class="muted">{mo.t.text}</p>
+          {mo.note && <p class="small muted">{mo.note}</p>}
+          {mo.cta && <Cta href={site.booking.aperitivo} lang={lang} variant="link">{T.cta.bookAperitivo}</Cta>}
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<section class="section-tight"><div class="wrap"><Gallery lang={lang} images={['food-sala', 'food-piatto', 'food-salmone', 'food-tagliere', 'food-sala-vetrate', 'food-aperitivo']} /></div></section>
+
+<section class="section bg-paper">
+  <div class="wrap split">
+    <figure class="frame ratio-45 zoom" data-parallax="6"><Pic name="food-esterno-neve" lang={lang} /></figure>
+    <div>
+      <p class="kicker" data-reveal>{R.farm.kicker}</p>
+      <h2 data-split>{R.farm.title}</h2>
+      <p class="lead" data-reveal>{R.farm.text}</p>
+      <div class="actions" data-reveal><Cta href={site.booking.lunch} lang={lang} size="lg">{T.cta.bookTable}</Cta></div>
+    </div>
+  </div>
+</section>
+
+<section class="section bg-mist">
+  <div class="wrap">
+    <SectionHead kicker={T.home.reviews.kicker} title={T.home.reviews.title} />
+    <Reviews lang={lang} service="food" limit={3} />
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap split info-split">
+    <div>
+      <SectionHead title={R.faqTitle} />
+      <Faq items={faq} />
+      <div class="events-teaser" data-reveal>
+        <h3>{R.events.title}</h3>
+        <p class="muted">{R.events.text}</p>
+        <Cta href={href('events', lang)} lang={lang} variant="link">{T.cta.requestQuote}</Cta>
+      </div>
+    </div>
+    <PlaceInfo lang={lang} title="4810 We Are Food · Dolonne" place="dolonne" service="food">
+      <Cta href={site.booking.lunch} lang={lang} size="sm">{T.cta.bookTable}</Cta>
+    </PlaceInfo>
+  </div>
+</section>
+<style>
+  .menus-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem; }
+  .menus .kicker { margin: 0; }
+  .menus ul { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+  .menus a {
+    display: inline-flex; align-items: center; gap: 0.55rem; min-height: 3rem; padding: 0.5rem 1.1rem; border-radius: 999px;
+    background: rgba(255,255,255,.08); box-shadow: inset 0 0 0 1px rgba(255,255,255,.2); text-decoration: none; font-weight: 650;
+    transition: background-color .3s, transform .4s var(--ease-out);
+  }
+  .menus a:hover { background: rgba(255,255,255,.16); transform: translateY(-2px); }
+  .menus :global(.icon) { width: 1.2rem; height: 1.2rem; color: #f6c9a6; }
+  .menus :global(.ext) { width: 0.95rem; height: 0.95rem; color: rgba(255,255,255,.6); }
+  .pdf { font-size: 0.68rem; font-weight: 800; letter-spacing: .08em; padding: 0.1rem 0.4rem; border-radius: 6px; background: rgba(255,255,255,.14); }
+  .moment-card h3 { font-size: var(--step-2); }
+  .when { font-weight: 700; font-variant-numeric: tabular-nums; color: var(--ember-ink); font-size: 0.95rem; }
+  .info-split { align-items: start; }
+  .events-teaser { margin-top: 2.5rem; padding: 1.6rem; border-radius: var(--radius); background: var(--mist); }
+  .events-teaser h3 { font-size: var(--step-2); }
+</style>

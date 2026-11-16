@@ -1,0 +1,17 @@
+---
+import PageHero from '../components/PageHero.astro';
+import Cta from '../components/Cta.astro';
+import OfferCards from '../components/OfferCards.astro';
+import { dict } from '../i18n';
+import { type Lang } from '../lib/routes';
+import { site } from '../lib/data';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const T = dict[lang];
+---
+<PageHero lang={lang} image="panorama-piste" kicker={T.offers.hero.kicker} title={T.offers.hero.title} sub={T.offers.hero.sub} short>
+  <Cta href={site.booking.rentalOnline} lang={lang} size="lg">{T.cta.rentNow}</Cta>
+</PageHero>
+<section class="section">
+  <div class="wrap"><OfferCards lang={lang} /></div>
+</section>

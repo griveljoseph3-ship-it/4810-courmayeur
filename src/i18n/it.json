@@ -1,0 +1,923 @@
+{
+  "meta": {
+    "lang": "it",
+    "name": "Italiano",
+    "short": "IT"
+  },
+  "common": {
+    "tbc": "[DA CONFERMARE]",
+    "closed": "Chiuso",
+    "today": "Oggi",
+    "todayHours": "Orari di oggi",
+    "allHours": "Tutti gli orari di oggi",
+    "call": "Chiama",
+    "directions": "Come arrivare",
+    "book": "Prenota",
+    "email": "Scrivici",
+    "menu": "Menu",
+    "openMenu": "Apri il menu",
+    "close": "Chiudi",
+    "language": "Lingua",
+    "skip": "Vai al contenuto",
+    "discover": "Scopri",
+    "readMore": "Scopri di più",
+    "address": "Indirizzo",
+    "phone": "Telefono",
+    "hours": "Orari",
+    "winter": "Inverno",
+    "summer": "Estate",
+    "allYear": "Aperti tutto l'anno",
+    "everyDay": "Tutti i giorni",
+    "newTab": "(si apre in una nuova scheda)",
+    "pdf": "PDF",
+    "highSeason": "Aperto nei periodi di alta stagione",
+    "openDays": "Giorni di apertura",
+    "seasonDates": {
+      "winter": "20 ottobre – 30 aprile",
+      "summer": "1 maggio – 19 ottobre"
+    },
+    "days": {
+      "mon": "Lunedì",
+      "tue": "Martedì",
+      "wed": "Mercoledì",
+      "thu": "Giovedì",
+      "fri": "Venerdì",
+      "sat": "Sabato",
+      "sun": "Domenica"
+    },
+    "stars": "stelle",
+    "website": "Sito web",
+    "back": "Torna alla home",
+    "photoOf": "Foto",
+    "from": "Dalle"
+  },
+  "nav": {
+    "home": "Home",
+    "rental": "Noleggio",
+    "shop": "Negozio",
+    "outlet": "Outlet",
+    "restaurant": "Ristorante",
+    "bakery": "Pasticceria",
+    "chalet": "Chalet",
+    "offers": "Offerte",
+    "hotels": "Hotel convenzionati",
+    "services": "Servizi",
+    "events": "Eventi",
+    "brands": "Brand",
+    "family": "La famiglia",
+    "faq": "Domande frequenti",
+    "contact": "Contatti",
+    "groups": {
+      "do": "Vivi 4810",
+      "plan": "Organizza",
+      "about": "Conosci 4810"
+    }
+  },
+  "cta": {
+    "rentNow": "Noleggia ora",
+    "bookTable": "Prenota il tavolo",
+    "bookAperitivo": "Prenota l'aperitivo",
+    "bookChalet": "Prenota lo chalet",
+    "discoverBakery": "Scopri la pasticceria",
+    "discoverShop": "Scopri il negozio",
+    "orderCake": "Ordina la tua torta",
+    "requestQuote": "Richiedi un preventivo",
+    "seeOffers": "Vedi tutte le offerte",
+    "seeHotels": "Vedi gli hotel convenzionati",
+    "requestBike": "Richiedi la tua e-bike",
+    "send": "Invia la richiesta",
+    "goOutlet": "Scopri l'outlet",
+    "seeRental": "Vai al noleggio",
+    "menuRestaurant": "Menu ristorante",
+    "menuBar": "Menu bar",
+    "wineList": "Carta dei vini",
+    "seeServices": "Tutti i servizi",
+    "seeBrands": "Tutti i brand",
+    "writeUs": "Scrivici una email"
+  },
+  "dock": {
+    "label": "Informazioni pratiche",
+    "contexts": {
+      "rental": "Noleggio",
+      "shop": "Negozio Via Roma",
+      "outlet": "Outlet",
+      "food": "Ristorante",
+      "bakery": "Pasticceria",
+      "chalet": "Chalet"
+    },
+    "sheetTitle": "Oggi a Courmayeur",
+    "bookTitle": "Prenota in un clic"
+  },
+  "footer": {
+    "tagline": "Negozio, noleggio, ristorante, pasticceria e chalet della famiglia Grivel, ai piedi del Monte Bianco.",
+    "slopes": "Situazione piste",
+    "weather": "Meteo Courmayeur",
+    "privacy": "Privacy policy",
+    "cookies": "Cookie policy",
+    "cookiePrefs": "Preferenze cookie",
+    "follow": "Seguici",
+    "vat": "P. IVA"
+  },
+  "seo": {
+    "home": {
+      "title": "Noleggio sci, negozio sport, ristorante, pasticceria e chalet a Courmayeur | 4810",
+      "description": "4810 Courmayeur: noleggio sci a 100 m dalla telecabina di Dolonne, negozio di montagna in Via Roma, outlet, ristorante, pasticceria e chalet della famiglia Grivel."
+    },
+    "rental": {
+      "title": "Noleggio sci e snowboard a Dolonne, Courmayeur | 4810 Rental",
+      "description": "Noleggia sci, scarponi, snowboard e attrezzatura da scialpinismo a 100 m dalla telecabina di Dolonne. Prenota online con il 15% di sconto."
+    },
+    "shop": {
+      "title": "Negozio sport e montagna in Via Roma, Courmayeur | 4810 Shopping",
+      "description": "Abbigliamento tecnico, sci, scarponi, arrampicata e trekking nel negozio 4810 di Via Roma 106 e a Dolonne. Aperti tutto l'anno."
+    },
+    "outlet": {
+      "title": "Outlet sport e montagna a Courmayeur, fino al -70% | 4810 Outlet",
+      "description": "Abbigliamento e attrezzatura dei migliori brand di montagna con sconti fino al 70%, a due passi dal negozio 4810 di Courmayeur."
+    },
+    "restaurant": {
+      "title": "Ristorante, bar e aperitivo a Dolonne, Courmayeur | 4810 We Are Food",
+      "description": "Colazione, pranzo, merenda e aperitivo alla partenza degli impianti di Dolonne. Cucina di montagna con prodotti della famiglia Grivel. Prenota il tavolo."
+    },
+    "bakery": {
+      "title": "Pasticceria, forno e gelateria a Courmayeur | 4810 Sweet Bakery",
+      "description": "Brioche, torte, pane e gelato artigianali a Dolonne, con ingredienti a chilometro zero. Torte su ordinazione per ogni occasione."
+    },
+    "chalet": {
+      "title": "Chalet in affitto a Courmayeur, ai piedi del Monte Bianco | 4810 Chalet",
+      "description": "Gli chalet della famiglia Grivel a Courmayeur: case di montagna calde e curate per vacanze nella natura e il Tour du Mont Blanc. Prenota online."
+    },
+    "offers": {
+      "title": "Offerte e convenzioni noleggio sci a Courmayeur | 4810",
+      "description": "15% di sconto sul noleggio online, transfer gratuito e vantaggi negli hotel convenzionati, outlet fino al -70%."
+    },
+    "hotels": {
+      "title": "Hotel convenzionati con il noleggio 4810 a Courmayeur",
+      "description": "Gli hotel di Courmayeur, Dolonne, Entrèves, La Palud e Val Ferret convenzionati con 4810 Rental: vantaggi sul noleggio e transfer gratuito."
+    },
+    "services": {
+      "title": "Servizi: ski service, boot fitting, deposito sci e transfer | 4810 Courmayeur",
+      "description": "Ski service con robot Wintersteiger, boot fitting su misura, deposito sci riscaldato, transfer dagli hotel, noleggio e-bike."
+    },
+    "events": {
+      "title": "Eventi aziendali e feste private a Courmayeur | 4810",
+      "description": "Organizza cene aziendali e feste private fino a circa 120 persone a Dolonne: menu su misura, torte home made, cocktail e DJ set."
+    },
+    "brands": {
+      "title": "I brand di sci, scarponi e abbigliamento | 4810 Courmayeur",
+      "description": "Stöckli, Black Crows, Arc'teryx, Grivel, Fjällräven, Tecnica e molti altri brand di montagna da 4810 a Courmayeur."
+    },
+    "family": {
+      "title": "La famiglia Grivel e la storia di 4810 | Courmayeur",
+      "description": "Dalla forgia Grivel di Dolonne al negozio 4810: una famiglia di Courmayeur legata alla montagna da oltre due secoli."
+    },
+    "faq": {
+      "title": "Domande frequenti su noleggio, negozio e ristorante | 4810 Courmayeur",
+      "description": "Risposte rapide su noleggio sci, deposito, abbigliamento, e-bike, negozio e ristorante 4810 a Courmayeur."
+    },
+    "contact": {
+      "title": "Contatti, orari e indirizzi | 4810 Courmayeur",
+      "description": "Indirizzi, telefoni, email e orari di 4810 a Courmayeur (Via Roma 106) e Dolonne (Via des Forges 3)."
+    },
+    "404": {
+      "title": "Pagina non trovata | 4810 Courmayeur",
+      "description": "La pagina che cerchi non esiste più."
+    }
+  },
+  "home": {
+    "hero": {
+      "kicker": "Courmayeur · Monte Bianco",
+      "title": "Una giornata a Courmayeur",
+      "titleEm": "dall'alba al tramonto",
+      "sub": "Colazione, sci, shopping, pranzo, aperitivo e una notte in chalet. Tutto da 4810, dalla famiglia Grivel.",
+      "offer": "−15% sul noleggio prenotando online",
+      "scroll": "Scorri la giornata"
+    },
+    "moments": [
+      {
+        "id": "bakery",
+        "time": "07:30",
+        "label": "Mattina",
+        "title": "Colazione appena sfornata",
+        "text": "Brioche, torte e pane preparati ogni mattina dalla nostra pasticcera, con burro e latte delle nostre mucche."
+      },
+      {
+        "id": "rental",
+        "time": "08:30",
+        "label": "Sugli sci",
+        "title": "Noleggia e sei già in pista",
+        "text": "Il noleggio è a 100 metri dalla telecabina di Dolonne. Prenota online, ritira in Via des Forges 3 e risparmi il 15%."
+      },
+      {
+        "id": "restaurant",
+        "time": "12:30",
+        "label": "Pranzo",
+        "title": "Pranzo di montagna, senza fretta",
+        "text": "Piatti alla carta preparati dal nostro chef, oppure un hamburger o un'insalata se vuoi tornare subito sulle piste."
+      },
+      {
+        "id": "shop",
+        "time": "15:30",
+        "label": "Pomeriggio",
+        "title": "Shopping in Via Roma",
+        "text": "Il nostro negozio storico nel centro di Courmayeur: abbigliamento tecnico, sci, arrampicata e consigli di chi la montagna la vive."
+      },
+      {
+        "id": "aperitivo",
+        "time": "18:00",
+        "label": "Aperitivo",
+        "title": "L'aperitivo al tramonto",
+        "text": "Un cocktail, un calice di vino o una birra fresca, con i nostri stuzzichini, mentre la luce cala sul Monte Bianco."
+      },
+      {
+        "id": "chalet",
+        "time": "21:00",
+        "label": "Sera",
+        "title": "La notte nel tuo chalet",
+        "text": "Case di montagna arredate con cura da Maria Teresa, calde e accoglienti. Come a casa tua, ai piedi del Monte Bianco."
+      }
+    ],
+    "why": {
+      "kicker": "Perché 4810",
+      "title": "Tutto quello che ti serve, in un solo posto",
+      "items": [
+        {
+          "title": "Ai piedi del Monte Bianco",
+          "text": "Il noleggio e il ristorante sono a 100 metri dalla telecabina di Dolonne. Il negozio è in Via Roma, nel centro di Courmayeur."
+        },
+        {
+          "title": "Una famiglia di montagna",
+          "text": "I Grivel sono legati alla montagna da oltre due secoli: fu Henry Grivel a progettare i primi ramponi a 10 punte."
+        },
+        {
+          "title": "Tutto in un solo posto",
+          "text": "Noleggio, ski service, deposito, negozio, ristorante, pasticceria e chalet: una sola famiglia, un solo indirizzo di fiducia."
+        }
+      ],
+      "name": "Perché si chiama 4810?",
+      "nameText": "In onore dei 4810 metri del Monte Bianco, simbolo della Valle d'Aosta."
+    },
+    "offers": {
+      "kicker": "Offerte",
+      "title": "Più montagna, meno spesa"
+    },
+    "reviews": {
+      "kicker": "Dicono di noi",
+      "title": "Le parole dei nostri ospiti",
+      "rating": "{rating} su 5 su {source} · {count} recensioni",
+      "original": "Recensione originale"
+    },
+    "where": {
+      "kicker": "Dove siamo",
+      "title": "Due indirizzi a Courmayeur",
+      "dolonne": "Dolonne · Noleggio, ristorante, pasticceria, negozio",
+      "centro": "Centro · Negozio storico e outlet"
+    }
+  },
+  "rental": {
+    "hero": {
+      "kicker": "4810 Rental · Dolonne",
+      "title": "Il tuo noleggio ai piedi delle piste",
+      "sub": "A 100 metri dalla telecabina di Dolonne. Prenota online: risparmi il 15% e ritiri in Via des Forges 3."
+    },
+    "steps": {
+      "title": "Noleggiare in 3 passaggi",
+      "items": [
+        {
+          "title": "Scegli online",
+          "text": "Sci, scarponi, snowboard e casco in pochi clic, con il 15% di sconto."
+        },
+        {
+          "title": "Ritira in Via des Forges 3",
+          "text": "Il nostro staff regola l'attrezzatura su di te e ti consiglia la scelta giusta."
+        },
+        {
+          "title": "Sei in pista",
+          "text": "La telecabina di Dolonne parte a 100 metri. Parcheggio davanti al negozio."
+        }
+      ]
+    },
+    "what": {
+      "kicker": "Cosa noleggiamo",
+      "title": "Attrezzatura top di gamma, per ogni livello",
+      "items": [
+        {
+          "icon": "ski",
+          "title": "Sci",
+          "text": "Black Crows, DPS, Dynastar, Movement, Rossignol, Salomon e Stöckli."
+        },
+        {
+          "icon": "boot",
+          "title": "Scarponi",
+          "text": "Nordica, Dalbello e Tecnica, regolati sul tuo piede."
+        },
+        {
+          "icon": "board",
+          "title": "Snowboard e splitboard",
+          "text": "Tavole e scarponi Burton, tavole Nitro."
+        },
+        {
+          "icon": "freeride",
+          "title": "Freeride e scialpinismo",
+          "text": "Sci, pelli, coltelli, ARTVA, pala e sonda, zaini normali o con ABS, racchette da neve."
+        },
+        {
+          "icon": "kids",
+          "title": "Bambini",
+          "text": "Sci Rossignol, Völkl, Blizzard, Dynastar e Head. Scarponi Dalbello, Lange e Nordica."
+        },
+        {
+          "icon": "jacket",
+          "title": "Abbigliamento",
+          "text": "Completi da sci per adulti, puliti e igienizzati. Non noleggiamo maschere, occhiali e guanti."
+        }
+      ]
+    },
+    "season": {
+      "kicker": "Per chi scia spesso",
+      "title": "Abbonamento annuale e noleggio stagionale",
+      "text": "Con l'abbonamento annuale provi ogni volta un'attrezzatura nuova. Puoi anche noleggiare gli sci per tutta la stagione, per adulti e bambini, e acquistare gli sci usati del nostro noleggio dopo averli provati.",
+      "cta": "Chiedi informazioni"
+    },
+    "summer": {
+      "kicker": "In estate",
+      "title": "E-bike e attrezzatura per la montagna",
+      "text": "E-bike biammortizzate, front e junior, con consigli sui percorsi migliori. A noleggio anche kit da ferrata, ramponi, piccozze, imbracature, caschi, passeggini da montagna e porta-enfant.",
+      "pricesTitle": "Listino e-bike",
+      "pricesNote": "Listino estate 2025",
+      "cols": {
+        "model": "Modello",
+        "day": "Giornata (8:30–18:30)",
+        "half": "Mezza giornata",
+        "short": "1–3 ore"
+      },
+      "models": {
+        "full": "E-bike biammortizzata",
+        "front": "E-bike front",
+        "junior": "E-bike junior"
+      }
+    },
+    "bikeForm": {
+      "title": "Richiedi la tua e-bike",
+      "intro": "Compila i campi: si aprirà la tua email con la richiesta pronta da inviare.",
+      "date": "Data del noleggio",
+      "model": "Modello",
+      "size": "Taglia",
+      "qty": "Numero di bici",
+      "name": "Nome e cognome",
+      "phone": "Telefono",
+      "subject": "Richiesta noleggio e-bike"
+    },
+    "servicesTitle": "Servizi del noleggio",
+    "faqTitle": "Domande sul noleggio",
+    "infoTitle": "Dove ritirare l'attrezzatura"
+  },
+  "shop": {
+    "hero": {
+      "kicker": "4810 Shopping · Via Roma 106",
+      "title": "Il negozio di montagna nel cuore di Courmayeur",
+      "sub": "Dal nostro storico store di Via Roma al nuovo spazio di Dolonne: i migliori brand e un personale che la montagna la vive."
+    },
+    "intro": {
+      "kicker": "Da chi ama la montagna, per chi ama la montagna",
+      "title": "30 anni di esperienza al tuo servizio",
+      "text": "In inverno trovi brand ricercati per vivere la neve con stile e le migliori attrezzature tecniche per le piste. In estate, tutto per l'arrampicata su roccia e ghiaccio, il trekking e il trail running."
+    },
+    "items": [
+      {
+        "icon": "jacket",
+        "title": "Abbigliamento tecnico",
+        "text": "Arc'teryx, Fjällräven, The North Face, Montura, Toni Sailer e altri."
+      },
+      {
+        "icon": "axe",
+        "title": "Arrampicata",
+        "text": "Tutto il materiale per roccia e ghiaccio, a partire da Grivel."
+      },
+      {
+        "icon": "boot",
+        "title": "Scarponi su misura",
+        "text": "Boot fitting professionale per scarponi perfetti sul tuo piede."
+      },
+      {
+        "icon": "hike",
+        "title": "Trekking e trail",
+        "text": "Attrezzatura e consigli sui sentieri e sulle guide alpine."
+      }
+    ],
+    "places": {
+      "title": "Due negozi",
+      "centro": "Negozio storico in Via Roma",
+      "dolonne": "Negozio di Dolonne, accanto al noleggio"
+    }
+  },
+  "outlet": {
+    "hero": {
+      "kicker": "4810 Outlet · Courmayeur centro",
+      "title": "L'occasione giusta per scendere in pista",
+      "sub": "Abbigliamento e attrezzatura dei migliori brand con sconti fino al 70%, a due passi dal negozio di Via Roma."
+    },
+    "intro": {
+      "title": "Vivi la montagna in libertà",
+      "text": "Una selezione attenta di capi tecnici con tessuti all'avanguardia. Se hai esigenze particolari o sei indeciso, il nostro staff ti aiuta a scegliere i tuoi compagni d'avventura."
+    },
+    "badge": "fino al −70%"
+  },
+  "restaurant": {
+    "hero": {
+      "kicker": "4810 We Are Food · Dolonne",
+      "title": "Il gusto della montagna, dalla colazione all'ultimo brindisi",
+      "sub": "Alla partenza degli impianti di Dolonne, nel calore del legno e del camino."
+    },
+    "moments": {
+      "title": "Ogni momento ha il suo piatto",
+      "breakfast": {
+        "title": "Colazione",
+        "text": "Croissant appena sfornati, torte fatte in casa e sandwich."
+      },
+      "lunch": {
+        "title": "Pranzo",
+        "text": "Hai tempo? Scegli un piatto alla carta. Sei di fretta? Hamburger, insalata o sandwich.",
+        "note": "In alta stagione la cucina resta aperta più a lungo."
+      },
+      "snack": {
+        "title": "Merenda",
+        "text": "Torte appena sfornate, sandwich, cioccolata calda, infusi o una birra fresca: la merenda di montagna."
+      },
+      "aperitivo": {
+        "title": "Aperitivo al tramonto",
+        "text": "Cocktail, vino al calice e birra, con stuzzichini, tranci di pizza e panini caldi. Tapas e crostini dalle {tapas}."
+      }
+    },
+    "farm": {
+      "kicker": "Dalla nostra terra",
+      "title": "Ingredienti che conosciamo per nome",
+      "text": "La famiglia Grivel alleva mucche e galline e coltiva i propri orti. Per questo in cucina usiamo materie prime genuine e selezionate con cura."
+    },
+    "menus": {
+      "title": "Guarda i menu",
+      "season": "Stagione {season}"
+    },
+    "events": {
+      "title": "Una cena aziendale o una festa?",
+      "text": "Il locale ospita fino a circa 120 persone. Pensiamo noi a menu, torte e musica."
+    },
+    "faqTitle": "Domande sul ristorante"
+  },
+  "bakery": {
+    "hero": {
+      "kicker": "4810 Sweet Bakery · Dolonne",
+      "title": "Pasticceria, forno e gelateria",
+      "sub": "Torte, brioche, pane e gelato artigianali, senza conservanti, con ingredienti a chilometro zero."
+    },
+    "intro": {
+      "title": "I sapori dei dolci delle nonne",
+      "text": "Accanto al nostro bar ristorante, la pasticcera Francesca prepara ogni giorno torte, pasticcini, brioche, dessert, pane e gelati."
+    },
+    "local": {
+      "kicker": "Chilometro zero",
+      "title": "Dai nostri prati alla tua tazza",
+      "items": [
+        "Mele di Sarre",
+        "Miele delle api dei prati di Dolonne",
+        "Susine dall'albero di Valter",
+        "Latte e burro delle nostre mucche",
+        "Marmellate con la frutta dei nostri alberi"
+      ]
+    },
+    "bread": {
+      "title": "Anche forno e gelateria",
+      "text": "Pane con farine ai 5 cereali da un vecchio mulino di fiducia, grissini alle noci, al carbone vegetale e salvia e aglio. E gelato tutto l'anno, preparato senza additivi."
+    },
+    "best": {
+      "kicker": "I più amati",
+      "items": [
+        {
+          "name": "La Mousseline",
+          "text": "Meringa cotta a bagnomaria su base di caramello salato, finita con soffice crema chantilly."
+        },
+        {
+          "name": "Il 4810",
+          "text": "Il nostro dessert tra il morbido e il croccante, al cioccolato e menta."
+        }
+      ]
+    },
+    "cakes": {
+      "title": "Una torta per la tua occasione",
+      "text": "Compleanno, anniversario o festa? Chiedi alla nostra pasticcera di preparare la tua torta. E al bancone trovi sempre dolci pronti da portare via."
+    },
+    "diet": "Clienti celiaci o vegani: chiedi al banco le opzioni disponibili."
+  },
+  "chalet": {
+    "hero": {
+      "kicker": "4810 Chalet",
+      "title": "Le nostre case, come a casa tua",
+      "sub": "Chalet di montagna ai piedi del Monte Bianco, per una vacanza nella natura o una tappa del Tour du Mont Blanc."
+    },
+    "intro": {
+      "title": "Una famiglia e i suoi chalet",
+      "text": "Alcuni chalet sono immersi nella natura, altri a due passi dallo Sport Center di Courmayeur o dal centro pedonale. Maria Teresa li ha arredati con cura in ogni dettaglio: caldi e accoglienti, ti faranno sentire a casa."
+    },
+    "facts": {
+      "title": "In breve",
+      "address": "Indirizzo",
+      "services": "Servizi",
+      "prices": "Prezzi",
+      "contact": "Contatti",
+      "pricesText": "Prezzi e disponibilità aggiornati nel sistema di prenotazione."
+    },
+    "steps": {
+      "title": "Prenota in 3 passaggi",
+      "items": [
+        "Scegli le date",
+        "Scegli lo chalet",
+        "Conferma online"
+      ]
+    }
+  },
+  "offers": {
+    "hero": {
+      "kicker": "Offerte e convenzioni",
+      "title": "Vivi Courmayeur, spendi meno",
+      "sub": "Tutti i vantaggi per chi noleggia, compra o soggiorna con 4810."
+    },
+    "items": {
+      "online15": {
+        "title": "−15% prenotando online",
+        "text": "Sconto del 15% su tutte le prenotazioni del noleggio fatte online. Ritiro in Via des Forges 3.",
+        "cta": "Noleggia ora"
+      },
+      "hotels": {
+        "title": "Vantaggi negli hotel convenzionati",
+        "text": "Se soggiorni in uno degli hotel convenzionati hai condizioni agevolate sul noleggio di attrezzatura e abbigliamento.",
+        "cta": "Vedi gli hotel"
+      },
+      "transfer": {
+        "title": "Transfer gratuito dall'hotel",
+        "text": "Per chi noleggia da noi, il transfer dal tuo hotel convenzionato al noleggio e ritorno è gratuito. Basta stress da parcheggio.",
+        "cta": "Vedi gli hotel"
+      },
+      "outlet70": {
+        "title": "Outlet fino al −70%",
+        "text": "Capi tecnici e attrezzatura dei migliori brand, scontati fino al 70%.",
+        "cta": "Scopri l'outlet"
+      },
+      "season": {
+        "title": "Abbonamento sci annuale",
+        "text": "Scia tutto l'anno provando ogni volta un'attrezzatura nuova. Disponibile anche il noleggio stagionale.",
+        "cta": "Vai al noleggio"
+      },
+      "usedSkis": {
+        "title": "Sci usati del noleggio",
+        "text": "Prova gli sci del nostro noleggio e, se ti convincono, acquistali.",
+        "cta": "Vai al noleggio"
+      }
+    },
+    "valueLabels": {
+      "hotel": "Hotel",
+      "season": "1 anno",
+      "used": "Usato"
+    }
+  },
+  "hotels": {
+    "hero": {
+      "kicker": "Collaborazioni",
+      "title": "Hotel convenzionati",
+      "sub": "Soggiorni in uno di questi hotel? Hai vantaggi sul noleggio e il transfer gratuito fino a 4810 Rental, a 100 metri dalla telecabina."
+    },
+    "zones": {
+      "courmayeur": "Courmayeur",
+      "dolonne": "Dolonne",
+      "entreves": "Entrèves",
+      "lapalud": "La Palud",
+      "lasaxe": "La Saxe",
+      "valferret": "Val Ferret",
+      "presaintdidier": "Pré-Saint-Didier",
+      "apartments": "Appartamenti e residence",
+      "morgex": "Tappa di charme · Morgex"
+    },
+    "filterAll": "Tutte le zone",
+    "count": "{n} strutture"
+  },
+  "services": {
+    "hero": {
+      "kicker": "Servizi",
+      "title": "Pensiamo noi ai dettagli",
+      "sub": "Tutto quello che serve per sciare, scalare e vivere la montagna senza pensieri."
+    },
+    "items": {
+      "skiRental": {
+        "title": "Noleggio sci",
+        "text": "Sci da pista, freeride e scialpinismo, snowboard per principianti ed esperti."
+      },
+      "skiService": {
+        "title": "Ski service",
+        "text": "Sci preparati con il robot Wintersteiger o a mano dai nostri tecnici, per le prestazioni più esigenti."
+      },
+      "bootFitting": {
+        "title": "Boot fitting",
+        "text": "Diagnosi, modifiche a caldo, plantari e scarpette su misura."
+      },
+      "storage": {
+        "title": "Deposito sci",
+        "text": "Armadietti riscaldati e autodisinfettanti per sci e scarponi: per un giorno, sei mesi o un anno."
+      },
+      "transfer": {
+        "title": "Transfer gratuito",
+        "text": "Dagli hotel convenzionati al noleggio e ritorno, senza costi aggiuntivi."
+      },
+      "freeride": {
+        "title": "Freeride point",
+        "text": "Attrezzatura per freeride e scialpinismo e informazioni sulle condizioni meteo."
+      },
+      "climbing": {
+        "title": "Climbing shop",
+        "text": "In Via Roma tutto il materiale per roccia e ghiaccio."
+      },
+      "ebike": {
+        "title": "Noleggio e-bike",
+        "text": "E-bike per adulti e ragazzi, con consigli sui percorsi."
+      },
+      "outdoor": {
+        "title": "Outdoor",
+        "text": "Attrezzatura e indicazioni per trekking, passeggiate e trail running."
+      },
+      "cakes": {
+        "title": "Torte su ordinazione",
+        "text": "Torte per compleanni, anniversari e occasioni speciali."
+      }
+    },
+    "bootFitting": {
+      "kicker": "Boot fitting",
+      "title": "Scarponi che diventano i migliori amici dei tuoi piedi",
+      "text": "Non esistono due piedi uguali. Il boot fitting è l'insieme di tecniche che adattano lo scarpone al tuo piede, per sciare con più comfort e più sensibilità.",
+      "steps": [
+        "Diagnosi del piede",
+        "Modifiche a caldo sullo scafo",
+        "Plantare su misura",
+        "Scarpetta a iniezione per i più esigenti"
+      ],
+      "cta": "Chiedi informazioni"
+    }
+  },
+  "events": {
+    "hero": {
+      "kicker": "Eventi",
+      "title": "Eventi aziendali e feste private",
+      "sub": "Fino a circa 120 persone a Dolonne, con ampio parcheggio. Pensiamo a tutto noi."
+    },
+    "items": [
+      "Menu su misura per il tuo evento",
+      "Torte e dolci fatti in casa",
+      "DJ set nello stile che preferisci",
+      "Cocktail e la nostra cantina",
+      "Ampio parcheggio"
+    ],
+    "form": {
+      "title": "Richiedi un preventivo",
+      "intro": "Compila i campi: si aprirà la tua email con la richiesta pronta da inviare.",
+      "name": "Nome e cognome",
+      "email": "Email",
+      "phone": "Telefono",
+      "type": "Tipo di evento",
+      "types": [
+        "Evento aziendale",
+        "Festa privata"
+      ],
+      "date": "Data",
+      "guests": "Numero di partecipanti",
+      "time": "Momento",
+      "times": [
+        "Pranzo",
+        "Cena"
+      ],
+      "notes": "Note e richieste",
+      "subject": "Richiesta preventivo evento"
+    }
+  },
+  "brands": {
+    "hero": {
+      "kicker": "Brand",
+      "title": "I migliori marchi di montagna",
+      "sub": "Li trovi nel negozio di Via Roma 106 e puoi provare gli sci al noleggio di Dolonne."
+    },
+    "groups": {
+      "apparel": "Abbigliamento",
+      "boots": "Scarponi",
+      "ski": "Sci"
+    }
+  },
+  "family": {
+    "hero": {
+      "kicker": "We are 4810, we are a family",
+      "title": "Una forza chiamata famiglia",
+      "sub": "Siamo i Grivel di Courmayeur. La nostra storia è legata alla montagna da oltre due secoli."
+    },
+    "story": [
+      {
+        "title": "La forgia di Dolonne",
+        "text": "Il nostro capostipite, Henry Grivel, progettò il primo paio di ramponi a 10 punte e cambiò per sempre il modo di scalare. Dopo aver fondato l'officina Grivel a Dolonne, fu affiancato dai figli Laurent, Camille e Aimée."
+      },
+      {
+        "title": "Nasce 4810",
+        "text": "Abbiamo chiamato il negozio 4810 in onore del Monte Bianco. Walter, figlio di Camille, è stato il primo ad aprirne le porte. Oggi la tradizione continua con i suoi figli Enrico e André."
+      },
+      {
+        "title": "Il futuro",
+        "text": "Tramandare la tradizione e la passione della famiglia Grivel ai figli Laurent, Thomas e Joseph."
+      }
+    ],
+    "quote": "Il negozio di chi ama la montagna, il ristorante di chi ama il buon cibo, lo chalet di chi ama la natura."
+  },
+  "faq": {
+    "hero": {
+      "kicker": "FAQ",
+      "title": "Domande frequenti",
+      "sub": "Le risposte più rapide su noleggio, negozio e ristorante."
+    },
+    "groups": {
+      "rental": {
+        "title": "Noleggio",
+        "items": [
+          {
+            "q": "Siete vicini agli impianti?",
+            "a": "Sì. 4810 Rental di Dolonne è a 100 metri dalla partenza della telecabina."
+          },
+          {
+            "q": "Noleggiate abbigliamento da sci?",
+            "a": "Sì, completi da sci solo per adulti, nel punto vendita di Dolonne. Non noleggiamo maschere, occhiali e guanti."
+          },
+          {
+            "q": "Noleggiate splitboard?",
+            "a": "Sì, puoi scegliere tra le tavole Burton e Nitro."
+          },
+          {
+            "q": "Noleggiate materiale da scialpinismo?",
+            "a": "Sì: sci, scarponi, pelli e coltelli, zaini normali o con ABS, pala, sonda e ARTVA."
+          },
+          {
+            "q": "Noleggiate attrezzatura da arrampicata?",
+            "a": "Sì, l'attrezzatura per praticare l'arrampicata in sicurezza, su roccia, ghiaccio o misto."
+          },
+          {
+            "q": "Avete il deposito sci?",
+            "a": "Sì, armadietti riscaldati e autodisinfettanti per sci e scarponi, per un giorno, sei mesi o un anno. Non serve un deposito sulle piste: siamo vicinissimi agli impianti."
+          },
+          {
+            "q": "Noleggiate gli sci per tutta la stagione?",
+            "a": "Sì, sia per adulti sia per bambini. C'è anche l'abbonamento annuale."
+          },
+          {
+            "q": "Vendete sci usati?",
+            "a": "Sì, gli sci del nostro noleggio: puoi provarli e, se ti convincono, acquistarli."
+          },
+          {
+            "q": "Noleggiate materiale per lo sci di fondo?",
+            "a": "No. Trovi tutto in Val Ferret, alla partenza dell'anello di fondo."
+          },
+          {
+            "q": "Vendete gli skipass?",
+            "a": "No, non serve: gli impianti sono a pochi passi da noi."
+          }
+        ]
+      },
+      "shop": {
+        "title": "Negozio ed e-bike",
+        "items": [
+          {
+            "q": "Che orari ha il negozio di Via Roma?",
+            "a": "Tutti i giorni {shopHours}, tutto l'anno. A Dolonne: tutti i giorni {dolonneHours}."
+          },
+          {
+            "q": "Noleggiate passeggini e porta-enfant?",
+            "a": "Sì, passeggini studiati per tutti i tipi di terreno e porta-enfant."
+          },
+          {
+            "q": "Vendete attrezzatura da arrampicata?",
+            "a": "Sì, è una delle nostre specialità: in Via Roma trovi tutto per roccia e ghiaccio."
+          },
+          {
+            "q": "Dove posso andare con le e-bike?",
+            "a": "I percorsi sono tanti: il nostro personale ti indica i sentieri più belli e ti dà le mappe."
+          },
+          {
+            "q": "Organizzate ciaspolate o escursioni?",
+            "a": "No, ma ti indichiamo volentieri le guide alpine di Courmayeur."
+          },
+          {
+            "q": "Vendete articoli da golf o tennis?",
+            "a": "No, solo prodotti di montagna: dalla passeggiata al trekking, dalle escursioni ai viaggi sportivi."
+          }
+        ]
+      },
+      "food": {
+        "title": "Ristorante e pasticceria",
+        "items": [
+          {
+            "q": "Si può prenotare un tavolo?",
+            "a": "Sì, online per pranzo e aperitivo, oppure chiamando il {phone}."
+          },
+          {
+            "q": "Avete piatti vegetariani?",
+            "a": "Sì: insalate, zuppe e panini."
+          },
+          {
+            "q": "Avete piatti per celiaci?",
+            "a": "[DA CONFERMARE]"
+          },
+          {
+            "q": "Fate torte su ordinazione?",
+            "a": "Sì, per compleanni, anniversari e occasioni speciali. Chiamaci per ordinarla."
+          }
+        ]
+      }
+    }
+  },
+  "contact": {
+    "hero": {
+      "kicker": "Contatti",
+      "title": "Siamo qui, a Courmayeur",
+      "sub": "Chiamaci, scrivici o passa a trovarci. Ti rispondiamo volentieri."
+    },
+    "form": {
+      "title": "Scrivici",
+      "intro": "Si aprirà la tua email con il messaggio pronto da inviare.",
+      "to": "A chi scrivi",
+      "name": "Nome e cognome",
+      "message": "Messaggio",
+      "subject": "Richiesta informazioni dal sito"
+    }
+  },
+  "notFound": {
+    "title": "Questa pagina ha cambiato sentiero",
+    "text": "La pagina che cerchi non esiste più. Torna alla home o scegli dove andare."
+  },
+  "alt": {
+    "hero-dente-del-gigante": "Il Dente del Gigante tra le nuvole, nel massiccio del Monte Bianco",
+    "tramonto-creste": "Creste del Monte Bianco in controluce all'alba",
+    "panorama-piste": "Panorama delle piste di Courmayeur innevate sotto il cielo blu",
+    "seggiovia-monte-bianco": "Sciatori in seggiovia con il Monte Bianco innevato sullo sfondo",
+    "sciatore-curva": "Sciatore in giacca blu in curva su una pista battuta",
+    "bakery-croissant": "Croissant appena sfornati nella vetrina della 4810 Sweet Bakery",
+    "bakery-pasticcera": "La pasticcera della 4810 Sweet Bakery al lavoro in laboratorio",
+    "bakery-bancone": "Il bancone in legno illuminato della pasticceria 4810 a Dolonne",
+    "bakery-vetrina": "Vetrina con dolci e torte della 4810 Sweet Bakery",
+    "bakery-biscotti": "Mani che scelgono biscotti artigianali da un cesto",
+    "bakery-mela": "Dolce alla mela con granella, primo piano",
+    "bakery-muffin": "Muffin al cioccolato su un'alzata in vetrina",
+    "bakery-mele": "Mele rosse in una ciotola",
+    "bakery-impasto": "Pasticcera che stende un impasto infarinato sul banco",
+    "bakery-mousseline": "La Mousseline, dessert di meringa su caramello salato",
+    "bakery-dessert": "Dessert al cioccolato con lamponi servito al piatto",
+    "bakery-hero": "Biscotti e pasticcini artigianali in fila, primo piano",
+    "rental-banco": "Il banco del noleggio 4810 Rental con gli sci esposti",
+    "rental-sci-stockli": "Sci Stöckli allineati nel noleggio 4810",
+    "rental-accessori": "Parete di caschi, berretti e accessori nel negozio di Dolonne",
+    "skiservice-robot": "Il robot Wintersteiger prepara la soletta di uno sci",
+    "bootfitting-1": "Tecnico 4810 che modifica uno scarpone da sci in laboratorio",
+    "shop-grivel": "Interno del negozio 4810 con l'insegna Grivel, fabbrica di piccozze e ramponi",
+    "shop-interno": "Il negozio 4810 di Via Roma con abbigliamento tecnico e banco in legno",
+    "shop-vetrine": "Le vetrine del negozio 4810 in Via Roma a Courmayeur",
+    "shop-1": "Lo staff del negozio 4810 sorridente tra gli scaffali",
+    "shop-2": "Giacca gialla, maschera da sci e berretto su un tavolo",
+    "shop-4": "Attacchi da scialpinismo e pelli, primo piano",
+    "shop-dolonne": "Il negozio 4810 di Dolonne con schermo e arredi in legno",
+    "family-negozio": "Una signora della famiglia sorride nel negozio 4810",
+    "family-officina": "Foto d'epoca di due uomini al lavoro nell'officina Grivel",
+    "family-bambini": "Foto in bianco e nero di due bambini della famiglia Grivel",
+    "family-ritratto": "Ritratto di un membro della famiglia nel negozio 4810",
+    "family-gruppo": "Membri della famiglia in abito tradizionale valdostano",
+    "outlet-hero": "Interno dell'outlet 4810 con abbigliamento e banco in legno",
+    "outlet-1": "Scarpe da trail colorate e berretti in una cassetta",
+    "outlet-2": "Maglia a fiori su un manichino nell'outlet",
+    "food-camino": "Sala del ristorante 4810 con camino acceso e tavoli in legno",
+    "food-cocktail": "Cocktail viola con tagliere di stuzzichini",
+    "food-aperitivo": "Spritz e stuzzichini per l'aperitivo al 4810",
+    "food-sala": "Sala del ristorante 4810 con legno e luci calde",
+    "food-piatto": "Piatto gourmet con pinoli e salsa",
+    "food-salmone": "Salmone su cous cous con piselli",
+    "food-risotto": "Risotto allo zafferano con fiori eduli",
+    "food-tagliere": "Tagliere di salumi e formaggi davanti al camino",
+    "food-sala-vetrate": "Sala luminosa con vetrate sulla montagna",
+    "food-esterno-neve": "L'edificio 4810 di Dolonne sotto la neve, ai piedi della montagna",
+    "eventi-buffet": "Buffet per un evento privato al 4810",
+    "eventi-tavola": "Tavola imbandita con taglieri e dolci per una festa",
+    "eventi-bar": "Bancone con cocktail pronti per un evento",
+    "eventi-vini": "Bottiglie di vino rosso sul bancone",
+    "chalet-baita": "Baita in pietra e legno su un prato verde",
+    "chalet-baita-prato": "Chalet in pietra immerso nel bosco",
+    "chalet-soggiorno": "Soggiorno mansardato in legno con divani e tappeto",
+    "chalet-pranzo": "Zona pranzo in legno con travi a vista",
+    "chalet-mansarda": "Ampio soggiorno in mansarda con arredi di montagna",
+    "chalet-camera": "Camera da letto in legno con piumone rosso",
+    "chalet-matrimoniale": "Camera matrimoniale con rivestimenti in legno",
+    "chalet-balcone": "Balcone in legno con fiori di uno chalet in pietra",
+    "chalet-giardino": "Giardino con tavolo e sedie davanti allo chalet",
+    "chalet-terrazza-vista": "Terrazza dello chalet con vista sulle montagne",
+    "chalet-vista-valle": "Valle verde con mucche al pascolo e montagne",
+    "chalet-vista-ghiacciaio": "Vista sul ghiacciaio del Monte Bianco in estate",
+    "chalet-sala": "Salotto luminoso con tende rosse e portafinestra",
+    "chalet-cucina": "Cucina in legno con credenza tradizionale",
+    "chalet-sentiero": "Sentiero tra gli alberi verso gli chalet"
+  }
+}

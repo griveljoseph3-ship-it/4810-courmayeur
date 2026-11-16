@@ -1,0 +1,86 @@
+---
+import PageHero from '../components/PageHero.astro';
+import Pic from '../components/Pic.astro';
+import Icon from '../components/Icon.astro';
+import Cta from '../components/Cta.astro';
+import SectionHead from '../components/SectionHead.astro';
+import PlaceInfo from '../components/PlaceInfo.astro';
+import Gallery from '../components/Gallery.astro';
+import { dict } from '../i18n';
+import { type Lang } from '../lib/routes';
+import { site, telHref, tbc } from '../lib/data';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const T = dict[lang];
+const B = T.bakery;
+const tel = telHref(site.places.dolonne.phone);
+---
+<PageHero lang={lang} image="bakery-bancone" kicker={B.hero.kicker} title={B.hero.title} sub={B.hero.sub} tint="lilac">
+  <Cta href={tel} lang={lang} size="lg" variant="bakery" icon="phone">{T.cta.orderCake}</Cta>
+</PageHero>
+
+<section class="section bg-paper">
+  <div class="wrap split">
+    <div>
+      <img class="sb-logo" src={`${import.meta.env.BASE_URL}sweet-bakery.svg`} alt="4810 Sweet Bakery" width="175" height="110" loading="lazy" />
+      <h2 data-split>{B.intro.title}</h2>
+      <p class="lead" data-reveal>{B.intro.text}</p>
+    </div>
+    <figure class="frame ratio-45 zoom" data-parallax="6"><Pic name="bakery-pasticcera" lang={lang} /></figure>
+  </div>
+</section>
+
+<section class="section local">
+  <div class="wrap split rev">
+    <figure class="frame ratio-45 zoom" data-parallax="6"><Pic name="bakery-mele" lang={lang} /></figure>
+    <div>
+      <p class="kicker" data-reveal>{B.local.kicker}</p>
+      <h2 data-split>{B.local.title}</h2>
+      <ul class="ticks" data-reveal>{B.local.items.map((x) => <li>{x}</li>)}</ul>
+      <h3 class="bread-title" data-reveal>{B.bread.title}</h3>
+      <p class="muted" data-reveal>{B.bread.text}</p>
+    </div>
+  </div>
+</section>
+
+<section class="section bg-ink on-dark best">
+  <div class="wrap">
+    <SectionHead kicker={B.best.kicker} title={B.best.items.map((b) => b.name).join(" · ")} split={false} />
+    <div class="grid grid-2">
+      {B.best.items.map((b, i) => (
+        <article class="best-item" data-reveal style={`--d:${i * 0.12}s`}>
+          <figure class="frame ratio-32 zoom"><Pic name={i === 0 ? 'bakery-mousseline' : 'bakery-dessert'} lang={lang} sizes="(min-width: 900px) 45vw, 92vw" /></figure>
+          <h3>{b.name}</h3>
+          <p>{b.text}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="section-tight"><div class="wrap"><Gallery lang={lang} images={['bakery-vetrina', 'bakery-biscotti', 'bakery-mela', 'bakery-muffin', 'bakery-impasto', 'bakery-hero']} /></div></section>
+
+<section class="section bg-paper">
+  <div class="wrap split info-split">
+    <div class="cakes">
+      <span class="icon-badge"><Icon name="cake" /></span>
+      <h2 data-split>{B.cakes.title}</h2>
+      <p class="lead" data-reveal>{B.cakes.text}</p>
+      <div class="actions" data-reveal><Cta href={tel} lang={lang} size="lg" variant="bakery" icon="phone">{T.cta.orderCake}</Cta></div>
+      <p class="small muted diet">{B.diet} <span class="tbc">{tbc(lang)}</span></p>
+    </div>
+    <PlaceInfo lang={lang} title="4810 Sweet Bakery · Dolonne" place="dolonne" service="bakery" />
+  </div>
+</section>
+<style>
+  .sb-logo { width: 11rem; height: auto; margin-bottom: 1.5rem; }
+  .local { background: linear-gradient(180deg, #f7f4ef, #f3ebf2); }
+  .bread-title { margin-top: 2rem; font-size: var(--step-2); }
+  .best { background: linear-gradient(160deg, #2a2420 0%, #3d2a3c 100%); }
+  .best .kicker { color: #e6c4e6; }
+  .best-item h3 { margin-top: 1.4rem; font-size: var(--step-3); }
+  .best-item p { color: rgba(247,244,239,.85); max-width: 32rem; }
+  .info-split { align-items: start; }
+  .cakes .icon-badge { color: var(--lilac-ink); }
+  .diet { margin-top: 1.5rem; }
+</style>

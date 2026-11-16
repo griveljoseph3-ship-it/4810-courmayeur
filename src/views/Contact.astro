@@ -1,0 +1,48 @@
+---
+import PageHero from '../components/PageHero.astro';
+import PlaceInfo from '../components/PlaceInfo.astro';
+import MailForm from '../components/MailForm.astro';
+import Cta from '../components/Cta.astro';
+import { dict } from '../i18n';
+import { type Lang } from '../lib/routes';
+import { site, telHref, tbc } from '../lib/data';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const T = dict[lang];
+const C = T.contact;
+const outletNote = `${T.common.highSeason} · ${T.common.openDays}: <span class="tbc">${tbc(lang)}</span>`;
+---
+<PageHero lang={lang} image="panorama-piste" kicker={C.hero.kicker} title={C.hero.title} sub={C.hero.sub} short>
+  <Cta href={telHref(site.places.dolonne.phone)} lang={lang} size="lg" icon="phone">{T.common.call} {site.places.dolonne.phone}</Cta>
+</PageHero>
+<section class="section">
+  <div class="wrap">
+    <h2 class="sr-only">{T.common.hours}</h2>
+    <div class="grid grid-2">
+      <PlaceInfo lang={lang} title={`${T.nav.rental} · Dolonne`} place="dolonne" service="rental" seasonal />
+      <PlaceInfo lang={lang} title={`${T.nav.restaurant} · ${T.nav.bakery}`} place="dolonne" service="food" />
+      <PlaceInfo lang={lang} title={`${T.nav.shop} · Via Roma`} place="centro" service="shop" note={T.common.allYear} />
+      <PlaceInfo lang={lang} title={`${T.nav.shop} · Dolonne`} place="dolonne" service="shopDolonne" />
+      <PlaceInfo lang={lang} title={T.nav.outlet} place="outlet" service="outlet" note={outletNote} email={null} />
+      <PlaceInfo lang={lang} title={T.nav.chalet} place="chalet" email={site.services.chalet.email} />
+    </div>
+  </div>
+</section>
+<section class="section bg-mist" id="scrivici">
+  <div class="wrap-narrow card">
+    <h2>{C.form.title}</h2>
+    <p class="muted">{C.form.intro}</p>
+    <MailForm lang={lang} id="ct" to={site.services.rental.email} subject={C.form.subject} submit={T.cta.send} recipientsLabel={C.form.to}
+      recipients={[
+        { label: T.nav.rental, email: site.services.rental.email },
+        { label: `${T.nav.shop} · ${T.nav.outlet}`, email: site.services.shop.email },
+        { label: `${T.nav.restaurant} · ${T.nav.bakery} · ${T.nav.events}`, email: site.services.food.email },
+        { label: T.nav.chalet, email: site.services.chalet.email },
+      ]}
+      fields={[
+        { name: 'name', label: C.form.name, required: true },
+        { name: 'message', label: C.form.message, type: 'textarea', required: true },
+      ]} />
+  </div>
+</section>
+<style>#scrivici h2 { font-size: var(--step-3); }</style>

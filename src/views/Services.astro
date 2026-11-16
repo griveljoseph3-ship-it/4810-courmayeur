@@ -1,0 +1,72 @@
+---
+import PageHero from '../components/PageHero.astro';
+import Pic from '../components/Pic.astro';
+import Icon from '../components/Icon.astro';
+import Cta from '../components/Cta.astro';
+import { dict } from '../i18n';
+import { href, type Lang } from '../lib/routes';
+import { site } from '../lib/data';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const T = dict[lang];
+const S = T.services;
+const list: { key: keyof typeof S.items; icon: string; link?: string }[] = [
+  { key: 'skiRental', icon: 'ski', link: href('rental', lang) },
+  { key: 'skiService', icon: 'wrench' },
+  { key: 'bootFitting', icon: 'boot', link: '#boot-fitting' },
+  { key: 'storage', icon: 'locker' },
+  { key: 'transfer', icon: 'bus', link: href('hotels', lang) },
+  { key: 'freeride', icon: 'freeride' },
+  { key: 'climbing', icon: 'axe', link: href('shop', lang) },
+  { key: 'ebike', icon: 'bike', link: href('rental', lang, 'e-bike') },
+  { key: 'outdoor', icon: 'hike', link: href('shop', lang) },
+  { key: 'cakes', icon: 'cake', link: href('bakery', lang) },
+];
+---
+<PageHero lang={lang} image="skiservice-robot" kicker={S.hero.kicker} title={S.hero.title} sub={S.hero.sub} short>
+  <Cta href={site.booking.rentalOnline} lang={lang} size="lg">{T.cta.rentNow}</Cta>
+</PageHero>
+
+<section class="section">
+  <div class="wrap">
+    <ul class="grid grid-3" role="list">
+      {list.map((s, i) => {
+        const it = S.items[s.key];
+        const inner = (<><span class="icon-badge"><Icon name={s.icon} /></span><h2 class="svc-t">{it.title}</h2><p class="muted">{it.text}</p>{s.link && <span class="more">{T.common.readMore} <Icon name="arrow" /></span>}</>);
+        return (
+          <li class="svc" data-reveal style={`--d:${(i % 3) * 0.08}s`}>
+            {s.link ? <a class="card svc-card" href={s.link}>{inner}</a> : <div class="card svc-card">{inner}</div>}
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>
+
+<section class="section bg-paper" id="boot-fitting">
+  <div class="wrap split">
+    <div class="bf-media">
+      <figure class="frame ratio-45 zoom" data-parallax="6"><Pic name="bootfitting-1" lang={lang} /></figure>
+    </div>
+    <div>
+      <p class="kicker" data-reveal>{S.bootFitting.kicker}</p>
+      <h2 data-split>{S.bootFitting.title}</h2>
+      <p class="lead" data-reveal>{S.bootFitting.text}</p>
+      <ol class="bf-steps" data-reveal>{S.bootFitting.steps.map((s, i) => <li><span>{String(i + 1).padStart(2, '0')}</span>{s}</li>)}</ol>
+      <div class="actions" data-reveal><Cta href={`mailto:${site.services.shop.email}`} lang={lang} icon="mail">{S.bootFitting.cta}</Cta></div>
+    </div>
+  </div>
+</section>
+<style>
+  .svc { height: 100%; }
+  .svc-card { display: flex; flex-direction: column; height: 100%; text-decoration: none; color: inherit; transition: transform .6s var(--ease-out), box-shadow .6s var(--ease-out); }
+  a.svc-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
+  .svc-t { font-size: var(--step-2); }
+  .svc-card .muted { flex: 1; }
+  .more { display: inline-flex; gap: .4rem; align-items: center; font-weight: 700; color: var(--ember-ink); margin-top: 1rem; }
+  .more :global(.icon) { width: 1rem; height: 1rem; transition: transform .4s var(--ease-out); }
+  a.svc-card:hover .more :global(.icon) { transform: translateX(4px); }
+  .bf-steps { list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; gap: 0.2rem; }
+  .bf-steps li { display: flex; gap: 1rem; align-items: baseline; padding: 0.7rem 0; border-bottom: 1px solid var(--line); font-weight: 600; }
+  .bf-steps span { font-family: var(--serif); font-size: 1.4rem; color: var(--ember-ink); font-weight: 600; }
+</style>

@@ -1,0 +1,49 @@
+---
+import PageHero from '../components/PageHero.astro';
+import Cta from '../components/Cta.astro';
+import { Image } from 'astro:assets';
+import { brandImg } from '../lib/images';
+import { dict } from '../i18n';
+import { type Lang } from '../lib/routes';
+import { directions } from '../lib/data';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const T = dict[lang];
+const B = T.brands;
+const groups = {
+  apparel: [['Fjällräven', 'fjallraven.jpg', 'https://www.fjallraven.com/'], ["Arc'teryx", 'arcteryx_logo.jpg', 'https://arcteryx.com/'], ['Grivel', 'grivel_logo.jpg', 'https://grivel.com/'], ['The North Face', 'north_face_logo.jpg', 'https://www.thenorthface.it/'], ['Toni Sailer', 'tony_sailer_logo.jpg', 'https://www.tonisailer.com/'], ['Montura', 'montura_logo.jpg', 'https://www.montura.it/'], ['Reusch', 'reuschLogo.jpg', 'https://www.reusch.com/'], ['E9', 'e9Logo.jpg', 'https://www.e9planet.com/'], ['Hestra', 'hestraLogo.jpg', 'https://hestragloves.com/']],
+  boots: [['Tecnica', 'tecnica_logo.jpg', 'https://www.tecnicasports.com/'], ['Scarpa', 'scarpa_logo.jpg', 'https://www.scarpa.com/'], ['Lange', 'lange_logo.jpg', 'https://www.lange-boots.com/'], ['Head', 'head_logo.jpg', 'https://www.head.com/'], ['Dynafit', 'dynafit_logo.jpg', 'https://www.dynafit.com/'], ['Rossignol', 'rossignol_logo.jpg', 'https://www.rossignol.com/'], ['Nordica', 'nordicaLogo.jpg', 'https://www.nordica.com/']],
+  ski: [['Stöckli', 'stockli_logo.jpg', 'https://www.stoeckli.ch/'], ['DPS', 'dps_logo.jpg', 'https://www.dpsskis.com/'], ['Dynastar', 'dynastar_logo.jpg', 'https://www.dynastar.com/'], ['Salomon', 'salomon_logo.jpg', 'https://www.salomon.com/'], ['Black Crows', 'black_crows_logo.jpg', 'https://www.black-crows.com/'], ['Movement', 'moivement_logo.jpg', 'https://www.movementskis.com/']],
+};
+---
+<PageHero lang={lang} image="shop-grivel" kicker={B.hero.kicker} title={B.hero.title} sub={B.hero.sub} short>
+  <Cta href={directions('centro')} lang={lang} size="lg" icon="pin">{T.common.directions}</Cta>
+</PageHero>
+<section class="section">
+  <div class="wrap">
+    {Object.entries(groups).map(([g, list]) => (
+      <section class="bgroup" aria-labelledby={`b-${g}`}>
+        <h2 id={`b-${g}`}>{(B.groups as any)[g]}</h2>
+        <ul class="logos" role="list">
+          {list.map(([name, file, url], i) => (
+            <li data-reveal style={`--d:${(i % 6) * 0.05}s`}>
+              <a href={url} target="_blank" rel="noopener">
+                <Image src={brandImg(file)} alt={name} width={255} height={178} widths={[255, 510]} sizes="(min-width: 900px) 15vw, 40vw" loading="lazy" format="webp" quality={70} />
+                <span class="sr-only">{T.common.newTab}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+</section>
+<style>
+  .bgroup { margin-bottom: 3.5rem; }
+  .bgroup h2 { font-size: var(--step-3); padding-bottom: 0.6rem; border-bottom: 1px solid var(--line); margin-bottom: 1.5rem; }
+  .logos { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(46%, 10rem), 1fr)); gap: 1rem; }
+  .logos a { display: block; border-radius: var(--radius-sm); overflow: hidden; background: #fff; box-shadow: var(--shadow-sm); transition: transform .5s var(--ease-out), box-shadow .5s var(--ease-out); }
+  .logos a:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .logos img { width: 100%; height: auto; filter: grayscale(1) contrast(1.05); opacity: .85; transition: filter .5s, opacity .5s; }
+  .logos a:hover img { filter: none; opacity: 1; }
+</style>

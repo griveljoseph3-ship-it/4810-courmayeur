@@ -1,0 +1,24 @@
+---
+import Icon from './Icon.astro';
+import { dict } from '../i18n';
+import type { Lang } from '../lib/routes';
+interface Props {
+  href: string;
+  lang: Lang;
+  variant?: 'primary' | 'ghost' | 'light' | 'bakery' | 'glacier' | 'pine' | 'link';
+  size?: 'sm' | 'md' | 'lg';
+  icon?: string;
+  class?: string;
+  external?: boolean;
+  download?: boolean;
+}
+const { href, lang, variant = 'primary', size = 'md', icon, class: cls, download } = Astro.props;
+const external = Astro.props.external ?? /^https?:\/\//.test(href);
+const isLink = variant === 'link';
+const classes = isLink ? ['link', cls] : ['btn', variant !== 'primary' && `btn-${variant}`, size !== 'md' && `btn-${size}`, cls];
+const ic = icon ?? (external ? 'external' : 'arrow');
+---
+<a href={href} class:list={classes} target={external ? '_blank' : undefined} rel={external ? 'noopener' : undefined} download={download || undefined}>
+  <span><slot /></span>{external && <span class="sr-only"> {dict[lang].common.newTab}</span>}
+  <Icon name={ic} class={ic === 'arrow' ? 'icon-arrow' : ''} />
+</a>

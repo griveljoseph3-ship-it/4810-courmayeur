@@ -1,0 +1,96 @@
+---
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import { dict } from '../i18n';
+import { href, type Lang, type PageKey } from '../lib/routes';
+import { site, telHref, directions, addressLine } from '../lib/data';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const T = dict[lang];
+const cols: { title: string; keys: PageKey[] }[] = [
+  { title: T.nav.groups.do, keys: ['rental', 'shop', 'outlet', 'restaurant', 'bakery', 'chalet'] },
+  { title: T.nav.groups.plan, keys: ['offers', 'hotels', 'services', 'events', 'contact'] },
+  { title: T.nav.groups.about, keys: ['family', 'brands', 'faq'] },
+];
+const year = new Date().getFullYear();
+---
+<footer class="site-footer bg-ink on-dark">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a class="brand" href={href('home', lang)}><Logo /><span><strong>4810</strong> Courmayeur</span></a>
+        <p>{T.footer.tagline}</p>
+        <div class="social">
+          <a href={site.social.instagram} target="_blank" rel="noopener" aria-label={`Instagram ${T.common.newTab}`}><Icon name="instagram" /></a>
+          <a href={site.social.facebook} target="_blank" rel="noopener" aria-label={`Facebook ${T.common.newTab}`}><Icon name="facebook" /></a>
+        </div>
+      </div>
+      <div class="foot-places">
+        <div>
+          <p class="kicker">Dolonne</p>
+          <p><a href={directions('dolonne')} target="_blank" rel="noopener">{addressLine('dolonne', lang)}</a></p>
+          <p><a href={telHref(site.places.dolonne.phone)}>{site.places.dolonne.phone}</a></p>
+          <p><a href={`mailto:${site.services.rental.email}`}>{site.services.rental.email}</a><br /><a href={`mailto:${site.services.food.email}`}>{site.services.food.email}</a></p>
+        </div>
+        <div>
+          <p class="kicker">Courmayeur</p>
+          <p><a href={directions('centro')} target="_blank" rel="noopener">{addressLine('centro', lang)}</a></p>
+          <p><a href={telHref(site.places.centro.phone)}>{site.places.centro.phone}</a></p>
+          <p><a href={`mailto:${site.services.shop.email}`}>{site.services.shop.email}</a><br /><a href={`mailto:${site.services.chalet.email}`}>{site.services.chalet.email}</a></p>
+        </div>
+      </div>
+    </div>
+    <nav class="foot-nav" aria-label="Footer">
+      {cols.map((c) => (
+        <div>
+          <p class="foot-title">{c.title}</p>
+          <ul role="list">{c.keys.map((k) => <li><a href={href(k, lang)}>{(T.nav as any)[k]}</a></li>)}</ul>
+        </div>
+      ))}
+      <div>
+        <p class="foot-title">Courmayeur</p>
+        <ul role="list">
+          <li><a href={site.links.slopes} target="_blank" rel="noopener">{T.footer.slopes}<span class="sr-only"> {T.common.newTab}</span></a></li>
+          <li><a href={site.links.weather} target="_blank" rel="noopener">{T.footer.weather}<span class="sr-only"> {T.common.newTab}</span></a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="foot-legal">
+      <p>© {year} {site.brand.legalName} · {T.footer.vat} {site.brand.vat}</p>
+      <ul role="list">
+        <li><a href={site.links.privacy} class="iubenda-nostyle" target="_blank" rel="noopener">{T.footer.privacy}</a></li>
+        <li><a href={site.links.cookies} class="iubenda-nostyle" target="_blank" rel="noopener">{T.footer.cookies}</a></li>
+        <li><button type="button" class="iubenda-cs-preferences-link linkish">{T.footer.cookiePrefs}</button></li>
+      </ul>
+    </div>
+  </div>
+  <svg class="foot-mark" aria-hidden="true" viewBox="0 0 400 130"><text x="0" y="118">4810</text></svg>
+</footer>
+<style>
+  .site-footer { position: relative; overflow: hidden; padding: clamp(4rem, 3rem + 4vw, 7rem) 0 2.5rem; }
+  .site-footer a { text-decoration: none; }
+  .site-footer a:hover { color: #f0b48a; }
+  .foot-top { display: grid; gap: 3rem; grid-template-columns: 1fr; }
+  @media (min-width: 900px) { .foot-top { grid-template-columns: 1fr 1.3fr; } }
+  .brand { display: inline-flex; align-items: center; gap: 0.75rem; font-family: var(--serif); font-size: 1.8rem; margin-bottom: 1rem; }
+  .brand :global(svg) { width: 2.8rem; height: auto; }
+  .foot-brand p { max-width: 28rem; color: rgba(247,244,239,.78); }
+  .social { display: flex; gap: 0.6rem; margin-top: 1.5rem; }
+  .social a { display: grid; place-items: center; width: 2.9rem; height: 2.9rem; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(255,255,255,.25); transition: background-color .3s, transform .4s var(--ease-out); }
+  .social a:hover { background: rgba(255,255,255,.08); transform: translateY(-2px); }
+  .social :global(.icon) { width: 1.25rem; height: 1.25rem; }
+  .foot-places { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); }
+  .foot-places p { margin: 0 0 0.5rem; color: rgba(247,244,239,.86); }
+  .foot-nav { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr)); margin-top: 4rem; padding-top: 3rem; border-top: 1px solid rgba(255,255,255,.12); }
+  .foot-title { font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; color: #f0b48a; margin-bottom: 0.9rem; }
+  .foot-nav ul { display: grid; gap: 0.45rem; }
+  .foot-nav a { color: rgba(247,244,239,.86); }
+  .foot-legal { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; margin-top: 3.5rem; font-size: 0.85rem; color: rgba(247,244,239,.7); position: relative; z-index: 1; }
+  .foot-legal ul { display: flex; flex-wrap: wrap; gap: 0.4rem 1.4rem; }
+  .linkish { background: none; border: 0; padding: 0; color: inherit; cursor: pointer; font-size: inherit; }
+  .linkish:hover { color: #f0b48a; }
+  .foot-mark {
+    position: absolute; right: -2vw; bottom: -4vw; width: min(70vw, 52rem); height: auto; pointer-events: none; user-select: none;
+    font-family: var(--serif); font-weight: 600; font-size: 150px; fill: rgba(255,255,255,.035);
+  }
+</style>

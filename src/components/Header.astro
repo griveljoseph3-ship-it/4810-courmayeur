@@ -1,0 +1,152 @@
+---
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import { dict } from '../i18n';
+import { href, LOCALES, type Lang, type PageKey } from '../lib/routes';
+import { site, telHref } from '../lib/data';
+
+interface Props { lang: Lang; page: PageKey | '404'; overlay?: boolean }
+const { lang, page, overlay = true } = Astro.props;
+const T = dict[lang];
+const main: PageKey[] = ['rental', 'shop', 'restaurant', 'bakery', 'chalet', 'offers'];
+const groups: { title: string; keys: PageKey[] }[] = [
+  { title: T.nav.groups.do, keys: ['rental', 'shop', 'outlet', 'restaurant', 'bakery', 'chalet'] },
+  { title: T.nav.groups.plan, keys: ['offers', 'hotels', 'services', 'events', 'contact'] },
+  { title: T.nav.groups.about, keys: ['family', 'brands', 'faq'] },
+];
+const langKey: PageKey = page === '404' ? 'home' : page;
+---
+<header class:list={['site-header', { overlay }]} data-header>
+  <div class="bar wrap">
+    <a class="brand" href={href('home', lang)} aria-label="4810 Courmayeur — Home">
+      <Logo />
+      <span class="brand-text"><strong>4810</strong> Courmayeur</span>
+    </a>
+
+    <nav class="primary" aria-label={T.nav.home}>
+      <ul role="list">
+        {main.map((k) => (
+          <li><a href={href(k, lang)} aria-current={page === k ? 'page' : undefined}>{(T.nav as any)[k]}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="tools">
+      <ul class="langs" role="list" aria-label={T.common.language}>
+        {LOCALES.map((l) => (
+          <li><a href={href(langKey, l)} hreflang={l} lang={l} aria-current={l === lang ? 'true' : undefined} data-lang-link>{dict[l].meta.short}</a></li>
+        ))}
+      </ul>
+      <a class="btn btn-sm header-cta" href={site.booking.rentalOnline} target="_blank" rel="noopener">{T.cta.rentNow}<span class="sr-only"> {T.common.newTab}</span></a>
+      <button class="menu-btn" type="button" aria-haspopup="dialog" aria-controls="site-menu" data-menu-open>
+        <Icon name="menu" /><span class="menu-label">{T.common.menu}</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<dialog id="site-menu" class="menu-panel" aria-label={T.common.menu}>
+  <div class="menu-inner wrap">
+    <div class="menu-top">
+      <a class="brand" href={href('home', lang)}><Logo /><span class="brand-text"><strong>4810</strong> Courmayeur</span></a>
+      <button class="menu-btn" type="button" data-menu-close><Icon name="close" /><span class="menu-label">{T.common.close}</span></button>
+    </div>
+    <div class="menu-groups">
+      {groups.map((g) => (
+        <div class="menu-group">
+          <p class="kicker">{g.title}</p>
+          <ul role="list">
+            {g.keys.map((k) => <li><a href={href(k, lang)} aria-current={page === k ? 'page' : undefined}>{(T.nav as any)[k]}</a></li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
+    <div class="menu-foot">
+      <a href={telHref(site.places.dolonne.phone)}><Icon name="phone" /> Dolonne {site.places.dolonne.phone}</a>
+      <a href={telHref(site.places.centro.phone)}><Icon name="phone" /> Via Roma {site.places.centro.phone}</a>
+      <ul class="langs" role="list" aria-label={T.common.language}>
+        {LOCALES.map((l) => (
+          <li><a href={href(langKey, l)} hreflang={l} lang={l} aria-current={l === lang ? 'true' : undefined}>{dict[l].meta.name}</a></li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    color: var(--ink);
+    transition: background-color 0.5s var(--ease), box-shadow 0.5s var(--ease), color 0.5s var(--ease), transform 0.5s var(--ease-out);
+  }
+  .site-header.overlay { position: fixed; inset: 0 0 auto 0; color: #fff; }
+  .site-header.overlay:not(.scrolled) .header-cta { --bg: rgba(255,255,255,.16); box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.55); backdrop-filter: blur(6px); }
+  .site-header.scrolled, .site-header:not(.overlay) {
+    color: var(--ink);
+    background: rgba(247, 244, 239, 0.86);
+    backdrop-filter: saturate(1.4) blur(14px);
+    -webkit-backdrop-filter: saturate(1.4) blur(14px);
+    box-shadow: 0 1px 0 var(--line);
+  }
+  .site-header.hide { transform: translateY(-100%); }
+  .bar { display: flex; align-items: center; gap: 1.5rem; height: 4.5rem; }
+  .brand { display: inline-flex; align-items: center; gap: 0.7rem; text-decoration: none; color: inherit; flex: none; }
+  .brand :global(svg) { width: 2.3rem; height: auto; }
+  .brand-text { font-family: var(--serif); font-size: 1.45rem; letter-spacing: 0.01em; line-height: 1; white-space: nowrap; }
+  .brand-text strong { font-weight: 650; }
+  .primary { margin-inline: auto; display: none; }
+  .primary ul { display: flex; gap: clamp(0.9rem, 0.2rem + 1.4vw, 2rem); list-style: none; margin: 0; padding: 0; }
+  .primary a {
+    position: relative; text-decoration: none; font-weight: 600; font-size: 0.95rem; letter-spacing: 0.01em; padding: 0.5rem 0;
+  }
+  .primary a::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 0.15rem; height: 1.5px; background: currentColor;
+    transform: scaleX(0); transform-origin: right; transition: transform 0.45s var(--ease-out);
+  }
+  .primary a:hover::after, .primary a[aria-current='page']::after { transform: scaleX(1); transform-origin: left; }
+  .tools { display: flex; align-items: center; gap: 0.9rem; margin-left: auto; }
+  .langs { display: flex; gap: 0.15rem; list-style: none; margin: 0; padding: 0; }
+  .langs a {
+    display: grid; place-items: center; min-width: 2.4rem; min-height: 2.4rem; padding: 0 0.3rem;
+    font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-decoration: none; border-radius: 999px; opacity: 0.75;
+  }
+  .langs a:hover { opacity: 1; background: rgba(127,127,127,.14); }
+  .langs a[aria-current='true'] { opacity: 1; box-shadow: inset 0 0 0 1.5px currentColor; }
+  .header-cta { display: none; }
+  .menu-btn {
+    display: inline-flex; align-items: center; gap: 0.5rem; min-height: 2.75rem; padding: 0 0.9rem;
+    border: 0; border-radius: 999px; background: rgba(127,127,127,.14); cursor: pointer; font-weight: 650; font-size: 0.92rem;
+  }
+  .menu-btn :global(.icon) { width: 1.3rem; height: 1.3rem; }
+  .site-header .langs { display: none; }
+  @media (min-width: 640px) { .site-header .langs { display: flex; } }
+  @media (min-width: 1100px) {
+    .primary { display: block; }
+    .header-cta { display: inline-flex; }
+  }
+  @media (max-width: 420px) { .menu-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); } }
+
+  .menu-panel {
+    width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 0; border: 0;
+    background: var(--ink); color: var(--snow);
+  }
+  .menu-panel::backdrop { background: rgba(0,0,0,.4); }
+  .menu-panel[open] { animation: panel-in 0.6s var(--ease-out); }
+  @keyframes panel-in { from { opacity: 0; clip-path: inset(0 0 100% 0); } to { opacity: 1; clip-path: inset(0); } }
+  .menu-inner { min-height: 100%; display: flex; flex-direction: column; padding-bottom: 2rem; }
+  .menu-top { display: flex; justify-content: space-between; align-items: center; height: 4.5rem; }
+  .menu-top .menu-btn { background: rgba(255,255,255,.1); }
+  .menu-groups { display: grid; gap: 2.2rem; padding-block: 2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); flex: 1; align-content: start; }
+  .menu-group .kicker { color: #f0b48a; }
+  .menu-group ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.2rem; }
+  .menu-group a {
+    font-family: var(--serif); font-size: clamp(1.9rem, 1.4rem + 1.6vw, 2.6rem); line-height: 1.2; text-decoration: none;
+    display: inline-block; transition: color 0.3s, transform 0.4s var(--ease-out);
+  }
+  .menu-group a:hover, .menu-group a[aria-current='page'] { color: #f0b48a; transform: translateX(6px); }
+  .menu-foot { display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: center; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.14); }
+  .menu-foot > a { display: inline-flex; gap: 0.5rem; align-items: center; text-decoration: none; font-weight: 600; }
+  .menu-foot :global(.icon) { width: 1.1rem; height: 1.1rem; }
+  .menu-foot .langs { margin-left: auto; display: flex; }
+  .menu-foot .langs a { padding: 0 0.8rem; font-size: 0.85rem; letter-spacing: 0.02em; }
+</style>
