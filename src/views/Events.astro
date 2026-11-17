@@ -1,10 +1,9 @@
 ---
-import PageHero from '../components/PageHero.astro';
 import Pic from '../components/Pic.astro';
 import Icon from '../components/Icon.astro';
 import Cta from '../components/Cta.astro';
 import MailForm from '../components/MailForm.astro';
-import Gallery from '../components/Gallery.astro';
+import HScroll from '../components/HScroll.astro';
 import { dict } from '../i18n';
 import { type Lang } from '../lib/routes';
 import { site } from '../lib/data';
@@ -15,22 +14,28 @@ const E = T.events;
 const F = E.form;
 const icons = ['fork', 'cake', 'music', 'glass', 'parking'];
 ---
-<PageHero lang={lang} image="eventi-buffet" kicker={E.hero.kicker} title={E.hero.title} sub={E.hero.sub} tint="dusk" short>
-  <Cta href="#preventivo" lang={lang} size="lg" icon="arrow">{T.cta.requestQuote}</Cta>
-</PageHero>
-
-<section class="section bg-paper">
-  <div class="wrap split">
-    <ul class="ev-list" role="list">
-      {E.items.map((x, i) => <li data-reveal style={`--d:${i * 0.07}s`}><span class="icon-badge"><Icon name={icons[i]} /></span>{x}</li>)}
-    </ul>
-    <figure class="frame ratio-45 zoom" data-parallax="6"><Pic name="eventi-tavola" lang={lang} /></figure>
+<section class="e-hero" data-hero>
+  <div class="e-media" data-hero-media><Pic name="eventi-buffet" lang={lang} eager sizes="100vw" widths={[640, 960, 1280, 1800]} /></div>
+  <div class="wrap e-copy" data-hero-copy>
+    <p class="kicker">{E.hero.kicker}</p>
+    <h1>{E.hero.title}</h1>
+    <p class="lead">{E.hero.sub}</p>
+    <div class="actions"><Cta href="#preventivo" lang={lang} size="lg" icon="arrow">{T.cta.requestQuote}</Cta></div>
   </div>
 </section>
 
-<section class="section-tight"><div class="wrap"><Gallery lang={lang} images={['eventi-bar', 'eventi-vini', 'food-tagliere']} layout="row" /></div></section>
+<section class="section">
+  <div class="wrap split">
+    <ul class="ticks ev-list" role="list">
+      {E.items.map((x, i) => <li data-reveal style={`--d:${i * 0.07}s`}>{x}</li>)}
+    </ul>
+    <figure class="frame ratio-45" data-mask="right"><Pic name="eventi-tavola" lang={lang} /></figure>
+  </div>
+</section>
 
-<section class="section bg-mist" id="preventivo">
+<section class="section-tight"><HScroll lang={lang} pin={false} images={['eventi-bar', 'eventi-vini', 'food-tagliere', 'food-sala']} shapes={['2/1', '4/3', '4/3', '3/2']} height="clamp(16rem, 48vh, 30rem)" /></section>
+
+<section class="section band-light" id="preventivo">
   <div class="wrap-narrow card">
     <h2>{F.title}</h2>
     <p class="muted">{F.intro}</p>
@@ -47,8 +52,14 @@ const icons = ['fork', 'cake', 'music', 'glass', 'parking'];
   </div>
 </section>
 <style>
-  .ev-list { display: grid; gap: 1rem; }
-  .ev-list li { display: flex; align-items: center; gap: 1rem; font-size: var(--step-1); font-weight: 600; }
-  .ev-list .icon-badge { margin: 0; flex: none; }
-  #preventivo h2 { font-size: var(--step-3); }
+  .e-hero { position: relative; min-height: 88svh; display: grid; align-items: end; overflow: hidden; isolation: isolate; color: #fff7ee; }
+  .e-media { position: absolute; inset: 0; z-index: -1; }
+  .e-media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(31,20,14,.5), rgba(31,20,14,.35) 40%, rgba(31,20,14,.95)); }
+  .e-media :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .e-copy { padding-block: 8rem calc(3rem + var(--dock-h)); }
+  .e-copy .kicker { color: #f3c9a8; }
+  .e-hero h1 { font-size: var(--fs-h2); max-width: 14ch; animation: rise 1.4s var(--ease-out) both .1s; }
+  .e-copy .lead { color: #f3e3d2; }
+  .ev-list li { font-family: var(--display); font-size: var(--fs-h3); letter-spacing: -.015em; padding: 1.2rem 0; }
+  #preventivo h2 { font-size: var(--fs-h2); }
 </style>

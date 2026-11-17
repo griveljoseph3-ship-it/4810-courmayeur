@@ -272,7 +272,31 @@
       "title": "Due indirizzi a Courmayeur",
       "dolonne": "Dolonne · Noleggio, ristorante, pasticceria, negozio",
       "centro": "Centro · Negozio storico e outlet"
-    }
+    },
+    "chapters": [
+      "Alba",
+      "Mattina",
+      "Pranzo",
+      "Pomeriggio",
+      "Sera"
+    ],
+    "numbers": [
+      {
+        "value": "4810",
+        "unit": "m",
+        "label": "Monte Bianco"
+      },
+      {
+        "value": "100",
+        "unit": "m",
+        "label": "dalla telecabina"
+      },
+      {
+        "value": "2",
+        "unit": "secoli",
+        "label": "di montagna"
+      }
+    ]
   },
   "rental": {
     "hero": {

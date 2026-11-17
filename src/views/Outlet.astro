@@ -1,32 +1,44 @@
 ---
-import PageHero from '../components/PageHero.astro';
+import { getImage } from 'astro:assets';
 import Pic from '../components/Pic.astro';
 import Cta from '../components/Cta.astro';
 import PlaceInfo from '../components/PlaceInfo.astro';
+import { img } from '../lib/images';
 import { dict } from '../i18n';
 import { href, type Lang } from '../lib/routes';
-import { directions, tbc } from '../lib/data';
+import { directions, tbc, site } from '../lib/data';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const T = dict[lang];
+const pct = site.offers.find((o) => o.id === 'outlet70')!.value.replace('-', '−');
 const O = T.outlet;
 const note = `${T.common.highSeason} · ${T.common.openDays}: <span class="tbc">${tbc(lang)}</span>`;
+const fill = await getImage({ src: img('outlet-hero'), width: 1600, format: 'webp', quality: 60 });
 ---
-<PageHero lang={lang} image="outlet-hero" kicker={O.hero.kicker} title={O.hero.title} sub={O.hero.sub} short>
-  <Cta href={directions('outlet')} lang={lang} size="lg" icon="pin">{T.common.directions}</Cta>
-</PageHero>
+<!-- APERTURA: "−70%" gigante riempito con la foto dell'outlet -->
+<section class="o-hero">
+  <div class="wrap">
+    <p class="caps o-mast"><span>{O.hero.kicker}</span><span>{O.badge}</span></p>
+    <p class="o-big num" aria-hidden="true" style={`background-image:url(${fill.src})`}>{pct}</p>
+    <div class="o-foot">
+      <h1>{O.hero.title}</h1>
+      <div>
+        <p class="lead">{O.hero.sub}</p>
+        <div class="actions"><Cta href={directions('outlet')} lang={lang} size="lg" icon="pin">{T.common.directions}</Cta></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<section class="section bg-paper">
-  <div class="wrap split">
-    <div>
-      <p class="badge70" data-reveal>{O.badge}</p>
-      <h2 data-split>{O.intro.title}</h2>
+<!-- FOTO SFALSATE -->
+<section class="section band-light">
+  <div class="wrap o-grid">
+    <div class="o-text">
+      <h2 data-lines>{O.intro.title}</h2>
       <p class="lead" data-reveal>{O.intro.text}</p>
     </div>
-    <div class="duo">
-      <figure class="frame ratio-45 zoom" data-reveal><Pic name="outlet-1" lang={lang} sizes="(min-width: 900px) 24vw, 46vw" /></figure>
-      <figure class="frame ratio-45 zoom" data-reveal style="--d:.15s"><Pic name="outlet-2" lang={lang} sizes="(min-width: 900px) 24vw, 46vw" /></figure>
-    </div>
+    <figure class="frame ratio-34 o-a" data-mask="up"><Pic name="outlet-1" lang={lang} sizes="(min-width: 900px) 28vw, 60vw" widths={[400, 640, 900]} /></figure>
+    <figure class="frame ratio-34 o-b" data-mask="down" data-speed="0.5"><Pic name="outlet-2" lang={lang} sizes="(min-width: 900px) 22vw, 50vw" widths={[400, 640, 900]} /></figure>
   </div>
 </section>
 
@@ -38,7 +50,20 @@ const note = `${T.common.highSeason} · ${T.common.openDays}: <span class="tbc">
   </div>
 </section>
 <style>
-  .badge70 { display: inline-block; font-family: var(--serif); font-size: clamp(3rem, 2rem + 4vw, 5.5rem); font-weight: 600; line-height: 1; color: var(--ember-ink); margin-bottom: 0.3em; letter-spacing: -0.02em; }
-  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-  .duo figure:nth-child(2) { margin-top: 3rem; }
+  .o-hero { padding: clamp(2rem, 1rem + 3vw, 4rem) 0 var(--space-block); overflow: clip; }
+  .o-mast { display: flex; justify-content: space-between; gap: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--line); color: var(--fg-soft); }
+  .o-mast span:last-child { color: var(--accent-ink); }
+  .o-big {
+    margin: 0 0 0 -0.04em; font-family: var(--display); font-weight: 600; font-size: clamp(7rem, 1rem + 31vw, 34rem); line-height: 0.86; letter-spacing: -0.07em; white-space: nowrap;
+    background-color: var(--accent-ink); background-size: cover; background-position: center; -webkit-background-clip: text; background-clip: text; color: transparent;
+    animation: o-in 1.6s var(--ease-out) both;
+  }
+  @keyframes o-in { from { opacity: 0; transform: translateY(8%) scale(1.04); } }
+  .o-foot { display: grid; gap: 2rem 5rem; margin-top: 1.5rem; animation: rise 1.3s var(--ease-out) both 0.35s; }
+  .o-foot h1 { font-size: var(--fs-h2); margin: 0; max-width: 12ch; }
+  @media (min-width: 900px) { .o-foot { grid-template-columns: 1.1fr 1fr; align-items: end; } }
+  .o-grid { display: grid; gap: 2rem; grid-template-columns: 1fr 1fr; align-items: start; }
+  .o-text { grid-column: 1 / -1; }
+  .o-b { margin-top: 4rem; }
+  @media (min-width: 900px) { .o-grid { grid-template-columns: 1.4fr 1fr 0.8fr; gap: 3rem; } .o-text { grid-column: 1; align-self: center; } .o-b { margin-top: 9rem; } }
 </style>

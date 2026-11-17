@@ -1,0 +1,23 @@
+---
+/** Galleria a scorrimento orizzontale. Mobile: scorrimento nativo con il dito. Desktop con GSAP: la sezione resta ferma e le foto scorrono. */
+import Pic from './Pic.astro';
+import type { Lang } from '../lib/routes';
+interface Props { images: string[]; lang: Lang; height?: string; pin?: boolean; shapes?: string[] }
+const { images, lang, height = 'clamp(20rem, 62vh, 44rem)', pin = true, shapes = ['3/4', '4/3', '1/1', '3/4', '16/10'] } = Astro.props;
+---
+<div class="hs" data-hscroll={pin ? '' : undefined}>
+  <div class="hs-track" tabindex="0" role="group" aria-label="Gallery">
+    <slot name="lead" />
+    {images.map((n, i) => (
+      <figure class="frame hs-item zoom" style={`height:${height};aspect-ratio:${shapes[i % shapes.length]};--o:${i % 2 ? '1.5rem' : '-1.5rem'}`}>
+        <Pic name={n} lang={lang} sizes="(min-width: 900px) 45vw, 80vw" widths={[480, 720, 960, 1280]} />
+      </figure>
+    ))}
+    <slot name="tail" />
+  </div>
+</div>
+<style>
+  .hs-track { padding-block: 2.5rem; }
+  .hs-item { max-width: 86vw; transform: translateY(var(--o)); }
+  @media (max-width: 899px) { .hs-item { transform: none; height: auto !important; width: 78vw; } }
+</style>

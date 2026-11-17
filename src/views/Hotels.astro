@@ -1,5 +1,5 @@
 ---
-import PageHero from '../components/PageHero.astro';
+import TitleHero from '../components/TitleHero.astro';
 import Icon from '../components/Icon.astro';
 import Cta from '../components/Cta.astro';
 import data from '../data/hotels.json';
@@ -13,9 +13,9 @@ const H = T.hotels;
 const zones = [...new Set(data.hotels.map((h) => h.zone))];
 const host = (u: string) => u.replace(/^https?:\/\//, '').replace(/\/$/, '');
 ---
-<PageHero lang={lang} image="seggiovia-monte-bianco" kicker={H.hero.kicker} title={H.hero.title} sub={H.hero.sub} short>
+<TitleHero kicker={H.hero.kicker} title={H.hero.title} sub={H.hero.sub}>
   <Cta href={site.booking.rentalOnline} lang={lang} size="lg">{T.cta.rentNow}</Cta>
-</PageHero>
+</TitleHero>
 
 <section class="section">
   <div class="wrap">
@@ -30,7 +30,7 @@ const host = (u: string) => u.replace(/^https?:\/\//, '').replace(/\/$/, '');
           <div class="zone-head"><h2 id={`z-${z}`}>{(H.zones as any)[z]}</h2><span class="muted small">{fill(H.count, { n: list.length })}</span></div>
           <ul class="grid grid-3" role="list">
             {list.map((h: any) => (
-              <li class="hotel card">
+              <li class="hotel">
                 <h3>{h.name}</h3>
                 {h.stars && <p class="stars" aria-label={`${h.stars} ${T.common.stars}`}>{'★'.repeat(h.stars)}</p>}
                 <p class="addr">{h.address}</p>
@@ -51,18 +51,19 @@ const host = (u: string) => u.replace(/^https?:\/\//, '').replace(/\/$/, '');
   </div>
 </section>
 <style>
-  .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2.5rem; position: sticky; top: 4.75rem; z-index: 5; padding: 0.6rem 0; background: linear-gradient(var(--snow) 75%, transparent); }
-  .chips button { min-height: 2.6rem; padding: 0.4rem 1rem; border-radius: 999px; border: 1px solid var(--line); background: var(--paper); cursor: pointer; font-weight: 650; font-size: 0.9rem; transition: background-color .25s, color .25s; }
-  .chips button[aria-pressed='true'] { background: var(--ink); color: var(--snow); border-color: var(--ink); }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2.5rem; position: sticky; top: 4.75rem; z-index: 5; padding: 0.6rem 0; background: linear-gradient(var(--bg) 75%, transparent); }
+  .chips button { min-height: 2.6rem; padding: 0.4rem 1rem; border-radius: 999px; border: 1px solid var(--line); background: transparent; cursor: pointer; font-weight: 650; font-size: 0.9rem; transition: background-color .25s, color .25s; }
+  .chips button[aria-pressed='true'] { background: #14110f; color: var(--bg); border-color: #14110f; }
   .zone { margin-bottom: 3.5rem; }
   .zone-head { display: flex; align-items: baseline; gap: 1rem; border-bottom: 1px solid var(--line); margin-bottom: 1.5rem; }
-  .zone-head h2 { font-size: var(--step-3); margin: 0 0 0.3rem; }
-  .hotel h3 { font-size: var(--step-1); font-family: var(--sans); font-weight: 750; margin-bottom: 0.2rem; line-height: 1.3; }
-  .stars { color: var(--ember); letter-spacing: 0.15em; margin: 0 0 0.4rem; font-size: 0.9rem; }
-  .addr { color: var(--muted); font-size: 0.92rem; }
+  .zone-head h2 { font-size: var(--fs-h2); margin: 0 0 0.3rem; }
+  .hotel { border-top: 1px solid var(--line); padding-top: 1.2rem; }
+  .hotel h3 { font-size: 1.15rem; font-family: var(--sans); font-weight: 750; margin-bottom: 0.2rem; line-height: 1.3; }
+  .stars { color: var(--ember-ink); letter-spacing: 0.15em; margin: 0 0 0.4rem; font-size: 0.9rem; }
+  .addr { color: var(--fg-soft); font-size: 0.92rem; }
   .hl { display: grid; gap: 0.45rem; font-size: 0.92rem; }
   .hl li { display: flex; gap: 0.55rem; align-items: center; min-width: 0; }
-  .hl :global(.icon) { width: 1.05rem; height: 1.05rem; flex: none; color: var(--ember-ink); }
+  .hl :global(.icon) { width: 1.05rem; height: 1.05rem; flex: none; }
   .hl a { overflow-wrap: anywhere; font-weight: 600; text-decoration: none; }
   .hl a:hover { text-decoration: underline; }
 </style>

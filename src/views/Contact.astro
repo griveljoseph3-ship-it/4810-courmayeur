@@ -1,5 +1,5 @@
 ---
-import PageHero from '../components/PageHero.astro';
+import TitleHero from '../components/TitleHero.astro';
 import PlaceInfo from '../components/PlaceInfo.astro';
 import MailForm from '../components/MailForm.astro';
 import Cta from '../components/Cta.astro';
@@ -12,9 +12,9 @@ const T = dict[lang];
 const C = T.contact;
 const outletNote = `${T.common.highSeason} · ${T.common.openDays}: <span class="tbc">${tbc(lang)}</span>`;
 ---
-<PageHero lang={lang} image="panorama-piste" kicker={C.hero.kicker} title={C.hero.title} sub={C.hero.sub} short>
+<TitleHero kicker={C.hero.kicker} title={C.hero.title} sub={C.hero.sub}>
   <Cta href={telHref(site.places.dolonne.phone)} lang={lang} size="lg" icon="phone">{T.common.call} {site.places.dolonne.phone}</Cta>
-</PageHero>
+</TitleHero>
 <section class="section">
   <div class="wrap">
     <h2 class="sr-only">{T.common.hours}</h2>
@@ -28,7 +28,7 @@ const outletNote = `${T.common.highSeason} · ${T.common.openDays}: <span class=
     </div>
   </div>
 </section>
-<section class="section bg-mist" id="scrivici">
+<section class="section band-bone" id="scrivici">
   <div class="wrap-narrow card">
     <h2>{C.form.title}</h2>
     <p class="muted">{C.form.intro}</p>
@@ -45,4 +45,4 @@ const outletNote = `${T.common.highSeason} · ${T.common.openDays}: <span class=
       ]} />
   </div>
 </section>
-<style>#scrivici h2 { font-size: var(--step-3); }</style>
+<style>#scrivici h2 { font-size: var(--fs-h2); }</style>

@@ -1,5 +1,5 @@
 ---
-import PageHero from '../components/PageHero.astro';
+import TitleHero from '../components/TitleHero.astro';
 import Faq from '../components/Faq.astro';
 import Cta from '../components/Cta.astro';
 import { dict, fill } from '../i18n';
@@ -15,9 +15,9 @@ const vars = {
 };
 const groups = Object.entries(T.faq.groups).map(([k, g]) => ({ k, title: g.title, items: g.items.map((it) => ({ q: it.q, a: fill(it.a, vars) })) }));
 ---
-<PageHero lang={lang} image="sciatore-curva" kicker={T.faq.hero.kicker} title={T.faq.hero.title} sub={T.faq.hero.sub} short>
+<TitleHero kicker={T.faq.hero.kicker} title={T.faq.hero.title} sub={T.faq.hero.sub}>
   <Cta href={site.booking.rentalOnline} lang={lang} size="lg">{T.cta.rentNow}</Cta>
-</PageHero>
+</TitleHero>
 <section class="section">
   <div class="wrap-narrow">
     {groups.map((g) => (
@@ -30,5 +30,5 @@ const groups = Object.entries(T.faq.groups).map(([k, g]) => ({ k, title: g.title
 </section>
 <style>
   .fg + .fg { margin-top: 4rem; }
-  .fg h2 { font-size: var(--step-3); }
+  .fg h2 { font-size: var(--fs-h2); }
 </style>

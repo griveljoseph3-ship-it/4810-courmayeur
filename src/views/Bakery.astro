@@ -1,11 +1,7 @@
 ---
-import PageHero from '../components/PageHero.astro';
 import Pic from '../components/Pic.astro';
-import Icon from '../components/Icon.astro';
 import Cta from '../components/Cta.astro';
-import SectionHead from '../components/SectionHead.astro';
 import PlaceInfo from '../components/PlaceInfo.astro';
-import Gallery from '../components/Gallery.astro';
 import { dict } from '../i18n';
 import { type Lang } from '../lib/routes';
 import { site, telHref, tbc } from '../lib/data';
@@ -15,72 +11,124 @@ const T = dict[lang];
 const B = T.bakery;
 const tel = telHref(site.places.dolonne.phone);
 ---
-<PageHero lang={lang} image="bakery-bancone" kicker={B.hero.kicker} title={B.hero.title} sub={B.hero.sub} tint="lilac">
-  <Cta href={tel} lang={lang} size="lg" variant="bakery" icon="phone">{T.cta.orderCake}</Cta>
-</PageHero>
-
-<section class="section bg-paper">
-  <div class="wrap split">
-    <div>
-      <img class="sb-logo" src={`${import.meta.env.BASE_URL}sweet-bakery.svg`} alt="4810 Sweet Bakery" width="175" height="110" loading="lazy" />
-      <h2 data-split>{B.intro.title}</h2>
-      <p class="lead" data-reveal>{B.intro.text}</p>
-    </div>
-    <figure class="frame ratio-45 zoom" data-parallax="6"><Pic name="bakery-pasticcera" lang={lang} /></figure>
+<!-- APERTURA morbida: titolo in corsivo attorno a un grande arco, crema e lilla -->
+<section class="b-hero">
+  <div class="b-blob" aria-hidden="true"></div>
+  <div class="wrap b-grid">
+    <img class="b-logo" src={`${import.meta.env.BASE_URL}sweet-bakery.svg`} alt="4810 Sweet Bakery" width="175" height="110" />
+    <h1>{B.hero.title}</h1>
+    <figure class="frame b-arch"><Pic name="bakery-bancone" lang={lang} eager sizes="(min-width: 900px) 40vw, 86vw" widths={[480, 720, 960, 1280]} /></figure>
+    <p class="lead b-sub">{B.hero.sub}</p>
+    <div class="b-cta"><Cta href={tel} lang={lang} size="lg" icon="phone">{T.cta.orderCake}</Cta></div>
   </div>
 </section>
 
-<section class="section local">
-  <div class="wrap split rev">
-    <figure class="frame ratio-45 zoom" data-parallax="6"><Pic name="bakery-mele" lang={lang} /></figure>
+<!-- DICHIARAZIONE -->
+<section class="section b-intro">
+  <div class="wrap-narrow">
+    <h2 data-lines>{B.intro.title}</h2>
+    <p class="lead" data-reveal>{B.intro.text}</p>
+  </div>
+</section>
+
+<!-- SCHEDE SOVRAPPOSTE: chilometro zero -->
+<section class="section band-light b-local">
+  <div class="wrap b-local-grid">
+    <div class="b-pile" aria-hidden="false">
+      <figure class="frame p1" data-reveal><Pic name="bakery-mele" lang={lang} sizes="(min-width: 900px) 22vw, 50vw" widths={[320, 480, 720]} /></figure>
+      <figure class="frame p2" data-reveal style="--d:.15s"><Pic name="bakery-impasto" lang={lang} sizes="(min-width: 900px) 24vw, 56vw" widths={[320, 480, 720]} /></figure>
+      <figure class="frame p3" data-reveal style="--d:.3s"><Pic name="bakery-pasticcera" lang={lang} sizes="(min-width: 900px) 20vw, 46vw" widths={[320, 480, 720]} /></figure>
+    </div>
     <div>
       <p class="kicker" data-reveal>{B.local.kicker}</p>
-      <h2 data-split>{B.local.title}</h2>
+      <h2 data-lines>{B.local.title}</h2>
       <ul class="ticks" data-reveal>{B.local.items.map((x) => <li>{x}</li>)}</ul>
-      <h3 class="bread-title" data-reveal>{B.bread.title}</h3>
-      <p class="muted" data-reveal>{B.bread.text}</p>
     </div>
   </div>
 </section>
 
-<section class="section bg-ink on-dark best">
+<!-- I PIÙ AMATI: due dolci, grandi, alternati -->
+<section class="section b-best">
   <div class="wrap">
-    <SectionHead kicker={B.best.kicker} title={B.best.items.map((b) => b.name).join(" · ")} split={false} />
-    <div class="grid grid-2">
-      {B.best.items.map((b, i) => (
-        <article class="best-item" data-reveal style={`--d:${i * 0.12}s`}>
-          <figure class="frame ratio-32 zoom"><Pic name={i === 0 ? 'bakery-mousseline' : 'bakery-dessert'} lang={lang} sizes="(min-width: 900px) 45vw, 92vw" /></figure>
-          <h3>{b.name}</h3>
-          <p>{b.text}</p>
-        </article>
-      ))}
-    </div>
+    <p class="kicker" data-reveal>{B.best.kicker}</p>
+    {B.best.items.map((b, i) => (
+      <article class:list={['b-item', { rev: i % 2 === 1 }]}>
+        <figure class="frame b-round" data-mask="center"><Pic name={i === 0 ? 'bakery-mousseline' : 'bakery-dessert'} lang={lang} sizes="(min-width: 900px) 42vw, 86vw" widths={[480, 720, 960]} /></figure>
+        <div><h2 data-lines>{b.name}</h2><p class="lead" data-reveal>{b.text}</p></div>
+      </article>
+    ))}
   </div>
 </section>
 
-<section class="section-tight"><div class="wrap"><Gallery lang={lang} images={['bakery-vetrina', 'bakery-biscotti', 'bakery-mela', 'bakery-muffin', 'bakery-impasto', 'bakery-hero']} /></div></section>
+<!-- FORNO E GELATERIA: foto piena con testo -->
+<section class="b-bread">
+  <div class="b-bread-media" data-parallax="6"><Pic name="bakery-vetrina" lang={lang} sizes="100vw" widths={[640, 960, 1280, 1400]} /></div>
+  <div class="wrap-narrow b-bread-copy">
+    <h2 data-lines>{B.bread.title}</h2>
+    <p class="lead" data-reveal>{B.bread.text}</p>
+  </div>
+</section>
 
-<section class="section bg-paper">
-  <div class="wrap split info-split">
-    <div class="cakes">
-      <span class="icon-badge"><Icon name="cake" /></span>
-      <h2 data-split>{B.cakes.title}</h2>
+<!-- TORTE SU ORDINAZIONE -->
+<section class="section b-cakes">
+  <div class="wrap b-cakes-grid">
+    <div>
+      <h2 data-lines>{B.cakes.title}</h2>
       <p class="lead" data-reveal>{B.cakes.text}</p>
-      <div class="actions" data-reveal><Cta href={tel} lang={lang} size="lg" variant="bakery" icon="phone">{T.cta.orderCake}</Cta></div>
+      <div class="actions" data-reveal><Cta href={tel} lang={lang} size="lg" icon="phone">{T.cta.orderCake}</Cta></div>
       <p class="small muted diet">{B.diet} <span class="tbc">{tbc(lang)}</span></p>
     </div>
-    <PlaceInfo lang={lang} title="4810 Sweet Bakery · Dolonne" place="dolonne" service="bakery" />
+    <PlaceInfo lang={lang} title="4810 Sweet Bakery" place="dolonne" service="bakery" />
   </div>
 </section>
+
 <style>
-  .sb-logo { width: 11rem; height: auto; margin-bottom: 1.5rem; }
-  .local { background: linear-gradient(180deg, #f7f4ef, #f3ebf2); }
-  .bread-title { margin-top: 2rem; font-size: var(--step-2); }
-  .best { background: linear-gradient(160deg, #2a2420 0%, #3d2a3c 100%); }
-  .best .kicker { color: #e6c4e6; }
-  .best-item h3 { margin-top: 1.4rem; font-size: var(--step-3); }
-  .best-item p { color: rgba(247,244,239,.85); max-width: 32rem; }
-  .info-split { align-items: start; }
-  .cakes .icon-badge { color: var(--lilac-ink); }
-  .diet { margin-top: 1.5rem; }
+  .b-hero { position: relative; padding: clamp(1.5rem, 1rem + 2vw, 3rem) 0 var(--space-block); overflow: clip; }
+  .b-blob { position: absolute; width: 70vw; aspect-ratio: 1; right: -20vw; top: -10vw; border-radius: 50%; background: radial-gradient(circle, rgba(200, 162, 200, 0.5), rgba(200, 162, 200, 0) 68%); pointer-events: none; }
+  .b-grid { position: relative; display: grid; justify-items: center; text-align: center; gap: 1.5rem; }
+  .b-logo { width: 8.5rem; height: auto; animation: fade 1.2s both; }
+  .b-hero h1 { font-size: clamp(3rem, 1.2rem + 8.4vw, 9.5rem); max-width: 11ch; margin: 0; line-height: 0.92; animation: rise 1.4s var(--ease-out) both 0.1s; position: relative; z-index: 2; }
+  .b-arch { width: min(86vw, 34rem); aspect-ratio: 4 / 5; border-radius: 999px 999px 2.5rem 2.5rem; animation: b-arch 1.8s var(--ease-out) both 0.2s; }
+  @keyframes b-arch { from { clip-path: inset(40% 20% 0 20% round 999px 999px 2.5rem 2.5rem); opacity: 0; } to { clip-path: inset(0 round 999px 999px 2.5rem 2.5rem); opacity: 1; } }
+  .b-sub, .b-cta { animation: rise 1.4s var(--ease-out) both 0.5s; }
+  @media (min-width: 900px) {
+    .b-grid { grid-template-columns: 1fr minmax(0, 34rem) 1fr; align-items: end; column-gap: 3rem; }
+    .b-logo, .b-hero h1 { grid-column: 1 / -1; }
+    .b-hero h1 { margin-bottom: -0.38em; }
+    .b-arch { grid-column: 2; grid-row: 3; width: 100%; }
+    .b-sub { grid-column: 1; grid-row: 3; text-align: left; justify-self: end; padding-bottom: 3rem; max-width: 22rem; }
+    .b-cta { grid-column: 3; grid-row: 3; justify-self: start; padding-bottom: 3rem; }
+  }
+
+  .b-intro { text-align: center; }
+  .b-intro .lead { margin-inline: auto; color: var(--fg-soft); }
+
+  .b-local-grid { display: grid; gap: 4rem; align-items: center; }
+  @media (min-width: 900px) { .b-local-grid { grid-template-columns: 1fr 1fr; gap: 6rem; } }
+  .b-pile { position: relative; aspect-ratio: 1; max-width: 34rem; width: 100%; margin-inline: auto; }
+  .b-pile figure { position: absolute; box-shadow: var(--shadow); transition: transform 0.9s var(--ease-out), opacity 1.2s var(--ease-out); }
+  .p1 { width: 56%; aspect-ratio: 3 / 4; left: 0; top: 0; rotate: -5deg; }
+  .p2 { width: 58%; aspect-ratio: 1; right: 0; top: 16%; rotate: 4deg; z-index: 1; }
+  .p3 { width: 48%; aspect-ratio: 4 / 5; left: 18%; bottom: 0; rotate: -2deg; z-index: 2; }
+  .b-pile:hover .p1 { transform: translate(-4%, -3%) rotate(-3deg); }
+  .b-pile:hover .p2 { transform: translate(4%, -2%) rotate(3deg); }
+  .b-pile:hover .p3 { transform: translateY(4%); }
+
+  .b-item { display: grid; gap: 2rem; align-items: center; margin-top: var(--space-block); }
+  @media (min-width: 900px) { .b-item { grid-template-columns: 1fr 1fr; gap: 6rem; } .b-item.rev .b-round { order: 2; } }
+  .b-round { aspect-ratio: 1; border-radius: 50%; max-width: 34rem; width: 100%; }
+  .b-item.rev .b-round { border-radius: 40% 60% 55% 45% / 50% 45% 55% 50%; justify-self: end; }
+  .b-item h2 { font-size: var(--fs-display); }
+  .b-item .lead { color: var(--fg-soft); }
+
+  .b-bread { position: relative; min-height: 86svh; display: grid; align-items: center; overflow: hidden; isolation: isolate; color: #fff; --fg: #fff; text-align: center; border-radius: 4rem 4rem 0 0; }
+  .b-bread-media { position: absolute; inset: 0; z-index: -1; }
+  .b-bread-media::after { content: ''; position: absolute; inset: 0; background: rgba(44, 31, 44, 0.62); }
+  .b-bread-media :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .b-bread-copy { padding-block: 6rem; }
+  .b-bread-copy .lead { margin-inline: auto; }
+
+  .b-cakes-grid { display: grid; gap: 4rem clamp(2rem, 6vw, 8rem); }
+  @media (min-width: 900px) { .b-cakes-grid { grid-template-columns: 1.2fr 1fr; align-items: start; } }
+  .diet { margin-top: 2rem; }
 </style>

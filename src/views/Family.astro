@@ -1,5 +1,5 @@
 ---
-import PageHero from '../components/PageHero.astro';
+import TitleHero from '../components/TitleHero.astro';
 import Pic from '../components/Pic.astro';
 import Cta from '../components/Cta.astro';
 import { dict } from '../i18n';
@@ -10,28 +10,28 @@ const T = dict[lang];
 const F = T.family;
 const pics = ['family-officina', 'family-bambini', 'family-ritratto'];
 ---
-<PageHero lang={lang} image="family-gruppo" kicker={F.hero.kicker} title={F.hero.title} sub={F.hero.sub} short position="center 30%">
-  <Cta href={href('home', lang)} lang={lang} size="lg" variant="light">4810 Courmayeur</Cta>
-</PageHero>
-<section class="section bg-paper">
+<TitleHero kicker={F.hero.kicker} title={F.hero.title} sub={F.hero.sub}>
+  
+</TitleHero>
+<section class="section band-paper">
   <div class="wrap">
     {F.story.map((s, i) => (
       <article class:list={['split story', { rev: i % 2 === 1 }]}>
-        <figure class="frame ratio-43 zoom" data-parallax="5"><Pic name={pics[i]} lang={lang} /></figure>
+        <figure class="frame ratio-43" data-mask={i % 2 ? "right" : "left"}><Pic name={pics[i]} lang={lang} /></figure>
         <div>
           <p class="story-n" data-reveal>{String(i + 1).padStart(2, '0')}</p>
-          <h2 data-split>{s.title}</h2>
+          <h2 data-lines>{s.title}</h2>
           <p class="lead" data-reveal>{s.text}</p>
         </div>
       </article>
     ))}
   </div>
 </section>
-<section class="section bg-ink on-dark">
+<section class="section band-ink">
   <div class="wrap-narrow"><blockquote class="fq" data-reveal>“{F.quote}”</blockquote></div>
 </section>
 <style>
   .story + .story { margin-top: clamp(4rem, 3rem + 5vw, 8rem); }
-  .story-n { font-family: var(--serif); font-size: 3rem; color: var(--ember-ink); line-height: 1; margin-bottom: .5rem; }
-  .fq { margin: 0; font-family: var(--serif); font-size: var(--step-3); line-height: 1.2; text-align: center; font-style: italic; font-weight: 450; }
+  .story-n { font-family: var(--display); font-size: 3rem; color: var(--ember-ink); line-height: 1; margin-bottom: .5rem; }
+  .fq { margin: 0; font-family: var(--display); font-size: var(--fs-h2); line-height: 1.05; letter-spacing: -.025em; text-align: center; font-style: italic; font-weight: 320; }
 </style>

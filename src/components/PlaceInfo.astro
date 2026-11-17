@@ -21,7 +21,7 @@ const p: any = site.places[place];
 const email = Astro.props.email !== undefined ? Astro.props.email : service ? (site.services as any)[service].email : null;
 const addr = addressLine(place, lang).replace(tbc(lang), `<span class="tbc">${tbc(lang)}</span>`);
 ---
-<article class:list={['place card', { 'on-dark': dark }]}>
+<article class="place">
   <h3>{title}</h3>
   <ul class="place-list" role="list">
     <li><Icon name="pin" />{directions(place) ? <a href={directions(place)} target="_blank" rel="noopener"><span set:html={addr} /><span class="sr-only"> {T.newTab}</span></a> : <span set:html={addr} />}</li>
@@ -48,16 +48,17 @@ const addr = addressLine(place, lang).replace(tbc(lang), `<span class="tbc">${tb
   </div>
 </article>
 <style>
-  .place h3 { font-size: var(--step-2); }
-  .place-list { display: grid; gap: 0.7rem; margin: 1rem 0 1.4rem; }
+  .place { padding-top: 1.6rem; border-top: 1px solid var(--line); }
+  .place h3 { font-size: var(--fs-h3); margin-bottom: 1.4rem; }
+  .place-list { display: grid; gap: 0.6rem; margin: 0 0 1.6rem; }
   .place-list li { display: flex; gap: 0.75rem; align-items: flex-start; }
-  .place-list :global(.icon) { width: 1.2rem; height: 1.2rem; flex: none; margin-top: 0.25rem; color: var(--ember-ink); }
-  .place-list a { text-decoration: none; font-weight: 600; }
+  .place-list :global(.icon) { width: 1.1rem; height: 1.1rem; flex: none; margin-top: 0.28rem; opacity: 0.6; }
+  .place-list a { text-decoration: none; font-weight: 550; }
   .place-list a:hover { text-decoration: underline; }
-  .place-hours { padding-top: 1rem; border-top: 1px solid var(--line); }
-  .place-h { display: flex; gap: 0.5rem; align-items: center; font-weight: 700; margin-bottom: 0.4rem; }
-  .place-h :global(.icon) { width: 1.15rem; height: 1.15rem; color: var(--ember-ink); }
-  .season { margin: 0.8rem 0 0; font-weight: 700; font-size: 0.92rem; text-transform: uppercase; letter-spacing: 0.08em; }
+  .place-hours { padding-top: 1.2rem; border-top: 1px solid var(--line); }
+  .place-h { display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.4rem; font-size: var(--fs-caps); letter-spacing: var(--tracking-caps); text-transform: uppercase; font-weight: 600; color: var(--fg-soft); }
+  .place-h :global(.icon) { width: 1rem; height: 1rem; }
+  .season { margin: 1rem 0 0; font-weight: 650; font-size: 0.9rem; }
   .place-note { margin-top: 0.8rem; }
-  .actions { margin-top: 1.4rem; }
+  .actions { margin-top: 1.6rem; }
 </style>

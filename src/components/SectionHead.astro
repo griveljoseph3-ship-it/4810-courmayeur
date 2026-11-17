@@ -1,11 +1,11 @@
 ---
-interface Props { kicker?: string; title: string; text?: string; center?: boolean; level?: 'h2' | 'h3'; split?: boolean }
-const { kicker, title, text, center = false, level = 'h2', split = true } = Astro.props;
+interface Props { kicker?: string; title: string; text?: string; center?: boolean; level?: 'h2' | 'h3'; split?: boolean; class?: string }
+const { kicker, title, text, center = false, level = 'h2', split = true, class: cls } = Astro.props;
 const H = level;
 ---
-<div class:list={['section-head', { center }]}>
+<div class:list={['section-head', { center }, cls]}>
   {kicker && <p class="kicker" data-reveal>{kicker}</p>}
-  <H data-split={split ? '' : undefined}>{title}</H>
+  <H data-lines={split ? '' : undefined}>{title}</H>
   {text && <p class="lead" data-reveal style="--d:.1s">{text}</p>}
   <slot />
 </div>

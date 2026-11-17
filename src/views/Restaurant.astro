@@ -1,16 +1,14 @@
 ---
-import PageHero from '../components/PageHero.astro';
 import Pic from '../components/Pic.astro';
 import Icon from '../components/Icon.astro';
 import Cta from '../components/Cta.astro';
-import SectionHead from '../components/SectionHead.astro';
 import PlaceInfo from '../components/PlaceInfo.astro';
 import Faq from '../components/Faq.astro';
-import Gallery from '../components/Gallery.astro';
+import HScroll from '../components/HScroll.astro';
 import Reviews from '../components/Reviews.astro';
 import { dict, fill } from '../i18n';
 import { href, asset, type Lang } from '../lib/routes';
-import { site, fmtTime, tbc, wineList, telHref } from '../lib/data';
+import { site, fmtTime, tbc, wineList } from '../lib/data';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const T = dict[lang];
@@ -18,100 +16,139 @@ const R = T.restaurant;
 const m = site.services.food.moments;
 const ap = m.aperitivo;
 const tb = `<span class="tbc">${tbc(lang)}</span>`;
+const d3 = (k: keyof typeof T.common.days) => T.common.days[k].slice(0, 3);
 const moments = [
-  { icon: 'croissant', t: R.moments.breakfast, when: `${T.common.from} ${fmtTime(m.breakfast.from, lang)}` },
-  { icon: 'fork', t: R.moments.lunch, when: `${fmtTime(m.lunch.from, lang)}–${fmtTime(m.lunch.to, lang)} ${tb}`, note: R.moments.lunch.note },
-  { icon: 'cake', t: R.moments.snack, when: `${fmtTime(ap.weekdays[0], lang)}–${fmtTime(ap.weekend[1], lang)}` },
-  { icon: 'glass', t: { ...R.moments.aperitivo, text: fill(R.moments.aperitivo.text, { tapas: fmtTime(m.tapasFrom, lang) }) }, when: `${T.common.days.mon.slice(0, 3)}, ${T.common.days.wed.slice(0, 3)}, ${T.common.days.thu.slice(0, 3)} ${fmtTime(ap.weekdays[0], lang)}–${fmtTime(ap.weekdays[1], lang)} · ${T.common.days.fri.slice(0, 3)}–${T.common.days.sun.slice(0, 3)} ${fmtTime(ap.weekend[0], lang)}–${fmtTime(ap.weekend[1], lang)}`, cta: true },
+  { big: fmtTime(m.breakfast.from, lang), t: R.moments.breakfast, when: `${T.common.from} ${fmtTime(m.breakfast.from, lang)}` },
+  { big: fmtTime(m.lunch.from, lang), t: R.moments.lunch, when: `${fmtTime(m.lunch.from, lang)}–${fmtTime(m.lunch.to, lang)} ${tb}`, note: R.moments.lunch.note },
+  { big: fmtTime(ap.weekdays[0], lang), t: R.moments.snack, when: `${fmtTime(ap.weekdays[0], lang)}–${fmtTime(ap.weekend[1], lang)}` },
+  { big: fmtTime(m.tapasFrom, lang), t: { ...R.moments.aperitivo, text: fill(R.moments.aperitivo.text, { tapas: fmtTime(m.tapasFrom, lang) }) }, when: `${d3('mon')}, ${d3('wed')}, ${d3('thu')} ${fmtTime(ap.weekdays[0], lang)}–${fmtTime(ap.weekdays[1], lang)} · ${d3('fri')}–${d3('sun')} ${fmtTime(ap.weekend[0], lang)}–${fmtTime(ap.weekend[1], lang)}`, cta: true },
 ];
 const faq = T.faq.groups.food.items.map((it) => ({ ...it, a: fill(it.a, { phone: site.places.dolonne.phone }) }));
 ---
-<PageHero lang={lang} image="food-camino" kicker={R.hero.kicker} title={R.hero.title} sub={R.hero.sub} tint="dusk">
-  <Cta href={site.booking.lunch} lang={lang} size="lg">{T.cta.bookTable}</Cta>
-</PageHero>
+<!-- APERTURA calda: camino a tutto schermo, titolo centrato -->
+<section class="f-hero" data-hero>
+  <div class="f-media" data-hero-media><Pic name="food-camino" lang={lang} eager sizes="100vw" widths={[640, 960, 1280, 1600, 2000]} /></div>
+  <div class="f-shade" aria-hidden="true"></div>
+  <div class="wrap f-copy" data-hero-copy>
+    <p class="kicker">{R.hero.kicker}</p>
+    <h1>{R.hero.title}</h1>
+    <p class="lead">{R.hero.sub}</p>
+    <div class="actions"><Cta href={site.booking.lunch} lang={lang} size="lg">{T.cta.bookTable}</Cta></div>
+  </div>
+</section>
 
-<section class="section-tight bg-ink on-dark menus">
-  <div class="wrap menus-row">
+<!-- MENU: tre voci tipografiche -->
+<section class="f-menus">
+  <div class="wrap">
     <p class="kicker">{R.menus.title} · {fill(R.menus.season, { season: site.menus.restaurant.season })}</p>
     <ul role="list">
-      <li><a href={asset(site.menus.restaurant.file)} target="_blank" rel="noopener"><Icon name="doc" />{T.cta.menuRestaurant}<span class="pdf">PDF</span></a></li>
-      <li><a href={asset(site.menus.bar.file)} target="_blank" rel="noopener"><Icon name="doc" />{T.cta.menuBar}<span class="pdf">PDF</span></a></li>
-      <li><a href={wineList(lang)} target="_blank" rel="noopener"><Icon name="wine" />{T.cta.wineList}<Icon name="external" class="ext" /></a></li>
+      <li><a href={asset(site.menus.restaurant.file)} target="_blank" rel="noopener"><span>{T.cta.menuRestaurant}</span><span class="caps">PDF <Icon name="arrow" /></span></a></li>
+      <li><a href={asset(site.menus.bar.file)} target="_blank" rel="noopener"><span>{T.cta.menuBar}</span><span class="caps">PDF <Icon name="arrow" /></span></a></li>
+      <li><a href={wineList(lang)} target="_blank" rel="noopener"><span>{T.cta.wineList}</span><span class="caps">Online <Icon name="external" /></span></a></li>
     </ul>
   </div>
 </section>
 
-<section class="section">
+<!-- ORE GIGANTI: la giornata a tavola -->
+<section class="section band-light f-day">
   <div class="wrap">
-    <SectionHead title={R.moments.title} />
-    <ul class="grid grid-4" role="list">
+    <h2 data-lines>{R.moments.title}</h2>
+    <ol class="f-times" role="list">
       {moments.map((mo, i) => (
-        <li class="card moment-card" data-reveal style={`--d:${i * 0.08}s`}>
-          <span class="icon-badge"><Icon name={mo.icon} /></span>
-          <h3>{mo.t.title}</h3>
-          <p class="when" set:html={mo.when} />
-          <p class="muted">{mo.t.text}</p>
-          {mo.note && <p class="small muted">{mo.note}</p>}
-          {mo.cta && <Cta href={site.booking.aperitivo} lang={lang} variant="link">{T.cta.bookAperitivo}</Cta>}
+        <li>
+          <p class="f-big num" aria-hidden="true" data-reveal>{mo.big}</p>
+          <div class="f-t" data-reveal style="--d:.1s">
+            <h3>{mo.t.title}</h3>
+            <p class="f-when num" set:html={mo.when} />
+            <p>{mo.t.text}</p>
+            {mo.note && <p class="small muted">{mo.note}</p>}
+            {mo.cta && <p class="f-link"><Cta href={site.booking.aperitivo} lang={lang} variant="link">{T.cta.bookAperitivo}</Cta></p>}
+          </div>
         </li>
       ))}
-    </ul>
+    </ol>
   </div>
 </section>
 
-<section class="section-tight"><div class="wrap"><Gallery lang={lang} images={['food-sala', 'food-piatto', 'food-salmone', 'food-tagliere', 'food-sala-vetrate', 'food-aperitivo']} /></div></section>
-
-<section class="section bg-paper">
-  <div class="wrap split">
-    <figure class="frame ratio-45 zoom" data-parallax="6"><Pic name="food-esterno-neve" lang={lang} /></figure>
-    <div>
-      <p class="kicker" data-reveal>{R.farm.kicker}</p>
-      <h2 data-split>{R.farm.title}</h2>
-      <p class="lead" data-reveal>{R.farm.text}</p>
-      <div class="actions" data-reveal><Cta href={site.booking.lunch} lang={lang} size="lg">{T.cta.bookTable}</Cta></div>
-    </div>
-  </div>
+<!-- GALLERIA ORIZZONTALE -->
+<section class="section-tight" data-hscroll-pin>
+  <HScroll lang={lang} images={['food-tagliere', 'food-risotto', 'food-sala', 'food-salmone', 'food-aperitivo', 'food-sala-vetrate']} shapes={['4/3', '3/4', '3/2', '1/1', '3/4', '3/2']} />
 </section>
 
-<section class="section bg-mist">
-  <div class="wrap">
-    <SectionHead kicker={T.home.reviews.kicker} title={T.home.reviews.title} />
-    <Reviews lang={lang} service="food" limit={3} />
+<!-- METÀ FISSA: dalla nostra terra -->
+<section class="f-farm band-light">
+  <figure class="frame f-farm-media"><Pic name="food-esterno-neve" lang={lang} sizes="(min-width: 900px) 50vw, 100vw" /></figure>
+  <div class="f-farm-body">
+    <p class="kicker" data-reveal>{R.farm.kicker}</p>
+    <h2 data-lines>{R.farm.title}</h2>
+    <p class="lead" data-reveal>{R.farm.text}</p>
+    <div class="actions" data-reveal><Cta href={site.booking.lunch} lang={lang} size="lg">{T.cta.bookTable}</Cta></div>
   </div>
 </section>
 
 <section class="section">
-  <div class="wrap split info-split">
-    <div>
-      <SectionHead title={R.faqTitle} />
-      <Faq items={faq} />
-      <div class="events-teaser" data-reveal>
-        <h3>{R.events.title}</h3>
-        <p class="muted">{R.events.text}</p>
-        <Cta href={href('events', lang)} lang={lang} variant="link">{T.cta.requestQuote}</Cta>
-      </div>
-    </div>
-    <PlaceInfo lang={lang} title="4810 We Are Food · Dolonne" place="dolonne" service="food">
-      <Cta href={site.booking.lunch} lang={lang} size="sm">{T.cta.bookTable}</Cta>
-    </PlaceInfo>
+  <div class="wrap"><p class="kicker" data-reveal>{T.home.reviews.kicker}</p><Reviews lang={lang} service="food" limit={3} /></div>
+</section>
+
+<section class="section band-light">
+  <div class="wrap f-info">
+    <div><h2>{R.faqTitle}</h2><Faq items={faq} /></div>
+    <PlaceInfo lang={lang} title="4810 We Are Food" place="dolonne" service="food" />
   </div>
 </section>
+
+<a class="f-events" href={href('events', lang)}>
+  <span class="caps">{T.nav.events}</span>
+  <span class="f-events-t">{R.events.title}</span>
+  <span class="f-events-s">{R.events.text} <span class="link">{T.cta.requestQuote}</span></span>
+</a>
+
 <style>
-  .menus-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem; }
-  .menus .kicker { margin: 0; }
-  .menus ul { display: flex; flex-wrap: wrap; gap: 0.7rem; }
-  .menus a {
-    display: inline-flex; align-items: center; gap: 0.55rem; min-height: 3rem; padding: 0.5rem 1.1rem; border-radius: 999px;
-    background: rgba(255,255,255,.08); box-shadow: inset 0 0 0 1px rgba(255,255,255,.2); text-decoration: none; font-weight: 650;
-    transition: background-color .3s, transform .4s var(--ease-out);
+  .f-hero { position: relative; min-height: 100svh; display: grid; align-items: center; text-align: center; overflow: hidden; isolation: isolate; color: #fff7ee; }
+  .f-media { position: absolute; inset: 0; z-index: -2; }
+  .f-media :global(img) { width: 100%; height: 100%; object-fit: cover; animation: f-zoom 3s var(--ease-out) both; }
+  @keyframes f-zoom { from { transform: scale(1.15); } }
+  .f-shade { position: absolute; inset: 0; z-index: -1; background: radial-gradient(70% 60% at 50% 50%, rgba(31, 20, 14, 0.35), rgba(31, 20, 14, 0.88)); }
+  .f-copy { padding-block: 7rem calc(3rem + var(--dock-h)); display: grid; justify-items: center; }
+  .f-copy .kicker { color: #f3c9a8; animation: fade 1.4s both 0.1s; }
+  .f-hero h1 { font-size: clamp(2.9rem, 1.4rem + 6.6vw, 8rem); max-width: 14ch; line-height: 0.98; animation: rise 1.5s var(--ease-out) both 0.2s; }
+  .f-copy .lead { color: #f3e3d2; animation: rise 1.5s var(--ease-out) both 0.4s; }
+  .f-copy .actions { justify-content: center; animation: rise 1.5s var(--ease-out) both 0.55s; }
+
+  .f-menus { padding-block: var(--space-block); }
+  .f-menus .kicker { color: var(--accent); }
+  .f-menus ul { border-top: 1px solid var(--line); }
+  .f-menus a { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: clamp(1rem, 0.6rem + 1.4vw, 1.8rem) 0; border-bottom: 1px solid var(--line); text-decoration: none; font-family: var(--display); font-size: clamp(1.9rem, 1.2rem + 3.4vw, 4.6rem); line-height: 1; letter-spacing: -0.025em; transition: padding 0.6s var(--ease-out), color 0.4s; }
+  .f-menus a:hover { padding-left: 1.2rem; color: var(--accent); }
+  .f-menus .caps { display: inline-flex; gap: 0.5rem; align-items: center; color: var(--fg-soft); flex: none; }
+  .f-menus :global(.icon) { width: 1rem; height: 1rem; }
+
+  .f-day h2 { max-width: 12ch; margin-bottom: var(--space-block); }
+  .f-times li { display: grid; gap: 0.5rem 3rem; padding: clamp(1.5rem, 1rem + 2vw, 3rem) 0; border-top: 1px solid var(--line); align-items: end; }
+  @media (min-width: 900px) { .f-times li { grid-template-columns: 1.2fr 1fr; } .f-times li:nth-child(even) .f-big { order: 2; text-align: right; } }
+  .f-big { margin: 0; font-family: var(--display); font-weight: 300; font-style: italic; font-size: clamp(5rem, 2rem + 14vw, 15rem); line-height: 0.8; letter-spacing: -0.05em; color: var(--accent-ink); }
+  .f-t { max-width: 28rem; }
+  .f-t h3 { margin-bottom: 0.3em; }
+  .f-when { font-weight: 650; margin-bottom: 0.6em; }
+  .f-t p { color: var(--fg-soft); }
+  .f-t .f-when { color: var(--fg); }
+  .f-link { margin-top: 1rem; color: var(--fg) !important; }
+
+  .f-farm { display: grid; }
+  .f-farm-media { aspect-ratio: 4 / 3; border-radius: 0; }
+  .f-farm-body { padding: var(--space-block) var(--gutter); }
+  @media (min-width: 900px) {
+    .f-farm { grid-template-columns: 1fr 1fr; }
+    .f-farm-media { position: sticky; top: 0; height: 100vh; aspect-ratio: auto; order: 2; }
+    .f-farm-body { min-height: 130vh; display: flex; flex-direction: column; justify-content: center; padding: 6rem clamp(2.5rem, 6vw, 7rem); }
   }
-  .menus a:hover { background: rgba(255,255,255,.16); transform: translateY(-2px); }
-  .menus :global(.icon) { width: 1.2rem; height: 1.2rem; color: #f6c9a6; }
-  .menus :global(.ext) { width: 0.95rem; height: 0.95rem; color: rgba(255,255,255,.6); }
-  .pdf { font-size: 0.68rem; font-weight: 800; letter-spacing: .08em; padding: 0.1rem 0.4rem; border-radius: 6px; background: rgba(255,255,255,.14); }
-  .moment-card h3 { font-size: var(--step-2); }
-  .when { font-weight: 700; font-variant-numeric: tabular-nums; color: var(--ember-ink); font-size: 0.95rem; }
-  .info-split { align-items: start; }
-  .events-teaser { margin-top: 2.5rem; padding: 1.6rem; border-radius: var(--radius); background: var(--mist); }
-  .events-teaser h3 { font-size: var(--step-2); }
+
+  .f-info { display: grid; gap: 4rem clamp(2rem, 6vw, 8rem); }
+  @media (min-width: 900px) { .f-info { grid-template-columns: 1.3fr 1fr; align-items: start; } }
+  .f-info h2 { font-size: var(--fs-h3); margin-bottom: 1.5rem; }
+
+  .f-events { display: grid; gap: 1rem; padding: var(--space-block) var(--gutter); text-decoration: none; background: var(--accent-ink); color: #fff7ee; }
+  .f-events-t { font-family: var(--display); font-size: var(--fs-h2); line-height: 1; letter-spacing: -0.025em; max-width: 16ch; }
+  .f-events-s { max-width: 40rem; }
+  .f-events .link { margin-left: 0.5rem; }
 </style>

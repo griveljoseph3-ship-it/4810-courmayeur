@@ -79,7 +79,7 @@ const books = [
         );
       })}
     </ul>
-    <p class="kicker sheet-kicker">{T.dock.bookTitle}</p>
+    <p class="caps sheet-kicker">{T.dock.bookTitle}</p>
     <div class="sheet-books">
       {books.map((b) => (
         <a href={b.url} target="_blank" rel="noopener"><Icon name={b.icon} /><span>{b.label}</span><span class="sr-only"> {T.common.newTab}</span></a>
@@ -91,6 +91,7 @@ const books = [
 
 <style>
   .dock {
+    color: #14110f; --accent-ink: #a44c0e; --accent-deep: #863d09; --radius-btn: 999px;
     position: fixed; z-index: 60;
     left: 0; right: 0; bottom: var(--cookie-offset);
     display: flex; align-items: center; gap: 0.35rem;
@@ -98,7 +99,7 @@ const books = [
     background: rgba(255, 253, 249, 0.92);
     backdrop-filter: saturate(1.5) blur(16px);
     -webkit-backdrop-filter: saturate(1.5) blur(16px);
-    box-shadow: 0 -1px 0 var(--line), 0 -12px 30px -18px rgba(42, 36, 32, 0.35);
+    box-shadow: 0 -1px 0 rgba(20,17,15,.12), 0 -12px 30px -18px rgba(42, 36, 32, 0.35);
     transition: bottom 0.3s var(--ease);
   }
   .dock-today {
@@ -108,18 +109,18 @@ const books = [
     border: 0; border-radius: 14px; background: transparent; cursor: pointer; text-align: left;
   }
   .dock-today:hover { background: rgba(42,36,32,.05); }
-  .dock-today > :global(.icon) { width: 1.35rem; height: 1.35rem; color: var(--ember-ink); flex: none; }
+  .dock-today > :global(.icon) { width: 1.35rem; height: 1.35rem; color: #a44c0e; flex: none; }
   .dock-today-text { display: grid; min-width: 0; line-height: 1.25; }
-  .dock-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .dock-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #6b635b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .dock-ctx { display: none; }
   @media (min-width: 480px) { .dock-ctx { display: inline; } }
   .dock-value { font-size: 0.86rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
   .dock-value :global(.tbc) { font-size: 0.68rem; }
-  .dock-chev { width: 1rem; height: 1rem; flex: none; color: var(--muted); transform: rotate(180deg); display: none; }
+  .dock-chev { width: 1rem; height: 1rem; flex: none; color: #6b635b; transform: rotate(180deg); display: none; }
   @media (min-width: 480px) { .dock-chev { display: block; } }
   .dock-icon {
-    flex: none; display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: 14px;
-    color: var(--ink); text-decoration: none; background: rgba(42,36,32,.06);
+    flex: none; display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: 999px;
+    color: #14110f; text-decoration: none; background: rgba(42,36,32,.06);
     transition: background-color .25s, transform .35s var(--ease-out);
   }
   .dock-icon:hover { background: rgba(42,36,32,.12); transform: translateY(-2px); }
@@ -132,8 +133,8 @@ const books = [
     .dock {
       left: auto; right: 1.25rem; bottom: calc(1.25rem + var(--cookie-offset));
       width: min(37rem, calc(100vw - 2.5rem));
-      border-radius: 22px; padding: 0.5rem;
-      box-shadow: 0 0 0 1px var(--line), 0 24px 50px -20px rgba(42, 36, 32, 0.45);
+      border-radius: 999px; padding: 0.4rem 0.4rem 0.4rem 0.9rem;
+      box-shadow: var(--shadow-float);
     }
     .dock-icon-label { position: static; width: auto; height: auto; overflow: visible; clip: auto; font-size: 0.85rem; font-weight: 650; }
     .dock-icon { width: auto; padding: 0 0.85rem; display: inline-flex; gap: 0.45rem; }
@@ -143,8 +144,8 @@ const books = [
   .sheet {
     margin: auto auto 0; width: 100%; max-width: 34rem; max-height: 88vh;
     padding: 0; border: 0; border-radius: 28px 28px 0 0;
-    background: var(--paper); color: var(--ink);
-    box-shadow: var(--shadow-lg);
+    background: #fbf9f4; color: #14110f;
+    box-shadow: var(--shadow-float);
   }
   .sheet::backdrop { background: rgba(27, 26, 42, 0.45); backdrop-filter: blur(3px); }
   .sheet[open] { animation: sheet-in 0.5s var(--ease-out); }
@@ -152,25 +153,27 @@ const books = [
   @media (min-width: 640px) { .sheet { margin: auto; border-radius: 28px; } }
   .sheet-inner { padding: 1.5rem 1.4rem calc(1.5rem + env(safe-area-inset-bottom)); }
   .sheet-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; }
-  .sheet-head h2 { font-size: var(--step-2); margin: 0; }
-  .sheet-close { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border: 0; border-radius: 50%; background: var(--mist); cursor: pointer; }
+  .sheet-head h2 { font-size: var(--fs-h3); margin: 0; }
+  .sheet-close { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border: 0; border-radius: 50%; background: #ece6dd; cursor: pointer; }
   .sheet-close :global(.icon) { width: 1.2rem; height: 1.2rem; }
   .sheet-list { display: grid; }
-  .sheet-list li { display: grid; grid-template-columns: 1fr auto; gap: 0.2rem 1rem; align-items: center; padding: 0.85rem 0; border-bottom: 1px solid var(--line); }
+  .sheet-list li { display: grid; grid-template-columns: 1fr auto; gap: 0.2rem 1rem; align-items: center; padding: 0.85rem 0; border-bottom: 1px solid rgba(20,17,15,.12); }
   .sheet-name { margin: 0; font-weight: 700; }
-  .sheet-addr { margin: 0; font-size: 0.82rem; color: var(--muted); }
+  .sheet-addr { margin: 0; font-size: 0.82rem; color: #6b635b; }
   .sheet-hours { margin: 0; grid-column: 1; font-weight: 650; font-variant-numeric: tabular-nums; font-size: 0.95rem; }
   .sheet-actions { grid-column: 2; grid-row: 1 / span 2; display: flex; gap: 0.4rem; }
-  .sheet-actions a { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 12px; background: var(--mist); color: var(--ink); }
+  .sheet-actions a { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 12px; background: #ece6dd; color: #14110f; }
   .sheet-actions :global(.icon) { width: 1.15rem; height: 1.15rem; }
-  .sheet-kicker { margin-top: 1.4rem; }
+  .sheet-kicker { margin: 1.6rem 0 0.8rem; color: #6b635b; }
+  .sheet h2 { font-family: var(--display); font-style: normal; font-weight: 400; text-transform: none; font-stretch: 100%; letter-spacing: -0.02em; line-height: 1.1; }
+  .sheet { --fg: #14110f; --fg-soft: #6b635b; font-stretch: 100%; }
   .sheet-books { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
   .sheet-books a {
     display: flex; align-items: center; gap: 0.6rem; min-height: 3.2rem; padding: 0.6rem 0.9rem; border-radius: 14px;
-    background: var(--ink); color: var(--snow); text-decoration: none; font-weight: 650; font-size: 0.9rem; line-height: 1.2;
+    background: #14110f; color: #f4f0e8; text-decoration: none; font-weight: 650; font-size: 0.9rem; line-height: 1.2;
     transition: transform .35s var(--ease-out), background-color .25s;
   }
-  .sheet-books a:hover { background: var(--ember-ink); transform: translateY(-2px); }
+  .sheet-books a:hover { background: #a44c0e; transform: translateY(-2px); }
   .sheet-books :global(.icon) { width: 1.25rem; height: 1.25rem; flex: none; }
   .sheet-more { margin: 1.2rem 0 0; }
 </style>

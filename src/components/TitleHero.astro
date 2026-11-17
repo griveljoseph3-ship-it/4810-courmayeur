@@ -1,0 +1,25 @@
+---
+/** Apertura tipografica per le pagine di servizio (offerte, hotel, FAQ…): niente foto, solo un titolo enorme. */
+interface Props { kicker: string; title: string; sub?: string; index?: string }
+const { kicker, title, sub, index } = Astro.props;
+---
+<section class="thero">
+  <div class="wrap">
+    <p class="caps thero-k"><span>{kicker}</span>{index && <span>{index}</span>}</p>
+    <h1><span class="th-in">{title}</span></h1>
+    <div class="thero-foot">
+      {sub && <p class="lead">{sub}</p>}
+      <div class="actions"><slot /></div>
+    </div>
+  </div>
+</section>
+<style>
+  .thero { padding: clamp(3.5rem, 2rem + 6vw, 8rem) 0 var(--space-block); }
+  .thero-k { display: flex; justify-content: space-between; gap: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--line); color: var(--fg-soft); margin-bottom: clamp(2rem, 1rem + 4vw, 5rem); animation: fade 1s var(--ease) both; }
+  h1 { font-size: var(--fs-display); max-width: 14ch; overflow: hidden; padding-bottom: 0.12em; }
+  .th-in { display: block; animation: th 1.3s var(--ease-out) both 0.05s; }
+  @keyframes th { from { transform: translateY(105%); } }
+  .thero-foot { display: grid; gap: 1.5rem 4rem; margin-top: clamp(1.5rem, 1rem + 2vw, 3rem); animation: rise 1.3s var(--ease-out) both 0.3s; }
+  @media (min-width: 900px) { .thero-foot { grid-template-columns: 1fr auto; align-items: end; } }
+  .thero-foot .actions { margin: 0; }
+</style>

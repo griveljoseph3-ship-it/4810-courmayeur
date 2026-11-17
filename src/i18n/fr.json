@@ -272,7 +272,31 @@
       "title": "Deux adresses à Courmayeur",
       "dolonne": "Dolonne · Location, restaurant, pâtisserie, boutique",
       "centro": "Centre · Boutique historique et outlet"
-    }
+    },
+    "chapters": [
+      "Aube",
+      "Matin",
+      "Déjeuner",
+      "Après-midi",
+      "Soir"
+    ],
+    "numbers": [
+      {
+        "value": "4810",
+        "unit": "m",
+        "label": "Mont Blanc"
+      },
+      {
+        "value": "100",
+        "unit": "m",
+        "label": "de la télécabine"
+      },
+      {
+        "value": "2",
+        "unit": "siècles",
+        "label": "de montagne"
+      }
+    ]
   },
   "rental": {
     "hero": {

@@ -272,7 +272,31 @@
       "title": "Two addresses in Courmayeur",
       "dolonne": "Dolonne · Ski rental, restaurant, bakery, shop",
       "centro": "Town centre · Original shop and outlet"
-    }
+    },
+    "chapters": [
+      "Dawn",
+      "Morning",
+      "Lunch",
+      "Afternoon",
+      "Evening"
+    ],
+    "numbers": [
+      {
+        "value": "4810",
+        "unit": "m",
+        "label": "Mont Blanc"
+      },
+      {
+        "value": "100",
+        "unit": "m",
+        "label": "from the gondola"
+      },
+      {
+        "value": "2",
+        "unit": "centuries",
+        "label": "in the mountains"
+      }
+    ]
   },
   "rental": {
     "hero": {

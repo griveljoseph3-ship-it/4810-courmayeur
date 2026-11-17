@@ -62,7 +62,32 @@ if (root.classList.contains('motion')) {
     },
     { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
   );
-  document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
+  document.querySelectorAll('[data-reveal], [data-mask]').forEach((el) => io.observe(el));
+}
+
+/* ---------- Metà fissa: l'immagine cambia quando arriva il pannello di testo ---------- */
+const panels = document.querySelectorAll<HTMLElement>('[data-swap-trigger]');
+if (panels.length && 'IntersectionObserver' in window) {
+  const sw = new IntersectionObserver((es) => es.forEach((e) => {
+    if (!e.isIntersecting) return;
+    const k = (e.target as HTMLElement).dataset.swapTrigger;
+    const scope = (e.target as HTMLElement).closest('[data-swap-scope]') || document;
+    scope.querySelectorAll<HTMLElement>('[data-swap]').forEach((im) => im.classList.toggle('on', im.dataset.swap === k));
+  }), { rootMargin: '-45% 0px -45% 0px' });
+  panels.forEach((p) => sw.observe(p));
+}
+
+/* ---------- Indice dei capitoli (home) ---------- */
+const chapLinks = document.querySelectorAll<HTMLAnchorElement>('[data-chap-link]');
+if (chapLinks.length && 'IntersectionObserver' in window) {
+  const nav = document.querySelector<HTMLElement>('[data-chap-nav]');
+  const co = new IntersectionObserver((es) => es.forEach((e) => {
+    if (!e.isIntersecting) return;
+    chapLinks.forEach((a) => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id));
+  }), { rootMargin: '-50% 0px -50% 0px' });
+  document.querySelectorAll('[data-chapter]').forEach((c) => co.observe(c));
+  const day = document.querySelector('[data-day]');
+  if (day && nav) new IntersectionObserver((es) => es.forEach((e) => nav.classList.toggle('show', e.isIntersecting)), { rootMargin: '-50% 0px -50% 0px' }).observe(day);
 }
 
 /* ---------- Moduli che preparano una email (niente server, niente dati salvati) ---------- */
@@ -104,7 +129,7 @@ const lite =
   (nav.deviceMemory && nav.deviceMemory <= 2) ||
   (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2);
 root.classList.toggle('lite', !!lite);
-if (!lite && document.querySelector('[data-parallax], [data-daylight]')) {
+if (!lite && document.querySelector('[data-parallax], [data-lines], [data-hscroll], [data-bg], [data-hero]')) {
   const start = () => import('./motion').then((m) => m.init());
   if ('requestIdleCallback' in window) (window as any).requestIdleCallback(start, { timeout: 1500 });
   else setTimeout(start, 600);

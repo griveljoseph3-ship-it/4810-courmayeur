@@ -1,68 +1,102 @@
 ---
-import PageHero from '../components/PageHero.astro';
 import Pic from '../components/Pic.astro';
-import Icon from '../components/Icon.astro';
 import Cta from '../components/Cta.astro';
-import SectionHead from '../components/SectionHead.astro';
 import PlaceInfo from '../components/PlaceInfo.astro';
-import Gallery from '../components/Gallery.astro';
+import HScroll from '../components/HScroll.astro';
 import { dict } from '../i18n';
 import { href, type Lang } from '../lib/routes';
-import { directions } from '../lib/data';
+import { directions, site } from '../lib/data';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const T = dict[lang];
+const pct = site.offers.find((o) => o.id === 'outlet70')!.value.replace('-', '−');
 const S = T.shop;
 ---
-<PageHero lang={lang} image="shop-interno" kicker={S.hero.kicker} title={S.hero.title} sub={S.hero.sub}>
-  <Cta href={directions('centro')} lang={lang} size="lg" icon="pin">{T.common.directions}</Cta>
-</PageHero>
-
-<section class="section bg-paper">
-  <div class="wrap split">
-    <div>
-      <p class="kicker" data-reveal>{S.intro.kicker}</p>
-      <h2 data-split>{S.intro.title}</h2>
-      <p class="lead" data-reveal>{S.intro.text}</p>
-      <div class="actions" data-reveal><Cta href={href('brands', lang)} lang={lang} variant="link">{T.cta.seeBrands}</Cta></div>
+<!-- APERTURA editoriale: testata da rivista, titolo enorme su carta, due foto sfalsate -->
+<section class="s-hero">
+  <div class="wrap">
+    <p class="caps s-mast"><span>4810 Shopping</span><span>Via Roma 106 — Courmayeur</span><span class="s-mast-3">{T.common.allYear}</span></p>
+    <h1><span class="s-in">{S.hero.title}</span></h1>
+    <div class="s-grid">
+      <figure class="frame s-a"><Pic name="shop-interno" lang={lang} eager sizes="(min-width: 900px) 62vw, 100vw" widths={[640, 960, 1280, 1800]} /></figure>
+      <div class="s-side">
+        <p class="lead">{S.hero.sub}</p>
+        <div class="actions"><Cta href={directions('centro')} lang={lang} size="lg" icon="pin">{T.common.directions}</Cta></div>
+      </div>
     </div>
-    <figure class="frame ratio-45 zoom" data-parallax="6"><Pic name="family-negozio" lang={lang} /></figure>
   </div>
 </section>
 
-<section class="section">
-  <div class="wrap">
-    <ul class="grid grid-4" role="list">
-      {S.items.map((it, i) => (
-        <li class="card" data-reveal style={`--d:${i * 0.08}s`}>
-          <span class="icon-badge"><Icon name={it.icon} /></span>
-          <h3>{it.title}</h3>
-          <p class="muted">{it.text}</p>
-        </li>
-      ))}
+<!-- DICHIARAZIONE: una frase grande al centro -->
+<section class="section s-quote">
+  <div class="wrap-narrow">
+    <p class="kicker" data-reveal>{S.intro.kicker}</p>
+    <h2 data-lines>{S.intro.title}</h2>
+    <p class="lead" data-reveal>{S.intro.text}</p>
+  </div>
+</section>
+
+<!-- GRIGLIA ASIMMETRICA + indice -->
+<section class="section-tight s-index">
+  <div class="wrap s-index-grid">
+    <figure class="frame ratio-34 s-portrait" data-mask="up" data-speed="0.4"><Pic name="family-negozio" lang={lang} sizes="(min-width: 900px) 30vw, 70vw" widths={[400, 640, 900]} /></figure>
+    <ul class="rows" role="list">
+      {S.items.map((it, i) => <li data-reveal><span class="idx num">{String(i + 1).padStart(2, '0')}</span><h3>{it.title}</h3><p>{it.text}</p></li>)}
+      <li class="s-brands"><span></span><Cta href={href('brands', lang)} lang={lang} variant="link">{T.cta.seeBrands}</Cta></li>
     </ul>
   </div>
 </section>
 
-<section class="section-tight">
-  <div class="wrap"><Gallery lang={lang} images={['shop-1', 'shop-grivel', 'shop-2', 'shop-dolonne', 'shop-4', 'rental-accessori']} /></div>
+<!-- GALLERIA ORIZZONTALE -->
+<section class="section-tight" data-hscroll-pin>
+  <HScroll lang={lang} images={['shop-vetrine', 'shop-grivel', 'shop-dolonne', 'rental-accessori', 'shop-1']} shapes={['16/10', '3/4', '4/3', '3/2', '4/5']} height="clamp(18rem, 58vh, 38rem)" />
 </section>
 
-<section class="section bg-mist">
+<!-- DUE NEGOZI + OUTLET -->
+<section class="section band-light">
   <div class="wrap">
-    <SectionHead title={S.places.title} />
-    <div class="grid grid-2">
-      <PlaceInfo lang={lang} title={`4810 Shopping · ${S.places.centro}`} place="centro" service="shop" note={T.common.allYear} />
-      <PlaceInfo lang={lang} title={`4810 Shopping · ${S.places.dolonne}`} place="dolonne" service="shopDolonne" email="shopping@4810courmayeur.it" />
-    </div>
-    <div class="outlet-teaser" data-reveal>
-      <p><strong>4810 Outlet</strong> · {T.outlet.badge}</p>
-      <Cta href={href('outlet', lang)} lang={lang} variant="link">{T.cta.goOutlet}</Cta>
+    <h2 data-lines>{S.places.title}</h2>
+    <div class="grid grid-2 s-places">
+      <PlaceInfo lang={lang} title={S.places.centro} place="centro" service="shop" note={T.common.allYear} />
+      <PlaceInfo lang={lang} title={S.places.dolonne} place="dolonne" service="shopDolonne" email="shopping@4810courmayeur.it" />
     </div>
   </div>
 </section>
+<a class="s-outlet" href={href('outlet', lang)}>
+  <span class="s-outlet-n num" aria-hidden="true">{pct}</span>
+  <span class="s-outlet-t"><span class="caps">4810 Outlet · {T.outlet.badge}</span><span class="link">{T.cta.goOutlet}</span></span>
+</a>
+
 <style>
-  .outlet-teaser { display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: center; justify-content: space-between; margin-top: 2rem; padding: 1.4rem 1.8rem; border-radius: var(--radius); background: var(--ink); color: var(--snow); }
-  .outlet-teaser p { margin: 0; font-size: var(--step-1); }
-  .outlet-teaser :global(.link) { color: #f6c9a6; }
+  .s-hero { padding: clamp(2rem, 1rem + 3vw, 4rem) 0 var(--space-block); }
+  .s-mast { display: flex; justify-content: space-between; gap: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--line); color: var(--fg-soft); animation: fade 1s both; }
+  .s-mast-3 { display: none; }
+  .s-hero h1 { font-size: clamp(3.2rem, 1rem + 10.5vw, 12.5rem); line-height: 0.88; margin: clamp(1.5rem, 1rem + 2vw, 3rem) 0 0; overflow: hidden; padding-bottom: 0.14em; position: relative; z-index: 2; }
+  .s-in { display: block; animation: s-up 1.4s var(--ease-out) both; }
+  @keyframes s-up { from { transform: translateY(104%); } }
+  .s-grid { display: grid; gap: 2rem; margin-top: 1.5rem; }
+  .s-a { aspect-ratio: 16 / 10; animation: s-clip 1.6s var(--ease-out) both 0.2s; }
+  @keyframes s-clip { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0); } }
+  .s-side { animation: rise 1.3s var(--ease-out) both 0.5s; }
+  @media (min-width: 900px) {
+    .s-mast-3 { display: inline; }
+    .s-grid { grid-template-columns: 1.7fr 1fr; gap: 4rem; align-items: end; margin-top: -2.2vw; }
+    .s-a { margin-left: calc(var(--gutter) * -1); }
+  }
+
+  .s-quote { text-align: center; }
+  .s-quote h2 { font-size: var(--fs-display); }
+  .s-quote .lead { margin-inline: auto; color: var(--fg-soft); }
+
+  .s-index-grid { display: grid; gap: 3rem; }
+  .s-portrait { width: 70%; }
+  @media (min-width: 900px) { .s-index-grid { grid-template-columns: 1fr 2fr; gap: 6rem; align-items: start; } .s-portrait { width: 100%; margin-top: 6rem; } }
+  .s-index .rows h3 { font-size: clamp(1.8rem, 1.3rem + 2vw, 3.2rem); }
+  .s-brands { border-bottom: 0 !important; }
+
+  .s-places { margin-top: var(--space-block); }
+  .s-outlet { display: grid; gap: 1rem; padding: var(--space-block) var(--gutter); background: #14110f; color: #f4f0e8; text-decoration: none; overflow: hidden; }
+  .s-outlet-n { font-family: var(--display); font-weight: 300; font-size: clamp(6rem, 2rem + 24vw, 26rem); line-height: 0.8; letter-spacing: -0.06em; color: #e8703c; transition: transform 1s var(--ease-out); }
+  .s-outlet:hover .s-outlet-n { transform: translateX(2vw); }
+  .s-outlet-t { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; align-items: center; }
 </style>

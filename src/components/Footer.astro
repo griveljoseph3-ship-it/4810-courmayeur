@@ -14,7 +14,7 @@ const cols: { title: string; keys: PageKey[] }[] = [
 ];
 const year = new Date().getFullYear();
 ---
-<footer class="site-footer bg-ink on-dark">
+<footer class="site-footer">
   <div class="wrap">
     <div class="foot-top">
       <div class="foot-brand">
@@ -27,13 +27,13 @@ const year = new Date().getFullYear();
       </div>
       <div class="foot-places">
         <div>
-          <p class="kicker">Dolonne</p>
+          <p class="caps foot-k">Dolonne</p>
           <p><a href={directions('dolonne')} target="_blank" rel="noopener">{addressLine('dolonne', lang)}</a></p>
           <p><a href={telHref(site.places.dolonne.phone)}>{site.places.dolonne.phone}</a></p>
           <p><a href={`mailto:${site.services.rental.email}`}>{site.services.rental.email}</a><br /><a href={`mailto:${site.services.food.email}`}>{site.services.food.email}</a></p>
         </div>
         <div>
-          <p class="kicker">Courmayeur</p>
+          <p class="caps foot-k">Courmayeur</p>
           <p><a href={directions('centro')} target="_blank" rel="noopener">{addressLine('centro', lang)}</a></p>
           <p><a href={telHref(site.places.centro.phone)}>{site.places.centro.phone}</a></p>
           <p><a href={`mailto:${site.services.shop.email}`}>{site.services.shop.email}</a><br /><a href={`mailto:${site.services.chalet.email}`}>{site.services.chalet.email}</a></p>
@@ -67,12 +67,12 @@ const year = new Date().getFullYear();
   <svg class="foot-mark" aria-hidden="true" viewBox="0 0 400 130"><text x="0" y="118">4810</text></svg>
 </footer>
 <style>
-  .site-footer { position: relative; overflow: hidden; padding: clamp(4rem, 3rem + 4vw, 7rem) 0 2.5rem; }
+  .site-footer { background: #14110f; color: #f4f0e8; --fg: #f4f0e8; --fg-soft: #b9b0a4; position: relative; overflow: hidden; padding: clamp(4rem, 3rem + 4vw, 7rem) 0 2.5rem; }
   .site-footer a { text-decoration: none; }
   .site-footer a:hover { color: #f0b48a; }
   .foot-top { display: grid; gap: 3rem; grid-template-columns: 1fr; }
   @media (min-width: 900px) { .foot-top { grid-template-columns: 1fr 1.3fr; } }
-  .brand { display: inline-flex; align-items: center; gap: 0.75rem; font-family: var(--serif); font-size: 1.8rem; margin-bottom: 1rem; }
+  .brand { display: inline-flex; align-items: center; gap: 0.75rem; font-family: var(--display); font-size: 1.8rem; margin-bottom: 1rem; }
   .brand :global(svg) { width: 2.8rem; height: auto; }
   .foot-brand p { max-width: 28rem; color: rgba(247,244,239,.78); }
   .social { display: flex; gap: 0.6rem; margin-top: 1.5rem; }
@@ -80,6 +80,7 @@ const year = new Date().getFullYear();
   .social a:hover { background: rgba(255,255,255,.08); transform: translateY(-2px); }
   .social :global(.icon) { width: 1.25rem; height: 1.25rem; }
   .foot-places { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); }
+  .foot-k { color: #f0b48a !important; margin-bottom: 0.9rem !important; }
   .foot-places p { margin: 0 0 0.5rem; color: rgba(247,244,239,.86); }
   .foot-nav { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr)); margin-top: 4rem; padding-top: 3rem; border-top: 1px solid rgba(255,255,255,.12); }
   .foot-title { font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; color: #f0b48a; margin-bottom: 0.9rem; }
@@ -91,6 +92,6 @@ const year = new Date().getFullYear();
   .linkish:hover { color: #f0b48a; }
   .foot-mark {
     position: absolute; right: -2vw; bottom: -4vw; width: min(70vw, 52rem); height: auto; pointer-events: none; user-select: none;
-    font-family: var(--serif); font-weight: 600; font-size: 150px; fill: rgba(255,255,255,.035);
+    font-family: var(--display); font-weight: 600; font-size: 150px; fill: rgba(255,255,255,.035);
   }
 </style>

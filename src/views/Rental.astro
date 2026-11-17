@@ -1,9 +1,6 @@
 ---
-import PageHero from '../components/PageHero.astro';
 import Pic from '../components/Pic.astro';
-import Icon from '../components/Icon.astro';
 import Cta from '../components/Cta.astro';
-import SectionHead from '../components/SectionHead.astro';
 import PlaceInfo from '../components/PlaceInfo.astro';
 import Faq from '../components/Faq.astro';
 import MailForm from '../components/MailForm.astro';
@@ -16,27 +13,34 @@ const { lang } = Astro.props;
 const T = dict[lang];
 const R = T.rental;
 const S = T.services.items;
-const services = [
-  { icon: 'wrench', ...S.skiService },
-  { icon: 'locker', ...S.storage },
-  { icon: 'boot', ...S.bootFitting },
-  { icon: 'bus', ...S.transfer },
-];
+const services = [S.skiService, S.storage, S.bootFitting, S.transfer];
 const eb = site.ebike;
+const brands = site.rentalBrands.ski.concat(site.rentalBrands.snowboard, site.rentalBrands.boots);
 ---
-<PageHero lang={lang} image="rental-banco" kicker={R.hero.kicker} title={R.hero.title} sub={R.hero.sub} tint="day">
-  <Cta href={site.booking.rentalOnline} lang={lang} size="lg">{T.cta.rentNow}</Cta>
-</PageHero>
+<!-- APERTURA sportiva: titolo condensato enorme, foto tagliata in diagonale, nastro di marchi -->
+<section class="r-hero" data-hero>
+  <div class="r-media" data-hero-media><Pic name="rental-banco" lang={lang} eager sizes="(min-width: 900px) 62vw, 100vw" widths={[640, 960, 1280, 1600, 2000]} /></div>
+  <div class="wrap r-copy" data-hero-copy>
+    <p class="kicker">{R.hero.kicker}</p>
+    <h1>{R.hero.title}</h1>
+    <div class="r-foot">
+      <p class="lead">{R.hero.sub}</p>
+      <Cta href={site.booking.rentalOnline} lang={lang} size="lg" variant="white">{T.cta.rentNow}</Cta>
+    </div>
+  </div>
+  <div class="marquee r-marquee" aria-hidden="true"><div class="marquee-track">{[0, 1].map(() => brands.map((b) => <span>{b} /</span>))}</div></div>
+</section>
 
-<section class="section-tight bg-paper">
+<!-- NUMERI GIGANTI: 3 passaggi -->
+<section class="section band-light r-steps">
   <div class="wrap">
-    <SectionHead title={R.steps.title} level="h2" />
-    <ol class="steps grid grid-3" role="list">
+    <h2 data-lines>{R.steps.title}</h2>
+    <ol class="steps" role="list">
       {R.steps.items.map((s, i) => (
-        <li class="step" data-reveal style={`--d:${i * 0.1}s`}>
-          <span class="step-n">{i + 1}</span>
+        <li data-reveal style={`--d:${i * 0.12}s`}>
+          <span class="step-n num" aria-hidden="true">{i + 1}</span>
           <h3>{s.title}</h3>
-          <p class="muted">{s.text}</p>
+          <p>{s.text}</p>
         </li>
       ))}
     </ol>
@@ -44,118 +48,145 @@ const eb = site.ebike;
   </div>
 </section>
 
-<section class="section">
+<!-- ELENCO A RIGHE: cosa noleggiamo -->
+<section class="section r-what">
   <div class="wrap">
-    <SectionHead kicker={R.what.kicker} title={R.what.title} />
-    <ul class="grid grid-3" role="list">
+    <p class="kicker" data-reveal>{R.what.kicker}</p>
+    <h2 data-lines>{R.what.title}</h2>
+    <ul class="rows" role="list">
       {R.what.items.map((it, i) => (
-        <li class="card" data-reveal style={`--d:${(i % 3) * 0.08}s`}>
-          <span class="icon-badge"><Icon name={it.icon} /></span>
-          <h3>{it.title}</h3>
-          <p class="muted">{it.text}</p>
-        </li>
+        <li data-reveal><span class="idx num">{String(i + 1).padStart(2, '0')}</span><h3>{it.title}</h3><p>{it.text}</p></li>
       ))}
     </ul>
   </div>
 </section>
 
-<section class="section bg-mist">
-  <div class="wrap split">
-    <figure class="frame ratio-45 zoom" data-parallax="6"><Pic name="rental-sci-stockli" lang={lang} /></figure>
-    <div>
-      <p class="kicker" data-reveal>{R.season.kicker}</p>
-      <h2 data-split>{R.season.title}</h2>
-      <p class="lead" data-reveal>{R.season.text}</p>
-      <div class="actions" data-reveal><Cta href={`mailto:${site.services.rental.email}`} lang={lang} variant="ghost" icon="mail">{R.season.cta}</Cta></div>
-    </div>
+<!-- FOTO A TUTTO SCHERMO: abbonamento -->
+<section class="r-season">
+  <div class="rs-media" data-parallax="7"><Pic name="skiservice-robot" lang={lang} sizes="100vw" widths={[640, 960, 1280, 1600, 2000]} /></div>
+  <div class="wrap rs-copy">
+    <p class="kicker" data-reveal>{R.season.kicker}</p>
+    <h2 data-lines>{R.season.title}</h2>
+    <p class="lead" data-reveal>{R.season.text}</p>
+    <div class="actions" data-reveal><Cta href={`mailto:${site.services.rental.email}`} lang={lang} variant="ghost" icon="mail">{R.season.cta}</Cta></div>
   </div>
 </section>
 
-<section class="section bg-paper">
+<!-- COLONNE DI TESTO: servizi -->
+<section class="section band-light">
   <div class="wrap">
-    <SectionHead title={R.servicesTitle} />
-    <ul class="grid grid-4" role="list">
-      {services.map((s, i) => (
-        <li class="svc" data-reveal style={`--d:${i * 0.08}s`}>
-          <span class="icon-badge"><Icon name={s.icon} /></span>
-          <h3>{s.title}</h3>
-          <p class="muted">{s.text}</p>
-        </li>
-      ))}
+    <div class="rsv-head"><h2 data-lines>{R.servicesTitle}</h2><Cta href={href('services', lang)} lang={lang} variant="link">{T.cta.seeServices}</Cta></div>
+    <ul class="rsv" role="list">
+      {services.map((s, i) => <li data-reveal style={`--d:${i * 0.08}s`}><h3>{s.title}</h3><p>{s.text}</p></li>)}
     </ul>
-    <div class="actions"><Cta href={href('services', lang)} lang={lang} variant="link">{T.cta.seeServices}</Cta></div>
   </div>
 </section>
 
-<section class="section" id="e-bike">
-  <div class="wrap split rev">
-    <figure class="frame ratio-45" data-parallax="6"><Pic name="chalet-vista-valle" lang={lang} /></figure>
-    <div>
-      <p class="kicker" data-reveal>{R.summer.kicker}</p>
-      <h2 data-split>{R.summer.title}</h2>
-      <p class="lead" data-reveal>{R.summer.text}</p>
-      <div class="table-wrap" data-reveal>
-        <table class="prices">
-          <caption>{R.summer.pricesTitle} · <span class="small muted">{R.summer.pricesNote}</span> <span class="tbc">{tbc(lang)}</span></caption>
-          <thead><tr><th scope="col">{R.summer.cols.model}</th><th scope="col">{R.summer.cols.day}</th><th scope="col">{R.summer.cols.half}</th><th scope="col">{R.summer.cols.short}</th></tr></thead>
-          <tbody>
-            {eb.models.map((m) => (
-              <tr><th scope="row">{(R.summer.models as any)[m.id]}</th><td>€ {m.day}</td><td>€ {m.half}</td><td>€ {m.short}</td></tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+<!-- METÀ FISSA: e-bike -->
+<section class="r-bike band-paper" id="e-bike">
+  <figure class="rb-media frame"><Pic name="chalet-vista-valle" lang={lang} sizes="(min-width: 900px) 50vw, 100vw" /></figure>
+  <div class="rb-body">
+    <p class="kicker" data-reveal>{R.summer.kicker}</p>
+    <h2 data-lines>{R.summer.title}</h2>
+    <p class="lead" data-reveal>{R.summer.text}</p>
+    <div class="table-wrap" data-reveal>
+      <table class="prices">
+        <caption>{R.summer.pricesTitle} · <span class="small muted">{R.summer.pricesNote}</span> <span class="tbc">{tbc(lang)}</span></caption>
+        <thead><tr><th scope="col">{R.summer.cols.model}</th><th scope="col">{R.summer.cols.day}</th><th scope="col">{R.summer.cols.half}</th><th scope="col">{R.summer.cols.short}</th></tr></thead>
+        <tbody>{eb.models.map((m) => <tr><th scope="row">{(R.summer.models as any)[m.id]}</th><td>€ {m.day}</td><td>€ {m.half}</td><td>€ {m.short}</td></tr>)}</tbody>
+      </table>
     </div>
-  </div>
-  <div class="wrap-narrow bike-form card" data-reveal>
-    <h3>{R.bikeForm.title}</h3>
-    <p class="muted small">{R.bikeForm.intro}</p>
-    <MailForm lang={lang} id="bike" to={site.services.rental.email} subject={R.bikeForm.subject} submit={T.cta.requestBike} fields={[
-      { name: 'date', label: R.bikeForm.date, type: 'date', required: true },
-      { name: 'model', label: R.bikeForm.model, options: Object.values(R.summer.models), required: true },
-      { name: 'size', label: R.bikeForm.size, options: eb.sizes },
-      { name: 'qty', label: R.bikeForm.qty, type: 'number', min: 1 },
-      { name: 'name', label: R.bikeForm.name, required: true },
-      { name: 'phone', label: R.bikeForm.phone, type: 'tel' },
-    ]} />
-  </div>
-</section>
-
-<section class="section bg-mist">
-  <div class="wrap">
-    <SectionHead kicker={T.home.reviews.kicker} title={T.home.reviews.title} />
-    <Reviews lang={lang} service="rental" limit={3} />
+    <div class="bike-form" data-reveal>
+      <h3>{R.bikeForm.title}</h3>
+      <p class="muted small">{R.bikeForm.intro}</p>
+      <MailForm lang={lang} id="bike" to={site.services.rental.email} subject={R.bikeForm.subject} submit={T.cta.requestBike} fields={[
+        { name: 'date', label: R.bikeForm.date, type: 'date', required: true },
+        { name: 'model', label: R.bikeForm.model, options: Object.values(R.summer.models), required: true },
+        { name: 'size', label: R.bikeForm.size, options: eb.sizes },
+        { name: 'qty', label: R.bikeForm.qty, type: 'number', min: 1 },
+        { name: 'name', label: R.bikeForm.name, required: true },
+        { name: 'phone', label: R.bikeForm.phone, type: 'tel' },
+      ]} />
+    </div>
   </div>
 </section>
 
 <section class="section">
-  <div class="wrap split info-split">
-    <div>
-      <SectionHead title={R.faqTitle} />
-      <Faq items={T.faq.groups.rental.items} />
-    </div>
-    <div>
-      <h2 class="info-title">{R.infoTitle}</h2>
-      <PlaceInfo lang={lang} title="4810 Rental · Dolonne" place="dolonne" service="rental" seasonal>
-        <Cta href={site.booking.rentalOnline} lang={lang} size="sm">{T.cta.rentNow}</Cta>
-      </PlaceInfo>
-    </div>
+  <div class="wrap"><p class="kicker" data-reveal>{T.home.reviews.kicker}</p><Reviews lang={lang} service="rental" limit={3} /></div>
+</section>
+
+<section class="section band-light">
+  <div class="wrap r-info">
+    <div><h2 data-lines>{R.faqTitle}</h2><Faq items={T.faq.groups.rental.items} /></div>
+    <PlaceInfo lang={lang} title={R.infoTitle} place="dolonne" service="rental" seasonal>
+      <Cta href={site.booking.rentalOnline} lang={lang} size="sm">{T.cta.rentNow}</Cta>
+    </PlaceInfo>
   </div>
 </section>
 
 <style>
-  .steps { counter-reset: s; }
-  .step { position: relative; padding: 1.8rem 1.6rem; border-radius: var(--radius); background: var(--snow); border: 1px solid rgba(42,36,32,.06); }
-  .step-n { display: grid; place-items: center; width: 2.8rem; height: 2.8rem; border-radius: 50%; background: var(--ember-ink); color: #fff; font-family: var(--serif); font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; box-shadow: 0 8px 20px -10px rgba(164,76,14,.8); }
-  .step h3 { font-size: var(--step-2); }
-  .svc h3 { font-size: var(--step-1); font-family: var(--sans); font-weight: 700; }
-  .table-wrap { overflow-x: auto; margin-top: 1.5rem; border-radius: var(--radius-sm); background: var(--paper); box-shadow: var(--shadow-sm); }
+  .r-hero { position: relative; min-height: 100svh; display: grid; grid-template-rows: 1fr auto; overflow: hidden; isolation: isolate; }
+  .r-media { position: absolute; inset: 0 0 0 auto; width: 100%; z-index: -1; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); animation: r-in 1.5s var(--ease-out) both; }
+  .r-media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(14,26,34,.55), rgba(14,26,34,.5) 40%, rgba(14,26,34,.95)); }
+  .r-media :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  @keyframes r-in { from { transform: translateX(8%); opacity: 0; } }
+  .r-copy { align-self: end; padding-block: 8rem 2.5rem; }
+  .r-copy .kicker { color: var(--accent); animation: rise 1.2s var(--ease-out) both 0.1s; }
+  .r-hero h1 { font-size: clamp(3.3rem, 1rem + 11vw, 12rem); max-width: 9ch; margin-bottom: 0.3em; animation: r-title 1.3s var(--ease-out) both 0.15s; }
+  @keyframes r-title { from { opacity: 0; transform: translateX(-6%) skewX(-8deg); } }
+  .r-foot { display: grid; gap: 1.5rem 4rem; align-items: end; animation: rise 1.3s var(--ease-out) both 0.4s; }
+  .r-marquee { border-top: 1px solid rgba(255,255,255,.2); padding: 0.9rem 0; font-stretch: 75%; font-weight: 700; font-style: italic; text-transform: uppercase; font-size: clamp(1rem, 0.8rem + 1vw, 1.6rem); color: var(--accent); --dur: 30s; margin-bottom: var(--dock-h); }
+  @media (min-width: 900px) {
+    .r-media { width: 60%; clip-path: polygon(22% 0, 100% 0, 100% 100%, 0 100%); }
+    .r-media::after { background: linear-gradient(90deg, rgba(14,26,34,.6), rgba(14,26,34,.05) 55%), linear-gradient(180deg, transparent 55%, rgba(14,26,34,.8)); }
+    .r-foot { grid-template-columns: minmax(0, 28rem) auto; justify-content: start; }
+  }
+
+  .r-steps h2 { margin-bottom: var(--space-block); }
+  .steps { display: grid; gap: 3rem; }
+  @media (min-width: 900px) { .steps { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; } }
+  .steps li { border-top: 2px solid currentColor; padding-top: 0.6rem; }
+  .step-n { display: block; font-family: var(--sans); font-stretch: 75%; font-weight: 700; font-style: italic; font-size: clamp(7rem, 4rem + 12vw, 15rem); line-height: 0.82; color: var(--accent-ink); letter-spacing: -0.04em; margin-bottom: 1rem; }
+  .steps p { color: var(--fg-soft); max-width: 22rem; }
+
+  .r-what h2 { max-width: 12ch; margin-bottom: var(--space-block); }
+  .r-what .rows h3 { font-size: clamp(2rem, 1.4rem + 2.6vw, 4rem); }
+  .r-what .rows li:hover h3 { color: var(--accent); }
+
+  .r-season { position: relative; min-height: 92svh; display: grid; align-items: end; overflow: hidden; isolation: isolate; clip-path: polygon(0 0, 100% 5vw, 100% 100%, 0 100%); color: #fff; --fg: #fff; }
+  .rs-media { position: absolute; inset: 0; z-index: -1; }
+  .rs-media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(14,26,34,.3), rgba(14,26,34,.9)); }
+  .rs-media :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .rs-copy { padding-block: 10rem 5rem; }
+  .rs-copy h2 { max-width: 12ch; }
+  .rs-copy .kicker { color: var(--accent); }
+
+  .rsv-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 1.5rem; margin-bottom: var(--space-block); }
+  .rsv-head h2 { margin: 0; }
+  .rsv { display: grid; gap: 2.5rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); }
+  .rsv li { border-top: 1px solid var(--line); padding-top: 1.2rem; }
+  .rsv h3 { font-size: 1.5rem; }
+  .rsv p { color: var(--fg-soft); }
+
+  .r-bike { display: grid; }
+  .rb-media { aspect-ratio: 4 / 3; border-radius: 0; }
+  .rb-body { padding: var(--space-block) var(--gutter); }
+  .rb-body h2 { font-family: var(--display); font-style: normal; text-transform: none; font-weight: 360; font-stretch: 100%; letter-spacing: -0.03em; line-height: 1; }
+  .rb-body h3 { font-family: var(--display); text-transform: none; font-weight: 380; font-stretch: 100%; letter-spacing: -0.015em; }
+  @media (min-width: 900px) {
+    .r-bike { grid-template-columns: 1fr 1fr; align-items: start; }
+    .rb-media { position: sticky; top: 0; height: 100vh; aspect-ratio: auto; }
+    .rb-body { padding: 8rem clamp(2.5rem, 5vw, 6rem); }
+  }
+  .table-wrap { overflow-x: auto; margin-top: 2.5rem; }
   .prices { width: 100%; border-collapse: collapse; font-size: 0.92rem; font-variant-numeric: tabular-nums; }
-  .prices caption { text-align: left; padding: 1rem 1rem 0.4rem; font-weight: 700; }
-  .prices th, .prices td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--line); }
-  .prices thead th { font-size: 0.78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
-  .prices tbody tr:last-child > * { border-bottom: 0; }
-  .bike-form { margin-top: clamp(3rem, 2rem + 3vw, 5rem); }
-  .info-split { align-items: start; }
-  .info-title { font-size: var(--step-3); }
+  .prices caption { text-align: left; padding: 0 0 0.8rem; font-weight: 650; }
+  .prices th, .prices td { padding: 0.8rem 1rem 0.8rem 0; text-align: left; border-bottom: 1px solid var(--line); font-weight: 450; }
+  .prices thead th { font-size: var(--fs-caps); text-transform: uppercase; letter-spacing: 0.08em; color: var(--fg-soft); font-weight: 600; }
+  .bike-form { margin-top: var(--space-block); padding-top: 2rem; border-top: 1px solid var(--line); }
+  .bike-form :global(.btn) { --b: #14110f; }
+
+  .r-info { display: grid; gap: 4rem clamp(2rem, 6vw, 8rem); }
+  @media (min-width: 900px) { .r-info { grid-template-columns: 1.3fr 1fr; align-items: start; } }
+  .r-info h2 { font-size: var(--fs-h3); font-family: var(--display); font-style: normal; text-transform: none; font-weight: 380; font-stretch: 100%; letter-spacing: -0.015em; line-height: 1.1; margin-bottom: 1.5rem; }
 </style>

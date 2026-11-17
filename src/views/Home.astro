@@ -1,10 +1,11 @@
 ---
 import Pic from '../components/Pic.astro';
 import Icon from '../components/Icon.astro';
+import Logo from '../components/Logo.astro';
 import Cta from '../components/Cta.astro';
-import SectionHead from '../components/SectionHead.astro';
 import OfferCards from '../components/OfferCards.astro';
 import Reviews from '../components/Reviews.astro';
+import HScroll from '../components/HScroll.astro';
 import TodayHours from '../components/TodayHours.astro';
 import { dict } from '../i18n';
 import { href, type Lang } from '../lib/routes';
@@ -13,133 +14,168 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const T = dict[lang];
 const H = T.home;
-
-const cfg: Record<string, { main: string; second: string; sky: string; cta: string; url: string; variant: any }> = {
-  bakery: { main: 'bakery-croissant', second: 'bakery-pasticcera', sky: 'dawn', cta: T.cta.discoverBakery, url: href('bakery', lang), variant: 'bakery' },
-  rental: { main: 'seggiovia-monte-bianco', second: 'rental-sci-stockli', sky: 'morning', cta: T.cta.rentNow, url: site.booking.rentalOnline, variant: 'primary' },
-  restaurant: { main: 'food-risotto', second: 'food-esterno-neve', sky: 'noon', cta: T.cta.bookTable, url: site.booking.lunch, variant: 'primary' },
-  shop: { main: 'shop-grivel', second: 'family-negozio', sky: 'afternoon', cta: T.cta.discoverShop, url: href('shop', lang), variant: 'glacier' },
-  aperitivo: { main: 'food-cocktail', second: 'food-aperitivo', sky: 'golden', cta: T.cta.bookAperitivo, url: site.booking.aperitivo, variant: 'primary' },
-  chalet: { main: 'chalet-soggiorno', second: 'chalet-balcone', sky: 'night', cta: T.cta.bookChalet, url: chaletBooking(lang), variant: 'primary' },
-};
-const whyIcons = ['mountain', 'users', 'pin'];
+const M = Object.fromEntries(H.moments.map((m) => [m.id, m]));
+const C = H.chapters;
+const ids = ['alba', 'mattina', 'pranzo', 'pomeriggio', 'sera'];
+const meta = (i: number, time: string) => `${String(i + 1).padStart(2, '0')} — ${C[i]} · ${time}`;
+const brands = site.rentalBrands.ski.concat(site.rentalBrands.snowboard, site.rentalBrands.boots);
+const N = H.numbers;
+const numText = [H.why.nameText, H.why.items[0].text, H.why.items[1].text];
 ---
-<!-- ALBA -->
+<!-- APERTURA: foto a tutto schermo, marchio enorme, una frase, un pulsante -->
 <section class="hero" data-hero>
-  <div class="hero-media">
+  <div class="hero-media" data-hero-media>
     <Pic name="hero-dente-del-gigante" lang={lang} eager sizes="100vw" widths={[640, 960, 1280, 1600, 2000]} />
   </div>
-  <div class="hero-sky" aria-hidden="true"></div>
-  <div class="wrap hero-copy on-dark" data-hero-copy>
-    <p class="kicker">{H.hero.kicker}</p>
-    <h1>{H.hero.title}<span class="em">{H.hero.titleEm}</span></h1>
-    <p class="lead">{H.hero.sub}</p>
-    <div class="actions">
-      <Cta href={site.booking.rentalOnline} lang={lang} size="lg">{T.cta.rentNow}</Cta>
-      <a class="offer-pill" href={href('offers', lang)}><Icon name="tag" />{H.hero.offer}</a>
+  <div class="hero-shade" aria-hidden="true"></div>
+  <div class="hero-copy" data-hero-copy>
+    <div class="hero-row wrap">
+      <p class="hero-line">{H.hero.title}, <em>{H.hero.titleEm}.</em></p>
+      <Cta href={site.booking.rentalOnline} lang={lang} size="lg" variant="ember">{T.cta.rentNow}</Cta>
     </div>
+    <h1 class="hero-brand"><span class="hero-mark"><Logo /><span class="sr-only">4810 </span></span><span class="hero-word">Courmayeur</span></h1>
   </div>
-  <a class="scroll-cue" href="#giornata"><span>{H.hero.scroll}</span><i aria-hidden="true"></i></a>
 </section>
 
-<!-- LA GIORNATA -->
-<div class="day" id="giornata" data-daylight>
-  <div class="rail" aria-hidden="true">
-    <div class="sundial" data-sundial>
-      <svg viewBox="0 0 100 60" class="arc"><path d="M8 54 A42 42 0 0 1 92 54" /></svg>
-      <span class="sun"></span>
-      <span class="dial-time" data-sundial-time>07:30</span>
-      <span class="dial-label" data-sundial-label>{H.moments[0].label}</span>
+<nav class="chap-nav" aria-label={H.hero.scroll} data-chap-nav>
+  {ids.map((id, i) => <a href={`#${id}`} data-chap-link><span class="num">{String(i + 1).padStart(2, '0')}</span><span class="chap-l">{C[i]}</span></a>)}
+</nav>
+
+<div class="day" data-day>
+  <!-- 01 ALBA · Pasticceria — morbida: arco, crema e lilla -->
+  <section class="ch ch-alba" id="alba" data-theme="bakery" data-chapter data-bg="#fbf3ea" aria-labelledby="h-alba">
+    <p class="ghost num" aria-hidden="true" data-drift="6">{M.bakery.time}</p>
+    <div class="wrap alba-grid">
+      <header class="alba-head">
+        <p class="kicker" data-reveal>{meta(0, M.bakery.time)}</p>
+        <h2 id="h-alba" data-lines>{M.bakery.title}</h2>
+      </header>
+      <p class="lead alba-text" data-reveal>{M.bakery.text}</p>
+      <figure class="frame alba-arch" data-mask="center"><Pic name="bakery-croissant" lang={lang} sizes="(min-width: 900px) 34vw, 78vw" widths={[480, 720, 960, 1280]} /></figure>
+      <div class="alba-cta" data-reveal style="--d:.15s"><Cta href={href('bakery', lang)} lang={lang} size="lg">{T.cta.discoverBakery}</Cta></div>
     </div>
-  </div>
-  {H.moments.map((m, i) => {
-    const c = cfg[m.id];
-    const night = c.sky === 'night';
-    return (
-      <section class:list={['moment', `sky-${c.sky}`, { 'on-dark': night, rev: i % 2 === 1 }]} data-moment data-time={m.time} data-label={m.label} data-sky={c.sky} aria-labelledby={`m-${m.id}`}>
-        <div class="wrap moment-grid">
-          <div class="moment-media">
-            <figure class="frame ratio-45 main zoom" data-parallax="7">
-              <Pic name={c.main} lang={lang} sizes="(min-width: 900px) 45vw, 92vw" widths={[480, 720, 960, 1280]} />
-            </figure>
-            <figure class="frame second" data-reveal style="--d:.2s">
-              <Pic name={c.second} lang={lang} sizes="(min-width: 900px) 18vw, 40vw" widths={[320, 480, 640]} />
-            </figure>
-          </div>
-          <div class="moment-copy">
-            <p class="time" data-reveal><span class="time-num">{m.time}</span><span class="time-label"><Icon name={night ? 'moon' : 'sun'} />{m.label}</span></p>
-            <h2 id={`m-${m.id}`} data-split>{m.title}</h2>
-            <p class="lead" data-reveal style="--d:.1s">{m.text}</p>
-            <div class="actions" data-reveal style="--d:.2s">
-              <Cta href={c.url} lang={lang} variant={c.variant} size="lg">{c.cta}</Cta>
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  })}
+  </section>
+
+  <!-- 02 MATTINA · Noleggio — sportivo: foto piena, taglio diagonale, nastro di marchi -->
+  <section class="ch ch-mattina" id="mattina" data-theme="rental" data-chapter data-bg="#0e1a22" aria-labelledby="h-mattina">
+    <div class="mat-media" data-parallax="6"><Pic name="rental-sci-stockli" lang={lang} sizes="100vw" widths={[640, 960, 1280, 1600, 2000]} /></div>
+    <div class="mat-shade" aria-hidden="true"></div>
+    <div class="wrap mat-copy">
+      <p class="kicker" data-reveal>{meta(1, M.rental.time)}</p>
+      <h2 id="h-mattina" data-lines>{M.rental.title}</h2>
+      <div class="mat-foot">
+        <p class="lead" data-reveal>{M.rental.text}</p>
+        <div data-reveal style="--d:.15s"><Cta href={site.booking.rentalOnline} lang={lang} size="lg" variant="white">{T.cta.rentNow}</Cta></div>
+      </div>
+    </div>
+    <div class="marquee mat-marquee" aria-hidden="true"><div class="marquee-track">{[0, 1].map(() => brands.map((b) => <span>{b} /</span>))}</div></div>
+  </section>
+
+  <!-- 03 PRANZO · Ristorante — caldo: metà fissa, l'immagine cambia tra pranzo e aperitivo -->
+  <section class="ch ch-pranzo" id="pranzo" data-theme="food" data-chapter data-bg="#1f140e" data-swap-scope aria-labelledby="h-pranzo">
+    <div class="pr-sticky" aria-hidden="true">
+      <figure class="frame pr-img on" data-swap="a"><Pic name="food-risotto" lang={lang} sizes="50vw" widths={[640, 960, 1280]} alt="" /></figure>
+      <figure class="frame pr-img" data-swap="b"><Pic name="food-cocktail" lang={lang} sizes="50vw" widths={[640, 960, 1280]} alt="" /></figure>
+    </div>
+    <div class="pr-panels">
+      <article class="pr-panel" data-swap-trigger="a">
+        <figure class="frame pr-inline" data-mask="left"><Pic name="food-risotto" lang={lang} sizes="100vw" widths={[480, 720, 960]} /></figure>
+        <p class="kicker" data-reveal>{meta(2, M.restaurant.time)}</p>
+        <h2 id="h-pranzo" data-lines>{M.restaurant.title}</h2>
+        <p class="lead" data-reveal>{M.restaurant.text}</p>
+        <div class="actions" data-reveal><Cta href={site.booking.lunch} lang={lang} size="lg">{T.cta.bookTable}</Cta></div>
+      </article>
+      <article class="pr-panel" data-swap-trigger="b">
+        <figure class="frame pr-inline" data-mask="left"><Pic name="food-cocktail" lang={lang} sizes="100vw" widths={[480, 720, 960]} /></figure>
+        <p class="kicker" data-reveal>{M.aperitivo.label} · {M.aperitivo.time}</p>
+        <h2 data-lines>{M.aperitivo.title}</h2>
+        <p class="lead" data-reveal>{M.aperitivo.text}</p>
+        <div class="actions" data-reveal><Cta href={site.booking.aperitivo} lang={lang} size="lg">{T.cta.bookAperitivo}</Cta></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 04 POMERIGGIO · Negozio — editoriale: griglia asimmetrica da rivista -->
+  <section class="ch ch-pome" id="pomeriggio" data-theme="shop" data-chapter data-bg="#fbf9f4" aria-labelledby="h-pome">
+    <div class="wrap pome-grid">
+      <p class="caps pome-meta" data-reveal><span>{meta(3, M.shop.time)}</span><span>Via Roma 106</span></p>
+      <h2 id="h-pome" data-lines>{M.shop.title}</h2>
+      <figure class="frame pome-a" data-mask="right"><Pic name="shop-grivel" lang={lang} sizes="(min-width: 900px) 58vw, 100vw" widths={[640, 960, 1280, 1800]} /></figure>
+      <figure class="frame pome-b" data-mask="up" data-speed="0.6"><Pic name="family-negozio" lang={lang} sizes="(min-width: 900px) 26vw, 60vw" widths={[400, 640, 900]} /></figure>
+      <div class="pome-text">
+        <p class="lead" data-reveal>{M.shop.text}</p>
+        <div class="actions" data-reveal><Cta href={href('shop', lang)} lang={lang} size="lg">{T.cta.discoverShop}</Cta></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 SERA · Chalet — lusso silenzioso: galleria che scorre in orizzontale -->
+  <section class="ch ch-sera" id="sera" data-theme="chalet" data-chapter data-bg="#141b18" data-hscroll-pin aria-labelledby="h-sera">
+    <HScroll lang={lang} images={['chalet-soggiorno', 'chalet-terrazza-vista', 'chalet-camera', 'chalet-balcone', 'chalet-baita']}>
+      <div class="sera-lead" slot="lead">
+        <p class="kicker">{meta(4, M.chalet.time)}</p>
+        <h2 id="h-sera">{M.chalet.title}</h2>
+        <p class="lead">{M.chalet.text}</p>
+        <div class="actions"><Cta href={chaletBooking(lang)} lang={lang} size="lg" variant="white">{T.cta.bookChalet}</Cta></div>
+      </div>
+    </HScroll>
+  </section>
 </div>
 
-<!-- PERCHÉ 4810 -->
-<section class="section bg-paper why">
+<!-- NUMERI GIGANTI: perché 4810 -->
+<section class="section nums band-bone" data-bg="#f4f0e8">
   <div class="wrap">
-    <SectionHead kicker={H.why.kicker} title={H.why.title} />
-    <ul class="grid grid-3" role="list">
-      {H.why.items.map((it, i) => (
-        <li class="why-item" data-reveal style={`--d:${i * 0.1}s`}>
-          <span class="icon-badge"><Icon name={whyIcons[i]} /></span>
-          <h3>{it.title}</h3>
-          <p class="muted">{it.text}</p>
+    <p class="kicker" data-reveal>{H.why.kicker}</p>
+    <h2 class="nums-title" data-lines>{H.why.title}</h2>
+    <ul class="nums-list" role="list">
+      {N.map((n, i) => (
+        <li>
+          <p class="nums-v num" data-reveal><span>{n.value}</span><small>{n.unit}</small></p>
+          <div class="nums-t" data-reveal style="--d:.1s"><p class="caps">{n.label}</p><p>{numText[i]}</p></div>
         </li>
       ))}
     </ul>
-    <div class="why-name" data-reveal>
-      <span class="why-num">4810</span>
-      <div><h3>{H.why.name}</h3><p class="muted">{H.why.nameText}</p></div>
-      <Cta href={href('family', lang)} lang={lang} variant="link">{T.nav.family}</Cta>
+    <p class="nums-more" data-reveal><Cta href={href('family', lang)} lang={lang} variant="link">{T.nav.family}</Cta></p>
+  </div>
+</section>
+
+<!-- OFFERTE: schede sovrapposte -->
+<section class="section band-paper offers-home">
+  <div class="wrap">
+    <div class="oh-head">
+      <div><p class="kicker" data-reveal>{H.offers.kicker}</p><h2 data-lines>{H.offers.title}</h2></div>
+      <Cta href={href('offers', lang)} lang={lang} variant="link">{T.cta.seeOffers}</Cta>
     </div>
-  </div>
-</section>
-
-<!-- OFFERTE -->
-<section class="section offers-home">
-  <div class="wrap">
-    <SectionHead kicker={H.offers.kicker} title={H.offers.title} />
     <OfferCards lang={lang} ids={['online15', 'transfer', 'outlet70']} />
-    <div class="actions center"><Cta href={href('offers', lang)} lang={lang} variant="ghost">{T.cta.seeOffers}</Cta></div>
   </div>
 </section>
 
-<!-- RECENSIONI -->
-<section class="section bg-mist">
-  <div class="wrap">
-    <SectionHead kicker={H.reviews.kicker} title={H.reviews.title} />
-    <Reviews lang={lang} limit={3} />
-  </div>
+<!-- RECENSIONI: una citazione enorme -->
+<section class="section band-bone">
+  <div class="wrap"><p class="kicker" data-reveal>{H.reviews.kicker}</p><Reviews lang={lang} limit={3} /></div>
 </section>
 
 <!-- DOVE SIAMO -->
-<section class="section where">
+<section class="section band-paper where">
   <div class="wrap">
-    <SectionHead kicker={H.where.kicker} title={H.where.title} />
-    <div class="grid grid-2">
+    <p class="kicker" data-reveal>{H.where.kicker}</p>
+    <h2 data-lines>{H.where.title}</h2>
+    <div class="where-grid">
       {[
-        { key: 'dolonne', img: 'food-esterno-neve', title: H.where.dolonne, svc: 'rental', label: T.nav.rental },
-        { key: 'centro', img: 'shop-vetrine', title: H.where.centro, svc: 'shop', label: T.nav.shop },
-      ].map((w, i) => {
+        { key: 'dolonne', img: 'food-esterno-neve', title: H.where.dolonne, svc: 'rental', label: T.nav.rental, mask: 'up' },
+        { key: 'centro', img: 'shop-vetrine', title: H.where.centro, svc: 'shop', label: T.nav.shop, mask: 'down' },
+      ].map((w) => {
         const p: any = (site.places as any)[w.key];
         return (
-          <article class="where-card" data-reveal style={`--d:${i * 0.12}s`}>
-            <figure class="frame ratio-32 zoom"><Pic name={w.img} lang={lang} sizes="(min-width: 900px) 45vw, 92vw" widths={[480, 720, 960, 1280]} /></figure>
-            <div class="where-body">
-              <h3>{w.title}</h3>
-              <p class="where-addr">{p.street}, {p.zip} {p.city}</p>
-              <p class="where-today"><Icon name="clock" /><span>{T.common.today} · {w.label}: <TodayHours service={w.svc as any} lang={lang} /></span></p>
-              <div class="actions">
-                <a class="btn btn-ghost btn-sm" href={directions(w.key as any)} target="_blank" rel="noopener"><Icon name="pin" />{T.common.directions}<span class="sr-only"> {T.common.newTab}</span></a>
-                <a class="link" href={telHref(p.phone)}><Icon name="phone" />{p.phone}</a>
-              </div>
-            </div>
+          <article class="where-item">
+            <figure class="frame ratio-43 zoom" data-mask={w.mask}><Pic name={w.img} lang={lang} sizes="(min-width: 900px) 45vw, 92vw" widths={[480, 720, 960, 1280]} /></figure>
+            <p class="caps where-k">{w.title}</p>
+            <h3>{p.street}</h3>
+            <p class="where-today">{T.common.today} · {w.label}: <TodayHours service={w.svc as any} lang={lang} /></p>
+            <p class="where-links">
+              <a class="link" href={directions(w.key as any)} target="_blank" rel="noopener"><Icon name="pin" />{T.common.directions}<span class="sr-only"> {T.common.newTab}</span></a>
+              <a class="link" href={telHref(p.phone)}><Icon name="phone" />{p.phone}</a>
+            </p>
           </article>
         );
       })}
@@ -148,136 +184,127 @@ const whyIcons = ['mountain', 'users', 'pin'];
 </section>
 
 <style>
-  /* ---------- HERO (alba) ---------- */
-  .hero { position: relative; min-height: 100svh; display: grid; align-items: end; overflow: hidden; background: #2b1d22; isolation: isolate; }
-  .hero-media { position: absolute; inset: 0; z-index: -2; }
-  .hero-media :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; transform-origin: 50% 70%; }
-  .hero-sky {
-    position: absolute; inset: 0; z-index: -1;
-    background:
-      radial-gradient(120% 70% at 85% 10%, rgba(255, 170, 120, 0.42), transparent 60%),
-      linear-gradient(180deg, rgba(58, 34, 52, 0.55) 0%, rgba(203, 96, 21, 0.1) 38%, rgba(40, 24, 20, 0.2) 62%, rgba(26, 18, 16, 0.86) 100%);
-    mix-blend-mode: normal;
-  }
-  .hero-copy { padding-top: 9rem; padding-bottom: clamp(5rem, 3rem + 7vw, 9rem); color: #fff; }
-  .hero-copy .kicker { color: #f6c9a6; animation: rise 1.2s var(--ease-out) both; }
-  .hero h1 { font-size: var(--step-5); max-width: 13ch; text-shadow: 0 2px 40px rgba(0,0,0,.25); animation: rise 1.5s var(--ease-out) both 0.1s; }
-  .hero h1 .em { display: block; font-style: italic; font-weight: 400; font-size: 0.62em; color: #f9d7bd; margin-top: 0.15em; letter-spacing: 0; }
-  .hero .lead { color: rgba(255,255,255,.9); animation: rise 1.5s var(--ease-out) both 0.3s; }
-  .hero .actions { animation: rise 1.5s var(--ease-out) both 0.45s; }
-  @keyframes rise { from { opacity: 0; transform: translateY(26px); } }
-  .offer-pill {
-    display: inline-flex; align-items: center; gap: 0.55rem; min-height: 2.9rem; padding: 0.5rem 1.1rem 0.5rem 0.9rem;
-    border-radius: 999px; color: #fff; text-decoration: none; font-weight: 650; font-size: 0.95rem;
-    background: rgba(255,255,255,.12); box-shadow: inset 0 0 0 1px rgba(255,255,255,.35); backdrop-filter: blur(8px);
-    transition: background-color .3s, transform .4s var(--ease-out);
-  }
-  .offer-pill:hover { background: rgba(255,255,255,.22); transform: translateY(-2px); }
-  .offer-pill :global(.icon) { width: 1.15rem; height: 1.15rem; color: #f6c9a6; }
-  .scroll-cue {
-    position: absolute; left: 50%; bottom: 1.6rem; transform: translateX(-50%);
-    display: none; flex-direction: column; align-items: center; gap: 0.6rem;
-    color: rgba(255,255,255,.85); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 650;
-  }
-  .scroll-cue i { width: 1px; height: 3rem; background: linear-gradient(rgba(255,255,255,.9), transparent); animation: cue 2.4s var(--ease) infinite; transform-origin: top; }
-  @keyframes cue { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
-  @media (min-width: 900px) { .scroll-cue { display: flex; } }
+  /* ---------- HERO ---------- */
+  .hero { position: relative; height: 100svh; min-height: 34rem; display: grid; align-items: end; overflow: hidden; background: #14110f; color: #fff; isolation: isolate; }
+  .hero-media { position: absolute; inset: 0; z-index: -2; animation: hero-open 1.8s var(--ease-out) both; }
+  @keyframes hero-open { from { clip-path: inset(26% 30% 26% 30%); } to { clip-path: inset(0 0 0 0); } }
+  .hero-media :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; animation: hero-zoom 2.6s var(--ease-out) both; }
+  @keyframes hero-zoom { from { transform: scale(1.25); } }
+  .hero-shade { position: absolute; inset: 0; z-index: -1; background: radial-gradient(110% 60% at 80% 0%, rgba(255, 160, 110, 0.32), transparent 60%), linear-gradient(180deg, rgba(20, 17, 15, 0.5) 0%, rgba(20, 17, 15, 0) 26%, rgba(20, 17, 15, 0.1) 50%, rgba(20, 17, 15, 0.82) 100%); }
+  .hero-copy { padding-bottom: calc(var(--dock-h) + 0.5rem); }
+  .hero-row { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 1.5rem 3rem; margin-bottom: clamp(0.5rem, 2vw, 1.5rem); animation: rise 1.4s var(--ease-out) both 0.9s; }
+  .hero-line { font-family: var(--display); font-weight: 350; font-size: clamp(1.5rem, 1.1rem + 1.9vw, 2.9rem); line-height: 1.1; letter-spacing: -0.02em; max-width: 17ch; margin: 0; text-wrap: balance; }
+  .hero-line em { color: #f6c9a6; }
+  .hero-brand { display: flex; align-items: flex-end; gap: 2.2vw; margin: 0; padding-inline: var(--gutter); font-size: 16.6vw; line-height: 0.74; font-weight: 300; letter-spacing: -0.055em; white-space: nowrap; overflow: hidden; padding-bottom: 0.12em; }
+  .hero-mark { flex: none; display: block; animation: rise 1.4s var(--ease-out) both 0.5s; }
+  .hero-mark :global(svg) { width: 0.62em; height: auto; margin-bottom: 0.02em; }
+  .hero-word { display: block; animation: word-up 1.6s var(--ease-out) both 0.55s; }
+  @keyframes word-up { from { transform: translateY(100%); } }
+  @media (min-width: 900px) { .hero-copy { padding-bottom: 1.5rem; } .hero-brand { font-size: 15.4vw; } }
 
-  /* ---------- LA GIORNATA ---------- */
-  .day { position: relative; }
-  .moment { position: relative; padding-block: clamp(5rem, 3rem + 8vw, 10rem); }
-  .sky-dawn { background: linear-gradient(180deg, #f1d6c6 0%, #f6e9dc 55%, #f8f1e7 100%); }
-  .sky-morning { background: linear-gradient(180deg, #f8f1e7 0%, #f3f2ee 50%, #ecf2f5 100%); }
-  .sky-noon { background: linear-gradient(180deg, #ecf2f5 0%, #f2f3ef 55%, #f7f0e4 100%); }
-  .sky-afternoon { background: linear-gradient(180deg, #f7f0e4 0%, #f5e6cf 60%, #f1dbbd 100%); }
-  .sky-golden { background: linear-gradient(180deg, #f1dbbd 0%, #efcaa6 55%, #e9bb98 100%); }
-  .sky-golden .lead { color: var(--ink); }
-  .sky-golden .kicker, .sky-golden .time-label { color: var(--ember-deep); }
-  .sky-night {
-    color: var(--snow);
-    padding-top: clamp(9rem, 6rem + 10vw, 15rem);
-    background:
-      radial-gradient(60% 40% at 80% 30%, rgba(122, 90, 140, 0.25), transparent 70%),
-      linear-gradient(180deg, #e9bb98 0%, #a8737a 9%, #5a4160 20%, #2c2640 38%, #1b1a2a 70%, #15141f 100%);
-  }
-  .sky-night::before {
-    content: ''; position: absolute; inset: 22% 0 0 0; pointer-events: none;
-    background-image: radial-gradient(1px 1px at 12% 30%, rgba(255,255,255,.7), transparent), radial-gradient(1px 1px at 32% 12%, rgba(255,255,255,.5), transparent),
-      radial-gradient(1.5px 1.5px at 58% 22%, rgba(255,255,255,.6), transparent), radial-gradient(1px 1px at 78% 8%, rgba(255,255,255,.55), transparent),
-      radial-gradient(1px 1px at 90% 34%, rgba(255,255,255,.45), transparent), radial-gradient(1px 1px at 45% 40%, rgba(255,255,255,.35), transparent);
-  }
+  /* Indice capitoli */
+  .chap-nav { position: fixed; left: calc(var(--gutter) / 2 - 0.6rem); top: 50%; transform: translateY(-50%); z-index: 20; display: none; flex-direction: column; gap: 0.9rem; mix-blend-mode: difference; color: #fff; opacity: 0; pointer-events: none; transition: opacity 0.6s var(--ease); }
+  .chap-nav.show { opacity: 1; pointer-events: auto; }
+  .chap-nav a { display: flex; align-items: center; gap: 0.6rem; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-decoration: none; text-transform: uppercase; opacity: 0.45; transition: opacity 0.4s; }
+  .chap-nav a.on, .chap-nav a:hover { opacity: 1; }
+  .chap-l { max-width: 0; overflow: hidden; white-space: nowrap; transition: max-width 0.6s var(--ease-out); }
+  .chap-nav a.on .chap-l, .chap-nav a:hover .chap-l { max-width: 9rem; }
+  @media (min-width: 1200px) { .chap-nav { display: flex; } }
 
-  .moment-grid { display: grid; gap: clamp(2.5rem, 1rem + 5vw, 6rem); align-items: center; }
+  /* ---------- CAPITOLI ---------- */
+  .ch { position: relative; background: var(--bg); color: var(--fg); }
+  :global(html.flow) .ch { background: transparent; }
+
+  /* 01 Alba */
+  .ch-alba { padding-block: var(--space-section); overflow: clip; }
+  .ghost { position: absolute; top: 4%; left: 0; right: 0; text-align: center; margin: 0; font-family: var(--display); font-style: italic; font-weight: 300; font-size: var(--fs-mega); line-height: 1; letter-spacing: -0.05em; color: var(--accent); opacity: 0.28; pointer-events: none; white-space: nowrap; }
+  .alba-grid { position: relative; display: grid; gap: 2rem; justify-items: center; text-align: center; }
+  .alba-head h2 { max-width: 11ch; margin-inline: auto; font-size: var(--fs-display); }
+  .alba-arch { width: min(78vw, 30rem); aspect-ratio: 3 / 4; border-radius: 999px 999px var(--radius) var(--radius); }
+  .alba-text { max-width: 26rem; }
   @media (min-width: 900px) {
-    .moment-grid { grid-template-columns: 1fr 1fr; }
-    .moment.rev .moment-media { order: 2; }
+    .alba-grid { grid-template-columns: 1fr minmax(0, 30rem) 1fr; align-items: end; gap: 3rem; }
+    .alba-head { grid-column: 1 / -1; }
+    .alba-text { text-align: left; justify-self: end; padding-bottom: 3rem; }
+    .alba-cta { justify-self: start; padding-bottom: 3rem; }
+    .alba-arch { grid-column: 2; width: 100%; }
+    .alba-text { grid-column: 1; grid-row: 2; }
+    .alba-cta { grid-column: 3; grid-row: 2; }
+    .alba-arch { grid-row: 2; }
   }
-  @media (min-width: 1240px) { .day .moment-grid { padding-left: 6rem; } }
-  .moment-media { position: relative; padding-bottom: 2.5rem; }
-  .moment-media .main { border-radius: 34px; box-shadow: var(--shadow-lg); }
-  .moment-media .second {
-    position: absolute; right: -0.5rem; bottom: 0; width: 42%; aspect-ratio: 1; border-radius: 24px;
-    border: 6px solid rgba(255,255,255,.9); box-shadow: var(--shadow);
-  }
-  .moment.rev .moment-media .second { right: auto; left: -0.5rem; }
-  .sky-night .moment-media .second { border-color: rgba(255,255,255,.12); }
-  @media (max-width: 640px) { .moment-media .second { width: 38%; right: 0.5rem; } .moment.rev .moment-media .second { left: 0.5rem; } }
-  .time { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 1rem; }
-  .time-num { font-family: var(--serif); font-size: clamp(3.4rem, 2rem + 4vw, 6rem); line-height: 0.9; font-weight: 500; letter-spacing: -0.03em; color: var(--ember-ink); font-variant-numeric: lining-nums; }
-  .sky-night .time-num { color: #f6c9a6; }
-  .time-label { display: inline-flex; align-items: center; gap: 0.45rem; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
-  .sky-night .time-label { color: rgba(247,244,239,.75); }
-  .time-label :global(.icon) { width: 1.1rem; height: 1.1rem; }
-  .moment h2 { font-size: var(--step-4); max-width: 14ch; }
-  .sky-night .lead { color: rgba(247,244,239,.86); }
 
-  /* Meridiana: segue lo scorrimento (solo desktop e con effetti attivi) */
-  .rail { position: absolute; inset: 0 auto 0 0; width: 8rem; z-index: 5; pointer-events: none; display: none; }
-  :global(html.gsap) .rail { display: block; }
-  @media (max-width: 1239px) { .rail { display: none !important; } }
-  .sundial {
-    --p: 0; position: sticky; top: calc(50vh - 4rem); margin-left: max(1.5rem, calc((100vw - var(--max)) / 2 - 2rem));
-    width: 6rem; display: grid; justify-items: center; gap: 0.2rem; opacity: 0; transition: opacity .6s var(--ease), color .6s var(--ease);
-    color: var(--ink);
-  }
-  .sundial.on { opacity: 1; }
-  .sundial[data-sky='night'] { color: var(--snow); }
-  .arc { width: 6rem; overflow: visible; }
-  .arc path { fill: none; stroke: currentColor; stroke-opacity: 0.25; stroke-width: 1.2; stroke-dasharray: 2 4; }
-  .sun {
-    position: absolute; top: 0; left: 0; width: 0.9rem; height: 0.9rem; border-radius: 50%;
-    background: radial-gradient(circle, #ffd8a8 0%, #cb6015 70%); box-shadow: 0 0 18px 4px rgba(203, 96, 21, 0.45);
-    /* posizione lungo l'arco: angolo da 180° a 0° */
-    --a: calc(3.14159rad * (1 - var(--p)));
-    transform: translate(calc(3rem + cos(var(--a)) * 2.55rem - 0.45rem), calc(3.25rem - sin(var(--a)) * 2.55rem - 0.45rem));
-  }
-  .sundial[data-sky='night'] .sun { background: radial-gradient(circle, #fff 0%, #c9c4e6 70%); box-shadow: 0 0 18px 4px rgba(201, 196, 230, 0.45); }
-  .dial-time { font-family: var(--serif); font-size: 1.6rem; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; }
-  .dial-label { font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700; opacity: 0.7; }
+  /* 02 Mattina */
+  .ch-mattina { min-height: 100svh; display: grid; align-items: end; overflow: hidden; isolation: isolate; clip-path: polygon(0 5vw, 100% 0, 100% 100%, 0 100%); margin-top: -5vw; padding-top: 5vw; color: #fff; --fg: #fff; --fg-soft: rgba(255,255,255,.85); }
+  .mat-media { position: absolute; inset: 0; z-index: -2; }
+  .mat-media :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .mat-shade { position: absolute; inset: 0; z-index: -1; background: linear-gradient(200deg, rgba(14, 26, 34, 0.25) 0%, rgba(14, 26, 34, 0.55) 45%, rgba(14, 26, 34, 0.94) 100%); }
+  .mat-copy { padding-block: 9rem 3rem; }
+  .ch-mattina h2 { font-size: clamp(3.2rem, 1rem + 11.5vw, 12.5rem); max-width: 9ch; margin-bottom: 0.25em; }
+  .mat-foot { display: grid; gap: 1.5rem 4rem; align-items: end; }
+  @media (min-width: 900px) { .mat-foot { grid-template-columns: minmax(0, 30rem) auto; justify-content: space-between; } }
+  .mat-marquee { border-top: 1px solid rgba(255, 255, 255, 0.25); padding: 0.9rem 0; font-stretch: 75%; font-weight: 700; font-style: italic; text-transform: uppercase; font-size: clamp(1rem, 0.8rem + 1vw, 1.6rem); letter-spacing: 0.02em; color: rgba(255,255,255,.85); --dur: 30s; }
 
-  /* ---------- Perché 4810 ---------- */
-  .why-item h3 { font-size: var(--step-2); }
-  .why-name {
-    display: grid; gap: 1rem 2rem; align-items: center; margin-top: clamp(3rem, 2rem + 3vw, 5rem);
-    padding: clamp(1.5rem, 1rem + 2vw, 2.5rem); border-radius: var(--radius-lg);
-    background: linear-gradient(120deg, #2a2420, #4d453f); color: var(--snow);
+  /* 03 Pranzo */
+  .ch-pranzo { display: grid; }
+  .pr-sticky { display: none; }
+  .pr-panel { padding: var(--space-block) var(--gutter); }
+  .pr-inline { aspect-ratio: 4 / 5; margin-bottom: 2.5rem; }
+  .pr-panel h2 { max-width: 12ch; }
+  @media (min-width: 900px) {
+    .ch-pranzo { grid-template-columns: 1fr 1fr; }
+    .pr-sticky { display: block; position: sticky; top: 0; height: 100vh; overflow: hidden; }
+    .pr-img { position: absolute; inset: 0; border-radius: 0; opacity: 0; transform: scale(1.06); transition: opacity 1.2s var(--ease), transform 2s var(--ease-out); }
+    .pr-img.on { opacity: 1; transform: none; }
+    .pr-inline { display: none; }
+    .pr-panel { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 6rem clamp(2.5rem, 6vw, 7rem); }
   }
-  .why-name .muted { color: rgba(247,244,239,.78); }
-  .why-name h3 { margin-bottom: 0.2em; }
-  .why-name :global(.link) { color: #f6c9a6; }
-  @media (min-width: 760px) { .why-name { grid-template-columns: auto 1fr auto; } }
-  .why-num { font-family: var(--serif); font-size: clamp(3.5rem, 2rem + 5vw, 6rem); line-height: 0.9; font-weight: 600; letter-spacing: -0.03em; background: linear-gradient(180deg, #f6c9a6, #cb6015); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
-  .offers-home { background: linear-gradient(180deg, var(--paper), var(--snow)); }
-  .actions.center { justify-content: center; margin-top: 2.5rem; }
+  /* 04 Pomeriggio */
+  .ch-pome { padding-block: var(--space-section); }
+  .pome-grid { display: grid; gap: 2rem; }
+  .pome-meta { display: flex; justify-content: space-between; gap: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--line); color: var(--fg-soft); }
+  .ch-pome h2 { font-size: var(--fs-display); max-width: 9ch; margin: 0; }
+  .pome-a { aspect-ratio: 16 / 10; }
+  .pome-b { aspect-ratio: 3 / 4; width: 62%; justify-self: end; }
+  @media (min-width: 900px) {
+    .pome-grid { grid-template-columns: repeat(12, 1fr); gap: 2rem 2.5rem; align-items: start; }
+    .pome-meta { grid-column: 1 / -1; }
+    .ch-pome h2 { grid-column: 1 / 9; grid-row: 2; position: relative; z-index: 2; margin-bottom: -0.32em; padding-top: 2rem; }
+    .pome-a { grid-column: 1 / 8; grid-row: 3; }
+    .pome-b { grid-column: 9 / 13; grid-row: 2 / 4; width: 100%; margin-top: 7rem; }
+    .pome-text { grid-column: 9 / 13; grid-row: 4; }
+    .pome-a { margin-left: calc(var(--gutter) * -1); }
+  }
 
-  /* ---------- Dove siamo ---------- */
-  .where-card { background: var(--paper); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid rgba(42,36,32,.06); display: flex; flex-direction: column; }
-  .where-card .frame { border-radius: 0; box-shadow: none; }
-  .where-body { padding: clamp(1.4rem, 1rem + 1.5vw, 2.2rem); }
-  .where-body h3 { font-size: var(--step-2); }
-  .where-addr { color: var(--ink-2); margin-bottom: 0.6rem; }
-  .where-today { display: flex; gap: 0.6rem; align-items: flex-start; font-weight: 600; }
-  .where-today :global(.icon) { width: 1.2rem; height: 1.2rem; color: var(--ember-ink); margin-top: 0.2rem; flex: none; }
-  .where-body .actions { margin-top: 1.2rem; }
+  /* 05 Sera */
+  .ch-sera { padding-block: var(--space-block); min-height: 100svh; display: grid; align-items: center; }
+  .sera-lead { width: min(84vw, 30rem); padding-right: clamp(1rem, 4vw, 6rem); }
+  .sera-lead h2 { font-size: clamp(2.4rem, 1.6rem + 3.4vw, 4.8rem); line-height: 1.02; }
+  .sera-lead .lead { color: var(--fg-soft); }
+
+  /* ---------- NUMERI ---------- */
+  :global(html.flow) .nums { background: transparent; }
+  .nums-title { max-width: 14ch; margin-bottom: var(--space-block); }
+  .nums-list { border-top: 1px solid var(--line); }
+  .nums-list li { display: grid; gap: 0.5rem 3rem; align-items: end; padding: clamp(1rem, 0.5rem + 2vw, 2.5rem) 0; border-bottom: 1px solid var(--line); }
+  @media (min-width: 900px) { .nums-list li { grid-template-columns: 1.5fr 1fr; } }
+  .nums-v { margin: 0; font-family: var(--display); font-weight: 300; font-size: var(--fs-mega); line-height: 0.82; letter-spacing: -0.06em; display: flex; align-items: baseline; gap: 0.12em; }
+  .nums-v small { font-size: 0.2em; letter-spacing: 0; font-style: italic; color: var(--ember-ink); }
+  .nums-t { max-width: 26rem; padding-bottom: 0.6rem; }
+  .nums-t .caps { color: var(--ember-ink); margin-bottom: 0.6rem; }
+  .nums-t p:last-child { color: var(--fg-soft); }
+  .nums-more { margin-top: 2.5rem; }
+
+  .oh-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 1.5rem 3rem; margin-bottom: var(--space-block); }
+  .oh-head h2 { margin: 0; max-width: 12ch; }
+
+  /* ---------- DOVE ---------- */
+  .where h2 { margin-bottom: var(--space-block); }
+  .where-grid { display: grid; gap: 4rem clamp(2rem, 5vw, 6rem); }
+  @media (min-width: 900px) { .where-grid { grid-template-columns: 1fr 1fr; } .where-item:nth-child(2) { margin-top: 7rem; } }
+  .where-k { color: var(--fg-soft); margin: 1.6rem 0 0.6rem; }
+  .where-item h3 { font-size: var(--fs-h2); margin-bottom: 0.3em; }
+  .where-today { font-weight: 550; }
+  .where-links { display: flex; flex-wrap: wrap; gap: 0.8rem 2rem; margin-top: 1.2rem; }
+  .where-links :global(.icon) { width: 1.05rem; height: 1.05rem; }
 </style>

@@ -1,5 +1,5 @@
 ---
-import PageHero from '../components/PageHero.astro';
+import TitleHero from '../components/TitleHero.astro';
 import Cta from '../components/Cta.astro';
 import { Image } from 'astro:assets';
 import { brandImg } from '../lib/images';
@@ -16,9 +16,9 @@ const groups = {
   ski: [['Stöckli', 'stockli_logo.jpg', 'https://www.stoeckli.ch/'], ['DPS', 'dps_logo.jpg', 'https://www.dpsskis.com/'], ['Dynastar', 'dynastar_logo.jpg', 'https://www.dynastar.com/'], ['Salomon', 'salomon_logo.jpg', 'https://www.salomon.com/'], ['Black Crows', 'black_crows_logo.jpg', 'https://www.black-crows.com/'], ['Movement', 'moivement_logo.jpg', 'https://www.movementskis.com/']],
 };
 ---
-<PageHero lang={lang} image="shop-grivel" kicker={B.hero.kicker} title={B.hero.title} sub={B.hero.sub} short>
+<TitleHero kicker={B.hero.kicker} title={B.hero.title} sub={B.hero.sub}>
   <Cta href={directions('centro')} lang={lang} size="lg" icon="pin">{T.common.directions}</Cta>
-</PageHero>
+</TitleHero>
 <section class="section">
   <div class="wrap">
     {Object.entries(groups).map(([g, list]) => (
@@ -40,10 +40,10 @@ const groups = {
 </section>
 <style>
   .bgroup { margin-bottom: 3.5rem; }
-  .bgroup h2 { font-size: var(--step-3); padding-bottom: 0.6rem; border-bottom: 1px solid var(--line); margin-bottom: 1.5rem; }
+  .bgroup h2 { font-size: var(--fs-h2); padding-bottom: 0.6rem; border-bottom: 1px solid var(--line); margin-bottom: 1.5rem; }
   .logos { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(46%, 10rem), 1fr)); gap: 1rem; }
-  .logos a { display: block; border-radius: var(--radius-sm); overflow: hidden; background: #fff; box-shadow: var(--shadow-sm); transition: transform .5s var(--ease-out), box-shadow .5s var(--ease-out); }
-  .logos a:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .logos a { display: block; border-radius: 0; overflow: hidden; background: #fff;  transition: transform .5s var(--ease-out), box-shadow .5s var(--ease-out); }
+  .logos a:hover { transform: translateY(-4px);  }
   .logos img { width: 100%; height: auto; filter: grayscale(1) contrast(1.05); opacity: .85; transition: filter .5s, opacity .5s; }
   .logos a:hover img { filter: none; opacity: 1; }
 </style>

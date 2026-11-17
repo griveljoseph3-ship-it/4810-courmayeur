@@ -32,26 +32,26 @@ export function getStaticPaths() {
 const { key, lang } = Astro.props as { key: PageKey; lang: Lang };
 const VIEWS: Record<PageKey, any> = { home: Home, rental: Rental, shop: Shop, outlet: Outlet, restaurant: Restaurant, bakery: Bakery, chalet: Chalet, offers: Offers, hotels: Hotels, services: Services, events: Events, brands: Brands, family: Family, faq: Faq, contact: Contact };
 const View = VIEWS[key];
-const META: Partial<Record<PageKey, { og: string; dock: any }>> = {
-  home: { og: 'hero-dente-del-gigante', dock: 'rental' },
-  rental: { og: 'rental-banco', dock: 'rental' },
-  shop: { og: 'shop-interno', dock: 'shop' },
-  outlet: { og: 'outlet-hero', dock: 'outlet' },
-  restaurant: { og: 'food-camino', dock: 'food' },
-  bakery: { og: 'bakery-bancone', dock: 'bakery' },
-  chalet: { og: 'chalet-baita', dock: 'chalet' },
-  offers: { og: 'panorama-piste', dock: 'rental' },
-  hotels: { og: 'seggiovia-monte-bianco', dock: 'rental' },
-  services: { og: 'skiservice-robot', dock: 'rental' },
-  events: { og: 'eventi-buffet', dock: 'food' },
-  brands: { og: 'shop-grivel', dock: 'shop' },
-  family: { og: 'family-gruppo', dock: 'shop' },
-  faq: { og: 'sciatore-curva', dock: 'rental' },
-  contact: { og: 'panorama-piste', dock: 'rental' },
+const META: Record<PageKey, { og: string; dock: any; theme: string; overlay: boolean }> = {
+  home: { og: 'hero-dente-del-gigante', dock: 'rental', theme: 'brand', overlay: true },
+  rental: { og: 'rental-banco', dock: 'rental', theme: 'rental', overlay: true },
+  shop: { og: 'shop-interno', dock: 'shop', theme: 'shop', overlay: false },
+  outlet: { og: 'outlet-hero', dock: 'outlet', theme: 'outlet', overlay: false },
+  restaurant: { og: 'food-camino', dock: 'food', theme: 'food', overlay: true },
+  bakery: { og: 'bakery-bancone', dock: 'bakery', theme: 'bakery', overlay: false },
+  chalet: { og: 'chalet-baita', dock: 'chalet', theme: 'chalet', overlay: true },
+  offers: { og: 'panorama-piste', dock: 'rental', theme: 'brand', overlay: false },
+  hotels: { og: 'seggiovia-monte-bianco', dock: 'rental', theme: 'brand', overlay: false },
+  services: { og: 'skiservice-robot', dock: 'rental', theme: 'brand', overlay: false },
+  events: { og: 'eventi-buffet', dock: 'food', theme: 'food', overlay: true },
+  brands: { og: 'shop-grivel', dock: 'shop', theme: 'shop', overlay: false },
+  family: { og: 'family-gruppo', dock: 'shop', theme: 'brand', overlay: false },
+  faq: { og: 'sciatore-curva', dock: 'rental', theme: 'brand', overlay: false },
+  contact: { og: 'panorama-piste', dock: 'rental', theme: 'brand', overlay: false },
 };
 const meta = META[key]!;
 const ld = LD_FOR[key] ? businesses(lang, LD_FOR[key]!) : [];
 ---
-<Base lang={lang} page={key} ogImage={meta.og} dock={meta.dock} jsonld={ld}>
+<Base lang={lang} page={key} ogImage={meta.og} dock={meta.dock} jsonld={ld} theme={meta.theme} headerOverlay={meta.overlay}>
   <View lang={lang} />
 </Base>
