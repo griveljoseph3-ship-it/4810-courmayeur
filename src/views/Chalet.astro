@@ -89,8 +89,10 @@ const email = site.services.chalet.email;
   .c-steps { margin-top: 2rem; border-top: 1px solid var(--line); }
   .c-steps li { display: flex; gap: 1.5rem; align-items: baseline; padding: 1.1rem 0; border-bottom: 1px solid var(--line); font-size: var(--fs-lead); }
   .c-steps .num { font-family: var(--display); font-style: italic; color: var(--accent-ink); }
+  .c-facts-grid > * { min-width: 0; }
   .c-dl { margin: 0; border-top: 1px solid var(--line); }
-  .c-dl div { display: grid; grid-template-columns: 8rem 1fr; gap: 1rem; padding: 1.4rem 0; border-bottom: 1px solid var(--line); }
+  .c-dl dd { min-width: 0; overflow-wrap: anywhere; }
+  .c-dl div { display: grid; grid-template-columns: minmax(0, 7rem) minmax(0, 1fr); gap: 1rem; padding: 1.4rem 0; border-bottom: 1px solid var(--line); }
   .c-dl dt { color: var(--fg-soft); padding-top: 0.25rem; }
   .c-dl dd { margin: 0; }
   .c-dl a { font-weight: 550; }

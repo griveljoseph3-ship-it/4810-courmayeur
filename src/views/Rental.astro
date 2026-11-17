@@ -130,9 +130,9 @@ const brands = site.rentalBrands.ski.concat(site.rentalBrands.snowboard, site.re
   .r-media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(14,26,34,.55), rgba(14,26,34,.5) 40%, rgba(14,26,34,.95)); }
   .r-media :global(img) { width: 100%; height: 100%; object-fit: cover; }
   @keyframes r-in { from { transform: translateX(8%); opacity: 0; } }
-  .r-copy { align-self: end; padding-block: 8rem 2.5rem; }
+  .r-copy { align-self: end; padding-block: 6.5rem 2rem; }
   .r-copy .kicker { color: var(--accent); animation: rise 1.2s var(--ease-out) both 0.1s; }
-  .r-hero h1 { font-size: clamp(3.3rem, 1rem + 11vw, 12rem); max-width: 9ch; margin-bottom: 0.3em; animation: r-title 1.3s var(--ease-out) both 0.15s; }
+  .r-hero h1 { font-size: min(clamp(3.3rem, 1rem + 10vw, 11rem), 14vh); max-width: 11ch; margin-bottom: 0.3em; animation: r-title 1.3s var(--ease-out) both 0.15s; }
   @keyframes r-title { from { opacity: 0; transform: translateX(-6%) skewX(-8deg); } }
   .r-foot { display: grid; gap: 1.5rem 4rem; align-items: end; animation: rise 1.3s var(--ease-out) both 0.4s; }
   .r-marquee { border-top: 1px solid rgba(255,255,255,.2); padding: 0.9rem 0; font-stretch: 75%; font-weight: 700; font-style: italic; text-transform: uppercase; font-size: clamp(1rem, 0.8rem + 1vw, 1.6rem); color: var(--accent); --dur: 30s; margin-bottom: var(--dock-h); }
@@ -169,6 +169,7 @@ const brands = site.rentalBrands.ski.concat(site.rentalBrands.snowboard, site.re
   .rsv p { color: var(--fg-soft); }
 
   .r-bike { display: grid; }
+  .r-bike > *, .r-info > * { min-width: 0; }
   .rb-media { aspect-ratio: 4 / 3; border-radius: 0; }
   .rb-body { padding: var(--space-block) var(--gutter); }
   .rb-body h2 { font-family: var(--display); font-style: normal; text-transform: none; font-weight: 360; font-stretch: 100%; letter-spacing: -0.03em; line-height: 1; }

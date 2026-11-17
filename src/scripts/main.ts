@@ -1,6 +1,7 @@
 /* Interazioni di base: leggere, senza dipendenze. Gli effetti GSAP/Lenis sono caricati a parte (motion.ts). */
 (window as any).__reveal = true;
 const root = document.documentElement;
+(document as any).fonts?.ready?.then(() => root.classList.add('fonts-ready'));
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ---------- Header: trasparente sull'hero, solido dopo lo scroll; si nasconde scendendo ---------- */
@@ -130,7 +131,13 @@ const lite =
   (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2);
 root.classList.toggle('lite', !!lite);
 if (!lite && document.querySelector('[data-parallax], [data-lines], [data-hscroll], [data-bg], [data-hero]')) {
-  const start = () => import('./motion').then((m) => m.init());
-  if ('requestIdleCallback' in window) (window as any).requestIdleCallback(start, { timeout: 1500 });
+  let started = false;
+  const start = () => { if (started) return; started = true; import('./motion').then((m) => m.init()); };
+  // Sul telefono gli effetti partono al primo gesto (o dopo 3 s): l'apertura della pagina resta leggera.
+  const touch = !matchMedia('(pointer: fine)').matches;
+  if (touch) {
+    ['scroll', 'touchstart', 'pointerdown'].forEach((e) => addEventListener(e, start, { once: true, passive: true }));
+    setTimeout(start, 3000);
+  } else if ('requestIdleCallback' in window) (window as any).requestIdleCallback(start, { timeout: 1500 });
   else setTimeout(start, 600);
 }

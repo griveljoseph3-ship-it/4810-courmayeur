@@ -54,13 +54,13 @@ const fill = await getImage({ src: img('outlet-hero'), width: 1600, format: 'web
   .o-mast { display: flex; justify-content: space-between; gap: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--line); color: var(--fg-soft); }
   .o-mast span:last-child { color: var(--accent-ink); }
   .o-big {
-    margin: 0 0 0 -0.04em; font-family: var(--display); font-weight: 600; font-size: clamp(7rem, 1rem + 31vw, 34rem); line-height: 0.86; letter-spacing: -0.07em; white-space: nowrap;
+    margin: 0 0 0 -0.04em; font-family: var(--display); font-weight: 600; font-size: min(clamp(5rem, 1rem + 31vw, 34rem), 30vh); line-height: 0.86; letter-spacing: -0.07em; white-space: nowrap;
     background-color: var(--accent-ink); background-size: cover; background-position: center; -webkit-background-clip: text; background-clip: text; color: transparent;
     animation: o-in 1.6s var(--ease-out) both;
   }
   @keyframes o-in { from { opacity: 0; transform: translateY(8%) scale(1.04); } }
-  .o-foot { display: grid; gap: 2rem 5rem; margin-top: 1.5rem; animation: rise 1.3s var(--ease-out) both 0.35s; }
-  .o-foot h1 { font-size: var(--fs-h2); margin: 0; max-width: 12ch; }
+  .o-foot { display: grid; gap: 1rem 5rem; margin-top: 1rem; animation: rise 1.3s var(--ease-out) both 0.35s; }
+  .o-foot h1 { font-size: min(var(--fs-h2), 8vh); margin: 0; max-width: 12ch; }
   @media (min-width: 900px) { .o-foot { grid-template-columns: 1.1fr 1fr; align-items: end; } }
   .o-grid { display: grid; gap: 2rem; grid-template-columns: 1fr 1fr; align-items: start; }
   .o-text { grid-column: 1 / -1; }

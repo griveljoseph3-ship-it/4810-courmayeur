@@ -99,6 +99,9 @@ const ld = [...jsonld, ...(breadcrumb ? [breadcrumb] : [])];
       if (!rm && 'IntersectionObserver' in window) {
         d.classList.add('motion');
         setTimeout(function () { if (!window.__reveal) d.classList.remove('motion'); }, 2500);
+        var fr = function () { d.classList.add('fonts-ready'); };
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(fr);
+        setTimeout(fr, 1200);
       }
     })();
   </script>
@@ -184,7 +187,7 @@ const ld = [...jsonld, ...(breadcrumb ? [breadcrumb] : [])];
       }
     }
     // Caricati dopo il primo disegno: non rallentano l'apertura della pagina.
-    var go = function () { ('requestIdleCallback' in window) ? requestIdleCallback(loadThirdParty, { timeout: 2500 }) : setTimeout(loadThirdParty, 1200); };
+    var go = function () { setTimeout(function () { ('requestIdleCallback' in window) ? requestIdleCallback(loadThirdParty, { timeout: 1500 }) : loadThirdParty(); }, 3500); };
     if (document.readyState === 'complete') go(); else window.addEventListener('load', go);
     ['pointerdown', 'keydown', 'scroll'].forEach(function (e) { window.addEventListener(e, loadThirdParty, { once: true, passive: true }); });
   </script>

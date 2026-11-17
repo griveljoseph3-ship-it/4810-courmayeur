@@ -26,6 +26,9 @@ npm run build    # sito pronto in dist/
 - I vecchi indirizzi WordPress (`/rental-2/`, `/shopping-2/`, ...) rimandano alle pagine nuove.
 - Dominio unico `https://4810courmayeur.it/`: redirect pronti in `public/_redirects` (Netlify/Cloudflare) e `public/.htaccess` (Apache).
 
+## Design
+Design system, temi per attività e regole foto: `docs/DESIGN.md`.
+
 ## Note tecniche
 - Effetti: GSAP ScrollTrigger + Lenis caricati solo su dispositivi capaci; con "riduci movimento" o connessione lenta resta la versione statica.
 - Cookie: iubenda (siteId 1530480, policy 66853220) con Google Consent Mode v2. GA4 si attiva inserendo l'ID in `site.json`.

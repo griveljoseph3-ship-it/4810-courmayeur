@@ -6,7 +6,6 @@ import Lenis from 'lenis';
 /** Divide un titolo in righe reali (come vanno a capo sullo schermo) per farle salire una alla volta. */
 function splitLines(el: HTMLElement): HTMLElement[] {
   const text = el.textContent || '';
-  el.setAttribute('aria-label', text.trim());
   el.innerHTML = text.trim().split(/\s+/).map((w) => `<span class="w" aria-hidden="true" style="display:inline-block">${w}</span>`).join(' ');
   const rows: HTMLElement[][] = [];
   let top = -1;
@@ -14,7 +13,7 @@ function splitLines(el: HTMLElement): HTMLElement[] {
     if (Math.abs(w.offsetTop - top) > 4) { rows.push([]); top = w.offsetTop; }
     rows[rows.length - 1].push(w);
   });
-  el.innerHTML = rows.map((r) => `<span class="line" aria-hidden="true"><span>${r.map((w) => w.textContent).join(' ')}</span></span>`).join('');
+  el.innerHTML = `<span class="sr-only">${text.trim()}</span>` + rows.map((r) => `<span class="line" aria-hidden="true"><span>${r.map((w) => w.textContent).join(' ')}</span></span>`).join('');
   return Array.from(el.querySelectorAll<HTMLElement>('.line > span'));
 }
 
@@ -84,16 +83,14 @@ export function init() {
     });
   }
 
-  // 5 · Passaggi di colore tra i capitoli della giornata
+  // 5 · Passaggi di colore: ogni capitolo entra con il colore del precedente e sfuma nel proprio
   const flows = gsap.utils.toArray<HTMLElement>('[data-bg]');
-  if (flows.length) {
-    root.classList.add('flow');
-    const base = getComputedStyle(document.body).backgroundColor;
-    flows.forEach((sec) => {
-      ScrollTrigger.create({
-        trigger: sec, start: 'top 62%', end: 'bottom 62%',
-        onToggle: (st) => { if (st.isActive) gsap.to(document.body, { backgroundColor: sec.dataset.bg!, duration: 0.9, ease: 'power2.out', overwrite: true }); },
-        onLeaveBack: () => { if (sec === flows[0]) gsap.to(document.body, { backgroundColor: base, duration: 0.9, overwrite: true }); },
+  if (desktop) {
+    flows.forEach((sec, k) => {
+      if (k === 0) return;
+      gsap.fromTo(sec, { backgroundColor: flows[k - 1].dataset.bg }, {
+        backgroundColor: sec.dataset.bg, ease: 'none', immediateRender: false,
+        scrollTrigger: { trigger: sec, start: 'top bottom', end: 'top 35%', scrub: true },
       });
     });
   }

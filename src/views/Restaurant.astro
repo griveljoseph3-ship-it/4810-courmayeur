@@ -111,7 +111,7 @@ const faq = T.faq.groups.food.items.map((it) => ({ ...it, a: fill(it.a, { phone:
   .f-shade { position: absolute; inset: 0; z-index: -1; background: radial-gradient(70% 60% at 50% 50%, rgba(31, 20, 14, 0.35), rgba(31, 20, 14, 0.88)); }
   .f-copy { padding-block: 7rem calc(3rem + var(--dock-h)); display: grid; justify-items: center; }
   .f-copy .kicker { color: #f3c9a8; animation: fade 1.4s both 0.1s; }
-  .f-hero h1 { font-size: clamp(2.9rem, 1.4rem + 6.6vw, 8rem); max-width: 14ch; line-height: 0.98; animation: rise 1.5s var(--ease-out) both 0.2s; }
+  .f-hero h1 { font-size: min(clamp(2.6rem, 1.4rem + 6vw, 7.5rem), 10.5vh); max-width: 14ch; line-height: 0.98; animation: rise 1.5s var(--ease-out) both 0.2s; }
   .f-copy .lead { color: #f3e3d2; animation: rise 1.5s var(--ease-out) both 0.4s; }
   .f-copy .actions { justify-content: center; animation: rise 1.5s var(--ease-out) both 0.55s; }
 
